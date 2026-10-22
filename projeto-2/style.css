@@ -200,9 +200,99 @@ h1 span { color: #e27753; }
 .footer { color: #66838a; }
 .footer-flower { color: #e27753; }
 
+.arc-switch {
+	width: fit-content;
+	display: flex;
+	gap: 5px;
+	margin: 0 auto 23px;
+	padding: 5px;
+	border: 1px solid #b7d7d5;
+	border-radius: 999px;
+	background: #d9eeeb;
+	box-shadow: 0 5px 18px #37788a12;
+}
+.arc-option {
+	min-height: 37px;
+	padding: 0 17px;
+	border: 0;
+	border-radius: 999px;
+	color: #537985;
+	background: transparent;
+	cursor: pointer;
+	font-size: 10px;
+	font-weight: 700;
+	transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.arc-option:hover:not(:disabled) { color: #163b4b; }
+.arc-option.is-active { color: #fff8e8; background: #3e8b9a; box-shadow: 0 3px 9px #34788742; }
+.arc-option:focus-visible { outline: 2px solid #e27753; outline-offset: 2px; }
+.arc-option:disabled { cursor: wait; opacity: .7; }
+
+body[data-arc="wano"] {
+	color: #f8edd8;
+	background: radial-gradient(ellipse at 50% 32%, #45313a 0, #261e25 46%, #1b171d 100%);
+}
+body[data-arc="wano"]::before {
+	opacity: .15;
+	background-image: radial-gradient(#edbd70 0.65px, transparent .7px);
+}
+body[data-arc="wano"] .topbar { border-color: #ffffff18; }
+body[data-arc="wano"] .brand-symbol,
+body[data-arc="wano"] .brand-highlight { color: #dc5848; }
+body[data-arc="wano"] .topbar-note { color: #c0acaa; }
+body[data-arc="wano"] .status-dot { background: #e1a75b; box-shadow: 0 0 10px #e1a75b66; }
+body[data-arc="wano"] .eyebrow { color: #e5a077; }
+body[data-arc="wano"] h1 span { color: #edbd70; }
+body[data-arc="wano"] .intro-copy { color: #c0b2b1; }
+body[data-arc="wano"] .arc-switch { border-color: #6e4e50; background: #30242b; box-shadow: 0 5px 18px #0003; }
+body[data-arc="wano"] .arc-option { color: #d0bdb7; }
+body[data-arc="wano"] .arc-option:hover:not(:disabled) { color: #fff2dd; }
+body[data-arc="wano"] .arc-option.is-active { color: #fff5e5; background: #a9423b; box-shadow: 0 3px 10px #a9423b55; }
+body[data-arc="wano"] .wheel-frame {
+	border-color: #d6a86480;
+	background: linear-gradient(145deg, #4a2b2d, #211a20 48%, #3b2930);
+	box-shadow: 0 0 0 7px #22191e, 0 0 0 9px #c69b5a70, 0 20px 55px #0008, inset 0 0 25px #0008;
+}
+body[data-arc="wano"] .wheel-disc { border-color: #f0d6a3; background: #2a1f22; box-shadow: 0 0 0 3px #754744, inset 0 0 0 4px #38252a; }
+body[data-arc="wano"] .pointer { border-top-color: #f3d28d; }
+body[data-arc="wano"] .pointer::before { border-color: #fff0cb; background: #bb493c; }
+body[data-arc="wano"] .wheel-center {
+	border-color: #f0d6a3;
+	color: #f6e6c7;
+	background: linear-gradient(145deg, #b94c41, #732e35);
+	box-shadow: 0 3px 14px #0008, inset 0 0 0 2px #edbd70;
+}
+body[data-arc="wano"] .wheel-center:focus-visible { outline-color: #edbd70; }
+body[data-arc="wano"] .wheel-hint { color: #bbaaad; }
+body[data-arc="wano"] .wheel-hint span { color: #edbd70; }
+body[data-arc="wano"] .result-panel {
+	border-color: #8c5b514f;
+	background: linear-gradient(145deg, #30242b, #211a20);
+	box-shadow: 0 12px 35px #0004;
+}
+body[data-arc="wano"] .result-panel::before,
+body[data-arc="wano"] .result-panel::after { border-color: #d4a15e; }
+body[data-arc="wano"] .panel-topline { color: #d8ac76; }
+body[data-arc="wano"] .panel-icon,
+body[data-arc="wano"] .result-divider { color: #ce9c60; }
+body[data-arc="wano"] .result-kicker { color: #d88665; }
+body[data-arc="wano"] .result-content h2 { color: #f8edd8; }
+body[data-arc="wano"] .result-description { color: #c0b2b1; }
+body[data-arc="wano"] .result-divider span { background: #62444a; }
+body[data-arc="wano"] .spin-caption { color: #a8999b; }
+body[data-arc="wano"] .panel-footer { border-color: #ffffff17; color: #b99a88; }
+body[data-arc="wano"] .character-strip { border-color: #6c4e4b; }
+body[data-arc="wano"] .strip-heading { color: #bbaaad; }
+body[data-arc="wano"] .strip-rule { background: #d88665; }
+body[data-arc="wano"] .character-chip { color: #e0d0c0; }
+body[data-arc="wano"] .character-chip span,
+body[data-arc="wano"] .footer-flower { color: #e1a06d; }
+body[data-arc="wano"] .footer { color: #aa999b; }
+
 @media (max-width: 760px) {
 	.page-shell { width: min(600px, 90%); }
 	.intro { padding-top: 34px; }
+	.arc-switch { margin-bottom: 20px; }
 	.game-layout { width: 100%; gap: 21px; }
 	.wheel-frame { width: min(420px, 84vw); }
 	.result-panel { min-height: 0; }
