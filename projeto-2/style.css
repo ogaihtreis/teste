@@ -93,3 +93,125 @@ h1 span { color: var(--gold); }
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+/* East Blue palette and centered wheel layout */
+:root {
+	color-scheme: light;
+	--night: #e8f6f5;
+	--panel: #ffffff;
+	--paper: #163b4b;
+	--muted: #607d88;
+	--red: #e77955;
+	--gold: #d49b4e;
+	--line: #c5e0df;
+}
+body {
+	color: #163b4b;
+	background: linear-gradient(180deg, #e4f4f3 0%, #f5f5e9 68%, #e5f0e8 100%);
+}
+body::before {
+	opacity: .22;
+	background-image: radial-gradient(#619ca0 0.65px, transparent .7px);
+}
+.page-shell { width: min(1180px, 92%); }
+.topbar { border-color: #9fc8c755; }
+.brand-symbol, .brand-highlight { color: #e27753; }
+.topbar-note { color: #53727c; }
+.status-dot { background: #32a88b; box-shadow: 0 0 10px #32a88b66; }
+.intro { padding: 42px 0 27px; }
+.eyebrow { color: #358397; }
+h1 span { color: #e27753; }
+.intro-copy { color: #587985; }
+.game-layout {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	align-items: center;
+	gap: 23px;
+	margin: 0 auto;
+}
+.wheel-column { width: 100%; }
+.wheel-frame {
+	width: min(490px, 78vw);
+	padding: 14px;
+	border-color: #ffffff;
+	background: linear-gradient(145deg, #d9f1eb, #80c3c7 52%, #529db0);
+	box-shadow: 0 0 0 7px #c4e7e2, 0 0 0 9px #579bab99, 0 20px 55px #34788735, inset 0 0 20px #ffffffaa;
+}
+.wheel-disc {
+	border-color: #f9f4df;
+	background: #4d9bb0;
+	box-shadow: 0 0 0 3px #397e91, inset 0 0 0 4px #d9eee5;
+}
+.pointer { border-top-color: #e87855; }
+.pointer::before { border-color: #fff8df; background: #f1c36d; }
+.wheel-center {
+	width: 92px;
+	height: 92px;
+	padding: 0;
+	gap: 1px;
+	border: 5px solid #fff5dc;
+	color: #fff7de;
+	background: linear-gradient(145deg, #ed8156, #d95645);
+	box-shadow: 0 3px 14px #17445466, inset 0 0 0 2px #f5b36d;
+	cursor: pointer;
+	pointer-events: auto;
+	transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.wheel-center:hover:not(:disabled) {
+	transform: scale(1.07);
+	filter: brightness(1.06);
+	box-shadow: 0 5px 20px #17445488, inset 0 0 0 2px #f5b36d;
+}
+.wheel-center:focus-visible { outline: 3px solid #163b4b; outline-offset: 5px; }
+.wheel-center:disabled { cursor: wait; opacity: .86; }
+.center-icon { font-size: 33px; line-height: 1; }
+.center-label { font-size: 9px; font-weight: 800; letter-spacing: .16em; }
+.wheel-hint { margin-top: 14px; color: #567986; }
+.wheel-hint span { color: #e27753; }
+.result-panel {
+	width: min(580px, 100%);
+	min-height: 0;
+	padding: 16px 22px 13px;
+	border: 1px solid #bbdada;
+	background: linear-gradient(135deg, #ffffffed, #edf8f3ed);
+	box-shadow: 0 12px 35px #32768a19;
+}
+.result-panel::before, .result-panel::after { border-color: #e27753; }
+.panel-topline { color: #358397; }
+.panel-icon { color: #e27753; }
+.result-content { padding: 13px 0 10px; text-align: center; }
+.result-kicker { color: #df7957; }
+.result-content h2 { min-height: 0; color: #163b4b; }
+.result-description { min-height: 0; margin-bottom: 8px; color: #607d88; }
+.result-divider { max-width: 260px; margin: 10px auto; color: #dc865c; }
+.result-divider span { background: #c6ded9; }
+.spin-caption { margin-top: 8px; color: #708b91; }
+.panel-footer { border-color: #cce0dc; color: #66858b; }
+.character-strip {
+	width: min(920px, 100%);
+	margin-top: 27px;
+	border-color: #a9cece;
+}
+.strip-heading { color: #537985; }
+.strip-rule { background: #df7957; }
+.character-chip { color: #315d6b; }
+.character-chip span { color: #df7957; }
+.footer { color: #66838a; }
+.footer-flower { color: #e27753; }
+
+@media (max-width: 760px) {
+	.page-shell { width: min(600px, 90%); }
+	.intro { padding-top: 34px; }
+	.game-layout { width: 100%; gap: 21px; }
+	.wheel-frame { width: min(420px, 84vw); }
+	.result-panel { min-height: 0; }
+	.character-strip { margin-top: 23px; }
+}
+@media (max-width: 420px) {
+	.intro { padding-top: 28px; }
+	.wheel-frame { width: min(360px, 88vw); padding: 10px; }
+	.wheel-center { width: 76px; height: 76px; }
+	.center-icon { font-size: 27px; }
+	.result-panel { padding-right: 17px; padding-left: 17px; }
+}

@@ -1,0 +1,57 @@
+mkdir - make directory
+ls - list
+ls -hidden
+cd - chance directory
+rm - remove file
+rmdir - remove directory
+ni - new item
+mv - move
+nano
+start-process
+
+GIT
+1. Criar ou Obter Repositórios
+git init: Inicializa um novo repositório Git na pasta atual.
+
+git clone <url>: Baixa um repositório existente da nuvem (ex: GitHub, GitLab) para a sua máquina local.
+
+2. Acompanhar e Salvar Alterações
+git status: Exibe o estado atual da pasta de trabalho (quais arquivos foram alterados, quais estão na área de preparação e quais não estão sendo rastreados).
+
+git add <arquivo>: Adiciona um arquivo específico para a área de preparação (staging area).
+
+git add .: Adiciona todas as alterações da pasta atual para a área de preparação.
+
+git commit -m "mensagem": Salva permanentemente as alterações que estavam na área de preparação no histórico do projeto, acompanhadas de uma mensagem descritiva.
+
+3. Histórico e Diferenças
+git log: Mostra o histórico de commits efetuados no repositório (autor, data e hash do commit).
+
+git diff: Mostra as alterações exatas no código que ainda não foram adicionadas à área de preparação.
+
+4. Trabalhar com Ramificações (Branches)
+git branch: Lista todas as branches locais do repositório.
+
+git branch <nome-da-branch>: Cria uma nova branch com o nome informado.
+
+git checkout <nome-da-branch> ou git switch <nome-da-branch>: Alterna para a branch especificada.
+
+git checkout -b <nome-da-branch> ou git switch -c <nome-da-branch>: Cria uma nova branch e já alterna para ela imediatamente.
+
+git merge <nome-da-branch>: Une os commits da branch especificada à branch em que você está atualmente.
+
+5. Sincronizar com Repositórios Remotos (ex: GitHub)
+git remote add origin <url>: Conecta seu repositório local a um repositório remoto pela primeira vez.
+
+git push -u origin <branch>: Envia seus commits locais para o repositório remoto.
+
+git pull: Baixa e aplica as alterações mais recentes do repositório remoto na sua branch atual.
+
+git fetch: Baixa o histórico e as atualizações do repositório remoto sem mesclar diretamente no seu código local.
+
+6. Desfazer Alterações
+git restore <arquivo>: Descarte as alterações feitas em um arquivo específico no seu diretório de trabalho.
+
+git reset HEAD <arquivo>: Remove um arquivo da área de preparação, mantendo as alterações no seu código.
+
+git revert <hash-do-commit>: Cria um novo commit que anula exatamente as alterações feitas por um commit anterior, preservando o histórico. git commit -m "mensagem": Salva permanentemente as alterações que estavam na área de preparação no histórico do projeto, acompanhadas de uma mensagem descritiva.

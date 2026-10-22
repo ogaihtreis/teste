@@ -3,9 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="theme-color" content="#17131a">
-	<meta name="description" content="Gire a roleta de Wano e descubra qual personagem vai cruzar seu caminho.">
-	<title>Roleta de Wano — Sorteio de personagens</title>
+	<meta name="theme-color" content="#d9f0f2">
+	<meta name="description" content="Gire a roleta de East Blue e descubra qual personagem vai cruzar seu caminho.">
+	<title>East Blue — Roleta de personagens</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Rye&display=swap" rel="stylesheet">
@@ -15,53 +15,54 @@
 <body>
 	<div class="page-shell">
 		<header class="topbar">
-			<a class="brand" href="#inicio" aria-label="Roleta de Wano, início">
-				<span class="brand-symbol" aria-hidden="true">✿</span>
-				<span>WANO<span class="brand-highlight">LUCK</span></span>
+			<a class="brand" href="#inicio" aria-label="Roleta do East Blue, início">
+				<span class="brand-symbol" aria-hidden="true">☠</span>
+				<span>EAST<span class="brand-highlight">BLUE</span></span>
 			</a>
-			<span class="topbar-note"><span class="status-dot"></span> A sorte está lançada</span>
+			<span class="topbar-note"><span class="status-dot"></span> NAVEGANDO PELO EAST BLUE</span>
 		</header>
 
 		<main id="inicio">
 			<section class="intro" aria-labelledby="page-title">
-				<p class="eyebrow"><span class="eyebrow-line"></span> PAÍS DE WANO · NOVO DESTINO</p>
-				<h1 id="page-title">Quem vai cruzar<br>seu caminho em <span>Wano?</span></h1>
-				<p class="intro-copy">Gire a roleta e deixe os ventos da sorte escolherem um personagem para sua próxima aventura.</p>
+				<p class="eyebrow"><span class="eyebrow-line"></span> EAST BLUE · O COMEÇO DA JORNADA</p>
+				<h1 id="page-title">Quem vai cruzar<br>seu caminho no <span>East Blue?</span></h1>
+				<p class="intro-copy">Gire a roleta e descubra qual pirata, marinheiro ou aventureiro vai embarcar na sua próxima jornada.</p>
 			</section>
 
-			<section class="game-layout" aria-label="Roleta de personagens de Wano">
+			<section class="game-layout" aria-label="Roleta de personagens de East Blue">
 				<div class="wheel-column">
 					<div class="wheel-frame">
 						<span class="pointer" aria-hidden="true"></span>
 						<div class="wheel-disc" id="wheel-disc">
-							<canvas id="wheel-canvas" width="700" height="700" aria-label="Roleta com doze personagens do arco de Wano"></canvas>
+							<canvas id="wheel-canvas" width="700" height="700" aria-label="Roleta com doze personagens de East Blue"></canvas>
 						</div>
-						<div class="wheel-center" aria-hidden="true"><span>W</span><small>LUCKY</small></div>
+						<button class="wheel-center" id="spin-button" type="button" aria-label="Girar a roleta" aria-describedby="spin-caption">
+							<span class="center-icon" aria-hidden="true">⟳</span><span class="center-label" id="button-label">GIRAR</span>
+						</button>
 					</div>
 					<p class="wheel-hint"><span aria-hidden="true">✦</span> Um giro. Um destino. Uma grande aventura.</p>
 				</div>
 
 				<aside class="result-panel" aria-live="polite" aria-atomic="true">
-					<div class="panel-topline"><span class="panel-icon" aria-hidden="true">☼</span><span>ORÁCULO DE WANO</span></div>
+					<div class="panel-topline"><span class="panel-icon" aria-hidden="true">✦</span><span>SEU DESTINO NO EAST BLUE</span></div>
 					<div class="result-content" id="result-content">
-						<p class="result-kicker">SUA PRÓXIMA AVENTURA</p>
+						<p class="result-kicker">PERSONAGEM SORTEADO</p>
 						<h2 id="result-name">O destino<br>está esperando.</h2>
-						<p class="result-description" id="result-description">Aperte o botão e descubra quem a sorte escolheu para você.</p>
+						<p class="result-description" id="result-description">Aperte o botão no centro da roleta e descubra quem a sorte escolheu.</p>
 						<div class="result-divider"><span></span><i>✿</i><span></span></div>
-						<button class="spin-button" id="spin-button" type="button"><span class="button-icon" aria-hidden="true">⟳</span><span id="button-label">Girar a roleta</span><span class="button-arrow" aria-hidden="true">→</span></button>
-						<p class="spin-caption">A roleta tem 12 personagens. Boa sorte!</p>
+						<p class="spin-caption" id="spin-caption">12 personagens estão a bordo. Boa sorte, marujo!</p>
 					</div>
-					<div class="panel-footer"><span>風 · VENTO DA SORTE</span><span>WANO KUNI</span></div>
+					<div class="panel-footer"><span>☼ VENTOS FAVORÁVEIS</span><span>MAR DO LESTE</span></div>
 				</aside>
 			</section>
 
 			<section class="character-strip" aria-label="Personagens disponíveis">
-				<div class="strip-heading"><span>NA ROLETA</span><span class="strip-rule"></span><span>12 PERSONAGENS</span></div>
+				<div class="strip-heading"><span>A TRIPULAÇÃO POSSÍVEL</span><span class="strip-rule"></span><span>12 PERSONAGENS</span></div>
 				<div class="character-list" id="character-list"></div>
 			</section>
 		</main>
 
-		<footer class="footer"><span>QUE OS VENTOS SOPREM A SEU FAVOR</span><span class="footer-flower" aria-hidden="true">✿</span><span>FEITO PARA AVENTUREIROS</span></footer>
+		<footer class="footer"><span>QUE OS VENTOS DO EAST BLUE SOPREM A SEU FAVOR</span><span class="footer-flower" aria-hidden="true">☠</span><span>FEITO PARA AVENTUREIROS</span></footer>
 	</div>
 </body>
 </html>

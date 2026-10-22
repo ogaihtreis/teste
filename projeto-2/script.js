@@ -1,16 +1,16 @@
 const characters = [
-	{ name: "Monkey D. Luffy", role: "Capitão dos Chapéus de Palha", color: "#b8423d", icon: "☠" },
-	{ name: "Roronoa Zoro", role: "O espadachim das três lâminas", color: "#487267", icon: "⚔" },
-	{ name: "Nami", role: "A navegadora que lê os ventos", color: "#dd8a53", icon: "✦" },
-	{ name: "Sanji", role: "O cozinheiro de pernas velozes", color: "#d0a455", icon: "♨" },
-	{ name: "Nico Robin", role: "A arqueóloga que busca a história", color: "#795675", icon: "✿" },
-	{ name: "Usopp", role: "Atirador e bravo guerreiro do mar", color: "#a87943", icon: "◎" },
-	{ name: "Tony Tony Chopper", role: "O médico de nariz azul", color: "#668b9a", icon: "✚" },
-	{ name: "Franky", role: "O carpinteiro super da tripulação", color: "#4c7392", icon: "★" },
-	{ name: "Brook", role: "O músico que voltou do além", color: "#756b87", icon: "♫" },
-	{ name: "Jinbe", role: "O timoneiro dos Chapéus de Palha", color: "#4d7180", icon: "波" },
-	{ name: "Yamato", role: "A grande aliada de Wano", color: "#b55451", icon: "❋" },
-	{ name: "Kaido", role: "Uma das criaturas mais poderosas", color: "#684052", icon: "龍" },
+	{ name: "Monkey D. Luffy", role: "O capitão que sonha em ser o Rei dos Piratas", color: "#f0bd69", icon: "☠" },
+	{ name: "Roronoa Zoro", role: "O espadachim que busca ser o melhor do mundo", color: "#69a68d", icon: "⚔" },
+	{ name: "Nami", role: "A navegadora que sonha mapear o mundo", color: "#f29a57", icon: "✦" },
+	{ name: "Sanji", role: "O cozinheiro em busca do All Blue", color: "#e5cf91", icon: "♨" },
+	{ name: "Usopp", role: "O atirador rumo ao sonho de ser um bravo guerreiro", color: "#81b8a3", icon: "◎" },
+	{ name: "Shanks", role: "O lendário capitão dos Piratas do Ruivo", color: "#d96d56", icon: "✶" },
+	{ name: "Koby", role: "O jovem marinheiro que acredita nos próprios sonhos", color: "#8cc5d0", icon: "⚓" },
+	{ name: "Helmeppo", role: "O oficial da Marinha em transformação", color: "#7b9fbe", icon: "✦" },
+	{ name: "Buggy", role: "O pirata palhaço com grandes ambições", color: "#cf6a72", icon: "☠" },
+	{ name: "Arlong", role: "O temido capitão dos Piratas Arlong", color: "#548a9c", icon: "波" },
+	{ name: "Mihawk", role: "O maior espadachim do mundo", color: "#8c83a8", icon: "⚔" },
+	{ name: "Smoker", role: "O implacável capitão da Marinha", color: "#7896a6", icon: "⚓" },
 ];
 
 const canvas = document.querySelector("#wheel-canvas");
@@ -42,7 +42,7 @@ function drawWheel() {
 		context.closePath();
 		context.fillStyle = character.color;
 		context.fill();
-		context.strokeStyle = "#f2d8a3";
+		context.strokeStyle = "#e5f5ef";
 		context.lineWidth = 3;
 		context.stroke();
 
@@ -51,21 +51,21 @@ function drawWheel() {
 		context.rotate(middleAngle);
 		context.textAlign = "center";
 		context.textBaseline = "middle";
-		context.fillStyle = "#fff1d7";
-		context.shadowColor = "#1a1014aa";
+		context.fillStyle = "#163b4b";
+		context.shadowColor = "#ffffff66";
 		context.shadowBlur = 5;
 		context.font = "bold 37px 'DM Sans', sans-serif";
 		context.fillText(character.icon, radius * 0.69, -13);
 		context.shadowBlur = 0;
 		context.font = "700 20px 'DM Sans', sans-serif";
-		context.fillStyle = "#fff7e8";
+		context.fillStyle = "#163b4b";
 		context.fillText(character.name, radius * 0.69, 23, 158);
 		context.restore();
 	});
 
 	context.beginPath();
 	context.arc(center, center, radius - 4, 0, Math.PI * 2);
-	context.strokeStyle = "#f3dbab";
+	context.strokeStyle = "#e5f5ef";
 	context.lineWidth = 5;
 	context.stroke();
 }
@@ -81,9 +81,10 @@ function spin() {
 
 	isSpinning = true;
 	spinButton.disabled = true;
-	buttonLabel.textContent = "A sorte está girando…";
+	spinButton.setAttribute("aria-label", "Sorteando personagem");
+	buttonLabel.textContent = "GIRANDO";
 	resultName.innerHTML = "O destino<br>está girando…";
-	resultDescription.textContent = "Os ventos de Wano estão escolhendo seu personagem.";
+	resultDescription.textContent = "As correntes do East Blue estão escolhendo seu personagem.";
 
 	const selectedIndex = Math.floor(Math.random() * characters.length);
 	const selectedCharacter = characters[selectedIndex];
@@ -100,7 +101,8 @@ function spin() {
 	window.setTimeout(() => {
 		resultName.textContent = selectedCharacter.name;
 		resultDescription.textContent = selectedCharacter.role;
-		buttonLabel.textContent = "Girar novamente";
+		buttonLabel.textContent = "GIRAR";
+		spinButton.setAttribute("aria-label", "Girar novamente");
 		spinButton.disabled = false;
 		isSpinning = false;
 	}, transitionTime + 100);
