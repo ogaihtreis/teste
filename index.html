@@ -3,23 +3,26 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Uma jornada pelos mares do universo de One Piece.">
-	<title>East Blue — A grande aventura</title>
+	<meta name="theme-color" content="#f7f4ec">
+	<meta name="description" content="A saga completa do East Blue de One Piece: a rota pelas 8 ilhas da jornada, o recrutamento da tripulação e a galeria com os personagens marcantes.">
+	<title>Saga do East Blue — O Começo da Lenda | One Piece</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Rye&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Rye&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="shared.css">
-	<link rel="stylesheet" href="grandline.css">
+	<link rel="stylesheet" href="eastblue.css">
+	<script src="eastblue.js" defer></script>
 </head>
 <body>
+	<!-- HEADER COMPARTILHADO -->
 	<header class="site-header">
-		<a class="brand" href="#inicio" aria-label="East Blue, início">
+		<a class="brand" href="index.html" aria-label="East Blue, início">
 			<span class="brand-mark" aria-hidden="true">☠</span>
 			<span>EAST<span class="brand-light">BLUE</span></span>
 		</a>
 		<nav class="main-nav" aria-label="Navegação principal">
 			<a href="index.html" class="nav-active">East Blue</a>
-			<a href="roleta.html">Roleta</a>
+			<a href="jogos.html">Jogos</a>
 		</nav>
 		<div class="header-actions">
 			<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo escuro" aria-pressed="false">
@@ -28,95 +31,738 @@
 		</div>
 	</header>
 
-	<main>
-		<section class="hero" id="inicio">
-			<div class="hero-glow" aria-hidden="true"></div>
-			<div class="hero-copy">
-				<p class="eyebrow"><span class="eyebrow-line"></span> UMA HISTÓRIA SOBRE LIBERDADE</p>
-				<h1>O mar chama.<br><span>A aventura</span><br>começa aqui.</h1>
-				<p class="hero-description">Erga as velas, encontre sua tripulação e siga rumo ao horizonte. O maior tesouro do mundo espera por quem ousa sonhar.</p>
+	<!-- HERO SECTION -->
+	<section class="hero-eastblue">
+		<div class="hero-grid">
+			<div class="hero-text-col">
+				<div class="hero-tag">
+					<span class="dot"></span>
+					A Grande Era dos Piratas Começa Aqui
+				</div>
+				<h1>O Mar Mais Pacífico,<br>Onde <span>Nasceram Lendas</span>.</h1>
+				<p class="hero-lead">
+					Conhecido como o mar mais fraco dos quatro oceanos, o East Blue foi o berço do Rei dos Piratas, 
+					Gol D. Roger, e o cenário onde Monkey D. Luffy reuniu seus primeiros companheiros, ergueu a bandeira 
+					do Chapéu de Palha e desafiou o destino rumo à Grand Line.
+				</p>
+				<div class="hero-stats">
+					<div class="stat-box">
+						<strong>8</strong>
+						<span>Ilhas & Paradas</span>
+					</div>
+					<div class="stat-box">
+						<strong>5</strong>
+						<span>Chapéus de Palha</span>
+					</div>
+					<div class="stat-box">
+						<strong>30M</strong>
+						<span>Berries (1ª Recompensa)</span>
+					</div>
+				</div>
 				<div class="hero-actions">
-					<a class="button button-primary" href="#tripulacao">Conheça a tripulação <span aria-hidden="true">→</span></a>
-					<a class="text-link" href="#aventura"><span class="play-icon" aria-hidden="true">▶</span> Descubra a história</a>
+					<button class="btn-primary tab-btn" data-tab="tab-islands">
+						🗺️ Explorar as 8 Ilhas
+					</button>
+					<button class="btn-secondary tab-btn" data-tab="tab-characters">
+						👥 Ver Galeria de Personagens
+					</button>
 				</div>
-				<div class="hero-note"><span class="note-star" aria-hidden="true">✳</span><span>O sonho de uma era<br><strong>East Blue · Desde 1997</strong></span></div>
 			</div>
 
-			<div class="hero-art" aria-label="Ilustração de um navio pirata navegando ao pôr do sol">
-				<div class="sun"></div>
-				<div class="sun-halo"></div>
-				<div class="birds" aria-hidden="true">⌁　⌁　⌁</div>
-				<div class="sea sea-back"></div>
-				<div class="sea sea-front"></div>
-				<div class="ship-illustration" aria-hidden="true">
-					<div class="mast mast-one"><span class="sail sail-main">☠</span></div>
-					<div class="mast mast-two"><span class="sail sail-side"></span></div>
-					<div class="ship-flag">☠</div>
-					<div class="ship-hull"><span class="hull-window">● ● ●</span></div>
-					<div class="ship-bow"></div>
+			<!-- HERO ART BANNER -->
+			<div class="hero-art-col">
+				<div class="hero-art-card">
+					<div class="art-card-header">
+						<span class="label">ARQUIVO NÁUTICO · EAST BLUE</span>
+						<span class="badge">SAGA 01</span>
+					</div>
+					<div class="art-card-body">
+						<h3>A Promessa do Chapéu</h3>
+						<p>
+							"Eu não sei usar espadas, não sei cozinhar, não sei navegar e nem sei mentir! 
+							Sei que preciso dos meus amigos para sobreviver... Mas eu sei derrotar você!"
+						</p>
+						<div class="quote-highlight">
+							— Monkey D. Luffy diante do tirano Arlong
+						</div>
+						<div class="hero-wanted-mini">
+							<img src="images/luffy.jpg" alt="Monkey D. Luffy" class="mini-portrait">
+							<div class="mini-info">
+								<strong>Monkey D. Luffy</strong>
+								<span>DEAD OR ALIVE — ฿ 30.000.000</span>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="art-caption"><span>01 / 04</span><span class="caption-rule"></span><span>ROTA DESCONHECIDA</span></div>
-				<div class="art-stamp">OPEN<br>THE<br>SEA</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- NAVEGAÇÃO ENTRE ABAS DA PÁGINA -->
+	<nav class="section-nav-wrap" aria-label="Navegação do conteúdo da saga">
+		<div class="tabs-container">
+			<div class="tabs-group" role="tablist">
+				<button class="tab-btn is-active" data-tab="tab-islands" role="tab" aria-selected="true">
+					⛵ As 8 Ilhas da Rota
+					<span class="badge-count">8 Locais</span>
+				</button>
+				<button class="tab-btn" data-tab="tab-characters" role="tab" aria-selected="false">
+					👥 Galeria de Personagens
+					<span class="badge-count">10 Lendários</span>
+				</button>
+			</div>
+			<div class="search-filter-mini">
+				<a href="roleta.html" class="filter-pill" style="text-decoration:none; display:inline-flex; align-items:center; gap:5px;">
+					🎯 Ir para a Roleta ↗
+				</a>
+			</div>
+		</div>
+	</nav>
+
+	<main class="container-eastblue">
+		<!-- ============================================== -->
+		<!-- ABA 1: AS 8 ILHAS DA ROTA NÁUTICA              -->
+		<!-- ============================================== -->
+		<section class="tab-pane is-active" id="tab-islands" role="tabpanel">
+			<div class="section-header-epic">
+				<span class="eyebrow">A CRÔNICA NÁUTICA DO EAST BLUE</span>
+				<h2>A Rota de <span>Foosha até a Grand Line</span></h2>
+				<p>
+					Acompanhe visualmente cada escala da jornada dos Chapéus de Palha, os combates decisivos, 
+					os companheiros recrutados e os marcos históricos que moldaram o futuro do bando.
+				</p>
 			</div>
 
-			<div class="hero-bottom"><span>© EIICHIRO ODA · UM UNIVERSO DE AVENTURAS</span><span>01 — NAVEGUE PARA BAIXO ↓</span></div>
+			<!-- TRACKER HORIZONTAL INTERATIVO -->
+			<div class="islands-tracker" aria-label="Linha do tempo das ilhas">
+				<button class="tracker-node active" data-island="ilha-foosha">
+					<span class="num">01</span> Vila Foosha
+				</button>
+				<button class="tracker-node" data-island="ilha-goat">
+					<span class="num">02</span> Ilha de Goat
+				</button>
+				<button class="tracker-node" data-island="ilha-shells">
+					<span class="num">03</span> Shells Town
+				</button>
+				<button class="tracker-node" data-island="ilha-orange">
+					<span class="num">04</span> Orange Town
+				</button>
+				<button class="tracker-node" data-island="ilha-syrup">
+					<span class="num">05</span> Vila Syrup
+				</button>
+				<button class="tracker-node" data-island="ilha-baratie">
+					<span class="num">06</span> Baratie
+				</button>
+				<button class="tracker-node" data-island="ilha-conomi">
+					<span class="num">07</span> Arlong Park
+				</button>
+				<button class="tracker-node" data-island="ilha-loguetown">
+					<span class="num">08</span> Loguetown
+				</button>
+			</div>
+
+			<!-- GRID DOS CARDS DETALHADOS DAS ILHAS -->
+			<div class="islands-grid">
+				<!-- ILHA 01: VILA FOOSHA -->
+				<article class="island-card" id="ilha-foosha">
+					<div class="island-card-top dawn">
+						<div class="island-badges">
+							<span class="badge-route">PARADA 01</span>
+							<span class="badge-recruitment">⚓ O Início de Tudo</span>
+						</div>
+						<div class="island-card-title">
+							<span class="island-subtitle">Ilha Dawn · Reino de Goa</span>
+							<h3>Vila Foosha</h3>
+						</div>
+					</div>
+					<div class="island-card-body">
+						<p class="island-desc">
+							Uma pacata aldeia litorânea onde Luffy passou sua infância sob os cuidados de Makino e o prefeito. 
+							Foi aqui que ancorou o temido bando de Shanks, o Ruivo. Fascinado pelos piratas, Luffy engoliu 
+							a <em>Gomu Gomu no Mi</em> tornando-se um Homem-Borracha. Após Shanks perder o braço para salvar 
+							o garoto do Monstro do Mar, entregou-lhe seu Chapéu de Palha. Dez anos depois, Luffy zarpa em um 
+							pequeno bote rumo ao seu sonho.
+						</p>
+						<div class="island-meta">
+							<div class="meta-item">
+								<strong>Acontecimentos</strong>
+								<span>Promessa do Chapéu de Palha</span>
+							</div>
+							<div class="meta-item">
+								<strong>Lenda Presente</strong>
+								<span>Shanks, o Ruivo</span>
+							</div>
+						</div>
+						<div class="island-moments">
+							<span class="star">★</span>
+							<span><strong>Momento Histórico:</strong> "Devolva-me este chapéu quando se tornar um grande pirata!"</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- ILHA 02: ILHA DE GOAT -->
+				<article class="island-card" id="ilha-goat">
+					<div class="island-card-top goat">
+						<div class="island-badges">
+							<span class="badge-route">PARADA 02</span>
+							<span class="badge-recruitment">👤 Primeiro Resgate</span>
+						</div>
+						<div class="island-card-title">
+							<span class="island-subtitle">Base da Clava de Ferro</span>
+							<h3>Ilha de Goat</h3>
+						</div>
+					</div>
+					<div class="island-card-body">
+						<p class="island-desc">
+							Após seu barquinho ser tragado por um redemoinho, Luffy dorme dentro de um barril de vinho e é pescado 
+							pela tripulação da implacável pirata Alvida da Clava de Ferro. Na base da ilha, Luffy salta do barril 
+							e conhece Koby, um grumete covarde que sonhava em se tornar oficial da Marinha. Com um único soco elástico, 
+							Luffy nocauteia Alvida e liberta Koby para navegar ao seu lado.
+						</p>
+						<div class="island-meta">
+							<div class="meta-item">
+								<strong>Inimigo</strong>
+								<span>Alvida da Clava de Ferro</span>
+							</div>
+							<div class="meta-item">
+								<strong>Aliado Resgatado</strong>
+								<span>Koby (Futuro Marinheiro)</span>
+							</div>
+						</div>
+						<div class="island-moments">
+							<span class="star">★</span>
+							<span><strong>Ato Heroico:</strong> O soco Gomu Gomu no Pistol que inspirou Koby a ter coragem.</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- ILHA 03: SHELLS TOWN -->
+				<article class="island-card" id="ilha-shells">
+					<div class="island-card-top shells">
+						<div class="island-badges">
+							<span class="badge-route">PARADA 03</span>
+							<span class="badge-recruitment">⚔️ 1º Companheiro Recrutado</span>
+						</div>
+						<div class="island-card-title">
+							<span class="island-subtitle">153ª Base da Marinha</span>
+							<h3>Shells Town</h3>
+						</div>
+					</div>
+					<div class="island-card-body">
+						<p class="island-desc">
+							Uma cidade oprimida pelo tirano Capitão Morgan "Mão de Machado" e seu mimado filho Helmeppo. 
+							No pátio da base naval, o afamado caçador de piratas Roronoa Zoro estava amarrado ao sol há quase 
+							um mês para salvar uma menina da cidade. Luffy invade a base, recupera as três katanas de Zoro 
+							e propõe que se una ao bando. Juntos, derrotam Morgan e Koby é aceito nas fileiras da Marinha.
+						</p>
+						<div class="island-meta">
+							<div class="meta-item">
+								<strong>Novo Companheiro</strong>
+								<span>Roronoa Zoro (Espadachim)</span>
+							</div>
+							<div class="meta-item">
+								<strong>Tirano Derrotado</strong>
+								<span>Capitão Morgan</span>
+							</div>
+						</div>
+						<div class="island-moments">
+							<span class="star">★</span>
+							<span><strong>Pacto Eterno:</strong> "Eu vou me tornar o maior espadachim do mundo, ou nada mais terá sentido!"</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- ILHA 04: ORANGE TOWN -->
+				<article class="island-card" id="ilha-orange">
+					<div class="island-card-top orange">
+						<div class="island-badges">
+							<span class="badge-route">PARADA 04</span>
+							<span class="badge-recruitment">🧭 Aliança Provisória</span>
+						</div>
+						<div class="island-card-title">
+							<span class="island-subtitle">Ilhas Organ</span>
+							<h3>Orange Town</h3>
+						</div>
+					</div>
+					<div class="island-card-body">
+						<p class="island-desc">
+							Uma cidade costeira abandonada cujos moradores fugiram dos saques dos Piratas do Buggy. 
+							Luffy conhece Nami, uma ladra astuta que detesta piratas mas precisa de mapas da Grand Line. 
+							A tripulação defende a lojinha de ração do fiel cachorrinho Chouchou e enfrenta Buggy, o Palhaço, 
+							cujo corpo se divide em pedaços com os poderes da <em>Bara Bara no Mi</em>. Após a vitória, 
+							Nami aceita uma parceria como navegadora.
+						</p>
+						<div class="island-meta">
+							<div class="meta-item">
+								<strong>Inimigo Enfrentado</strong>
+								<span>Buggy, o Palhaço (฿ 15M)</span>
+							</div>
+							<div class="meta-item">
+								<strong>Conquista Estratégica</strong>
+								<span>Mapa da Grand Line</span>
+							</div>
+						</div>
+						<div class="island-moments">
+							<span class="star">★</span>
+							<span><strong>A Honra de um Cão:</strong> A coragem inquebrável de Chouchou protegendo o tesouro do dono.</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- ILHA 05: VILA SYRUP -->
+				<article class="island-card" id="ilha-syrup">
+					<div class="island-card-top syrup">
+						<div class="island-badges">
+							<span class="badge-route">PARADA 05</span>
+							<span class="badge-recruitment">🎯 2º Companheiro & Navio</span>
+						</div>
+						<div class="island-card-title">
+							<span class="island-subtitle">Arquipélago Gecko</span>
+							<h3>Vila Syrup</h3>
+						</div>
+					</div>
+					<div class="island-card-body">
+						<p class="island-desc">
+							A vila pacata do mentiroso Usopp, que todas as manhãs gritava falsos alarmes de piratas para alegrar 
+							a jovem enferma Kaya. A mentira vira realidade quando o mordomo Klahadore revela ser o Capitão Kuro, 
+							planejando matar Kaya para tomar sua herança. Os Chapéus de Palha lutam na encosta da praia contra 
+							os Piratas do Gato Preto. Kuro é derrotado, Usopp junta-se à tripulação e ganham a caravelita 
+							<strong>Going Merry</strong>!
+						</p>
+						<div class="island-meta">
+							<div class="meta-item">
+								<strong>Novo Companheiro</strong>
+								<span>Usopp (Atirador)</span>
+							</div>
+							<div class="meta-item">
+								<strong>O Grande Presente</strong>
+								<span>Caravela Going Merry</span>
+							</div>
+						</div>
+						<div class="island-moments">
+							<span class="star">★</span>
+							<span><strong>Grito de Coragem:</strong> Usopp decide proteger a vila mesmo sabendo que ninguém acreditaria.</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- ILHA 06: RESTAURANTE BARATIE -->
+				<article class="island-card" id="ilha-baratie">
+					<div class="island-card-top baratie">
+						<div class="island-badges">
+							<span class="badge-route">PARADA 06</span>
+							<span class="badge-recruitment">🍳 3º Companheiro & Duelo</span>
+						</div>
+						<div class="island-card-title">
+							<span class="island-subtitle">Região dos Mares de Sambas</span>
+							<h3>Restaurante Baratie</h3>
+						</div>
+					</div>
+					<div class="island-card-body">
+						<p class="island-desc">
+							Um restaurante em forma de peixe ancorado no oceano, fundado pelo ex-pirata Zeff da Perna Vermelha. 
+							Lá trabalha Sanji, um cozinheiro formidável que luta usando apenas as pernas. O local é invadido 
+							pela frota faminta de Don Krieg e, no meio do confronto, surge Dracule Mihawk, o maior espadachim 
+							do mundo, cortando galeões com um golpe. Zoro o desafia e sobrevive por honra. Sanji é recrutado 
+							para buscar o mítico oceano <em>All Blue</em>.
+						</p>
+						<div class="island-meta">
+							<div class="meta-item">
+								<strong>Novo Companheiro</strong>
+								<span>Sanji (Cozinheiro)</span>
+							</div>
+							<div class="meta-item">
+								<strong>Duelo de Lendas</strong>
+								<span>Zoro vs Dracule Mihawk</span>
+							</div>
+						</div>
+						<div class="island-moments">
+							<span class="star">★</span>
+							<span><strong>O Juramento em Lágrimas:</strong> "Luffy! Eu nunca mais serei derrotado! Algum problema, Rei dos Piratas?!"</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- ILHA 07: ILHAS CONOMI (ARLONG PARK) -->
+				<article class="island-card" id="ilha-conomi">
+					<div class="island-card-top conomi">
+						<div class="island-badges">
+							<span class="badge-route">PARADA 07</span>
+							<span class="badge-recruitment">🏴‍☠️ Nami Oficial & Recompensa</span>
+						</div>
+						<div class="island-card-title">
+							<span class="island-subtitle">Vila Cocoyasi</span>
+							<h3>Arlong Park</h3>
+						</div>
+					</div>
+					<div class="island-card-body">
+						<p class="island-desc">
+							O clímax dramático do East Blue. Nami rouba o Going Merry para cumprir o contrato de 100 milhões de berries 
+							com Arlong e libertar sua vila. Ao ser traída pelo conluio de Arlong com a Marinha corrupta, Nami cai 
+							em desespero e fere a própria tatuagem. Aos prantos, pede: <em>"Luffy... me ajude!"</em>. Luffy coloca seu chapéu 
+							na cabeça dela e marcha com Zoro, Sanji e Usopp contra o parque dos homens-peixe. O castelo é esmagado 
+							e Nami é livre para sempre!
+						</p>
+						<div class="island-meta">
+							<div class="meta-item">
+								<strong>Inimigo Derrubado</strong>
+								<span>Arlong, o Tubarão-Serra (฿ 20M)</span>
+							</div>
+							<div class="meta-item">
+								<strong>Recompensa do QG</strong>
+								<span>Luffy ganha ฿ 30.000.000</span>
+							</div>
+						</div>
+						<div class="island-moments">
+							<span class="star">★</span>
+							<span><strong>O Momento Mais Ícone:</strong> "NAMI! VOCÊ É MINHA COMPANHEIRA!" — Luffy no topo das ruínas.</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- ILHA 08: LOGUETOWN -->
+				<article class="island-card" id="ilha-loguetown">
+					<div class="island-card-top loguetown">
+						<div class="island-badges">
+							<span class="badge-route">PARADA 08</span>
+							<span class="badge-recruitment">⚡ Cidade do Começo e do Fim</span>
+						</div>
+						<div class="island-card-title">
+							<span class="island-subtitle">Último Porto do East Blue</span>
+							<h3>Loguetown</h3>
+						</div>
+					</div>
+					<div class="island-card-body">
+						<p class="island-desc">
+							A mítica cidade onde Gol D. Roger nasceu e foi executado. No cadafalso histórico, Luffy é capturado 
+							por Buggy e Alvida e, a milésimos de ser decapitado, sorri e diz: <em>"Foi mal pessoal, eu morri!"</em>, 
+							antes de um raio providencial destruir a plataforma. Zoro testa sua sorte e ganha a lendária espada 
+							Sandai Kitetsu. Encurralados pelo Capitão Smoker, são salvos pelo misterioso Monkey D. Dragon e sob 
+							uma tempestade furiosa erguem os pés sobre um barril rumo à Grand Line!
+						</p>
+						<div class="island-meta">
+							<div class="meta-item">
+								<strong>Rival Perseguidor</strong>
+								<span>Capitão Smoker da Marinha</span>
+							</div>
+							<div class="meta-item">
+								<strong>Figura Misteriosa</strong>
+								<span>Monkey D. Dragon</span>
+							</div>
+						</div>
+						<div class="island-moments">
+							<span class="star">★</span>
+							<span><strong>O Juramento do Barril:</strong> Cinco sonhos unidos enquanto a tempestade sopra rumo à Reverse Mountain.</span>
+						</div>
+					</div>
+				</article>
+			</div>
 		</section>
 
-		<section class="crew-section section-wrap" id="tripulacao">
-			<div class="section-heading">
-				<div><p class="eyebrow dark-eyebrow">OS CHAPÉUS DE PALHA</p><h2>Uma tripulação.<br><span>Mil possibilidades.</span></h2></div>
-				<p class="section-intro">Cada grande aventura começa com pessoas que acreditam umas nas outras. Conheça quem faz essa jornada valer a pena.</p>
+		<!-- ============================================== -->
+		<!-- ABA 2: GALERIA DEDICADA AOS PERSONAGENS        -->
+		<!-- ============================================== -->
+		<section class="tab-pane" id="tab-characters" role="tabpanel">
+			<div class="section-header-epic">
+				<span class="eyebrow">ARQUIVO DE PROCURADOS & LENDAS</span>
+				<h2>Personagens Marcantes do <span>East Blue</span></h2>
+				<p>
+					Clique em qualquer personagem para abrir o dossiê completo: fotos geradas em alta definição, 
+					recompensas pela cabeça, biografia e feitos no arco.
+				</p>
 			</div>
-			<div class="crew-grid">
-				<article class="crew-card card-luffy"><div class="card-number">01</div><div class="character-icon">👒</div><div class="card-info"><span>CAPITÃO</span><h3>Monkey D. Luffy</h3><p>Rei dos Piratas em construção</p></div><span class="card-arrow" aria-hidden="true">↗</span></article>
-				<article class="crew-card card-zoro"><div class="card-number">02</div><div class="character-icon">⚔️</div><div class="card-info"><span>ESPADACHIM</span><h3>Roronoa Zoro</h3><p>Mestre das três espadas</p></div><span class="card-arrow" aria-hidden="true">↗</span></article>
-				<article class="crew-card card-nami"><div class="card-number">03</div><div class="character-icon">🧭</div><div class="card-info"><span>NAVEGADORA</span><h3>Nami</h3><p>Leitora dos mares e do clima</p></div><span class="card-arrow" aria-hidden="true">↗</span></article>
-				<article class="crew-card card-sanji"><div class="card-number">04</div><div class="character-icon">🍳</div><div class="card-info"><span>COZINHEIRO</span><h3>Sanji</h3><p>Chef de coração e perna forte</p></div><span class="card-arrow" aria-hidden="true">↗</span></article>
+
+			<!-- CONTROLES DE FILTRO -->
+			<div class="characters-controls">
+				<div class="char-filter-tabs">
+					<button class="char-btn-filter is-active" data-filter="all">Todos (10)</button>
+					<button class="char-btn-filter" data-filter="strawhats">Chapéus de Palha (5)</button>
+					<button class="char-btn-filter" data-filter="villains">Vilões & Rivais (3)</button>
+					<button class="char-btn-filter" data-filter="legends">Lendas & Aliados (2)</button>
+				</div>
+				<small style="color:var(--muted); font-size:11px; font-weight:700;">
+					✦ Clique no card para ver o perfil completo
+				</small>
+			</div>
+
+			<!-- GRID DE CARTAZES DE PERSONAGENS -->
+			<div class="characters-grid">
+				<!-- LUFFY -->
+				<article class="character-card" data-category="strawhats" data-character="luffy">
+					<div class="char-header-wanted"><span>WANTED</span></div>
+					<div class="char-photo-frame">
+						<img src="images/luffy.jpg" alt="Monkey D. Luffy">
+						<span class="char-badge-role">Capitão</span>
+					</div>
+					<div class="char-details">
+						<h3 class="char-name">Monkey D. Luffy</h3>
+						<span class="char-epithet">O Chapéu de Palha</span>
+						<div class="char-bounty-box">
+							<small>RECOMPENSA</small>
+							฿ 30.000.000
+						</div>
+						<p class="char-summary">
+							O jovem de borracha que ousou sonhar em ser o Rei dos Piratas. Reuniu a tripulação e libertou o East Blue dos maiores tiranos.
+						</p>
+						<button class="btn-card-action">Ver Dossiê Completo ↗</button>
+					</div>
+				</article>
+
+				<!-- ZORO -->
+				<article class="character-card" data-category="strawhats" data-character="zoro">
+					<div class="char-header-wanted"><span>WANTED</span></div>
+					<div class="char-photo-frame">
+						<img src="images/zoro.jpg" alt="Roronoa Zoro">
+						<span class="char-badge-role">Espadachim</span>
+					</div>
+					<div class="char-details">
+						<h3 class="char-name">Roronoa Zoro</h3>
+						<span class="char-epithet">O Caçador de Piratas</span>
+						<div class="char-bounty-box">
+							<small>ESTILO</small>
+							Santoryu (Três Espadas)
+						</div>
+						<p class="char-summary">
+							Primeiro companheiro a embarcar. Mestre das três espadas com o juramento de tornar-se o maior espadachim sobre os mares.
+						</p>
+						<button class="btn-card-action">Ver Dossiê Completo ↗</button>
+					</div>
+				</article>
+
+				<!-- NAMI -->
+				<article class="character-card" data-category="strawhats" data-character="nami">
+					<div class="char-header-wanted"><span>WANTED</span></div>
+					<div class="char-photo-frame">
+						<img src="images/nami.jpg" alt="Nami">
+						<span class="char-badge-role">Navegadora</span>
+					</div>
+					<div class="char-details">
+						<h3 class="char-name">Nami</h3>
+						<span class="char-epithet">A Gata Ladra</span>
+						<div class="char-bounty-box">
+							<small>HABILIDADE</small>
+							Meteorologia & Navegação
+						</div>
+						<p class="char-summary">
+							Navegadora genial que lia as correntes oceânicas e carregava a dor de salvar sua vila natal das garras de Arlong.
+						</p>
+						<button class="btn-card-action">Ver Dossiê Completo ↗</button>
+					</div>
+				</article>
+
+				<!-- USOPP -->
+				<article class="character-card" data-category="strawhats" data-character="usopp">
+					<div class="char-header-wanted"><span>WANTED</span></div>
+					<div class="char-photo-frame">
+						<img src="images/usopp.jpg" alt="Usopp">
+						<span class="char-badge-role">Atirador</span>
+					</div>
+					<div class="char-details">
+						<h3 class="char-name">Usopp</h3>
+						<span class="char-epithet">O Bravo Guerreiro</span>
+						<div class="char-bounty-box">
+							<small>ARMA</small>
+							Kuro Kabuto & Estilingue
+						</div>
+						<p class="char-summary">
+							O atirador de pontaria inigualável que trouxe o Going Merry para a tripulação e partiu para se tornar um guerreiro valoroso.
+						</p>
+						<button class="btn-card-action">Ver Dossiê Completo ↗</button>
+					</div>
+				</article>
+
+				<!-- SANJI -->
+				<article class="character-card" data-category="strawhats" data-character="sanji">
+					<div class="char-header-wanted"><span>WANTED</span></div>
+					<div class="char-photo-frame">
+						<img src="images/sanji.jpg" alt="Sanji">
+						<span class="char-badge-role">Cozinheiro</span>
+					</div>
+					<div class="char-details">
+						<h3 class="char-name">Sanji</h3>
+						<span class="char-epithet">Perna Negra</span>
+						<div class="char-bounty-box">
+							<small>TÉCNICA</small>
+							Artes Marciais Culinárias
+						</div>
+						<p class="char-summary">
+							O cozinheiro cavalheiro do Baratie que luta apenas com as pernas para proteger as mãos e busca o lendário mar All Blue.
+						</p>
+						<button class="btn-card-action">Ver Dossiê Completo ↗</button>
+					</div>
+				</article>
+
+				<!-- ARLONG -->
+				<article class="character-card" data-category="villains" data-character="arlong">
+					<div class="char-header-wanted"><span>WANTED</span></div>
+					<div class="char-photo-frame">
+						<img src="images/arlong.jpg" alt="Arlong">
+						<span class="char-badge-role">Vilão Principal</span>
+					</div>
+					<div class="char-details">
+						<h3 class="char-name">Arlong</h3>
+						<span class="char-epithet">Dente de Serra</span>
+						<div class="char-bounty-box">
+							<small>RECOMPENSA</small>
+							฿ 20.000.000
+						</div>
+						<p class="char-summary">
+							O cruel homem-peixe tubarão que escravizou as Ilhas Conomi por 8 anos e construiu o temido império de Arlong Park.
+						</p>
+						<button class="btn-card-action">Ver Dossiê Completo ↗</button>
+					</div>
+				</article>
+
+				<!-- BUGGY -->
+				<article class="character-card" data-category="villains" data-character="buggy">
+					<div class="char-header-wanted"><span>WANTED</span></div>
+					<div class="char-photo-frame">
+						<img src="images/buggy.jpg" alt="Buggy">
+						<span class="char-badge-role">Capitão Rival</span>
+					</div>
+					<div class="char-details">
+						<h3 class="char-name">Buggy, o Palhaço</h3>
+						<span class="char-epithet">O Palhaço Estrela</span>
+						<div class="char-bounty-box">
+							<small>RECOMPENSA</small>
+							฿ 15.000.000
+						</div>
+						<p class="char-summary">
+							Antigo companheiro de Shanks no navio de Roger, mestre da Bara Bara no Mi capaz de separar seu corpo em partes flutuantes.
+						</p>
+						<button class="btn-card-action">Ver Dossiê Completo ↗</button>
+					</div>
+				</article>
+
+				<!-- SMOKER -->
+				<article class="character-card" data-category="villains" data-character="smoker">
+					<div class="char-header-wanted"><span>JUSTICE</span></div>
+					<div class="char-photo-frame">
+						<img src="images/smoker.jpg" alt="Capitão Smoker">
+						<span class="char-badge-role">Marinha do QG</span>
+					</div>
+					<div class="char-details">
+						<h3 class="char-name">Capitão Smoker</h3>
+						<span class="char-epithet">O Caçador Branco</span>
+						<div class="char-bounty-box">
+							<small>PODER</small>
+							Moku Moku no Mi (Fumaça)
+						</div>
+						<p class="char-summary">
+							O oficial naval implacável de Loguetown cuja fumaça logia jamais permitiu que nenhum pirata escapasse de sua cidade.
+						</p>
+						<button class="btn-card-action">Ver Dossiê Completo ↗</button>
+					</div>
+				</article>
+
+				<!-- SHANKS -->
+				<article class="character-card" data-category="legends" data-character="shanks">
+					<div class="char-header-wanted"><span>YONKO</span></div>
+					<div class="char-photo-frame">
+						<img src="images/shanks.jpg" alt="Shanks, o Ruivo">
+						<span class="char-badge-role">O Mentor</span>
+					</div>
+					<div class="char-details">
+						<h3 class="char-name">Shanks, o Ruivo</h3>
+						<span class="char-epithet">O Homem que Inspirou a Era</span>
+						<div class="char-bounty-box">
+							<small>TITULO</small>
+							Grande Pirata dos Mares
+						</div>
+						<p class="char-summary">
+							O lendário capitão que sacrificou seu braço esquerdo para salvar Luffy e lhe entregou o Chapéu de Palha na Vila Foosha.
+						</p>
+						<button class="btn-card-action">Ver Dossiê Completo ↗</button>
+					</div>
+				</article>
+
+				<!-- MIHAWK -->
+				<article class="character-card" data-category="legends" data-character="mihawk">
+					<div class="char-header-wanted"><span>SHICHIBUKAI</span></div>
+					<div class="char-photo-frame">
+						<img src="images/mihawk.jpg" alt="Dracule Mihawk">
+						<span class="char-badge-role">Maior Espadachim</span>
+					</div>
+					<div class="char-details">
+						<h3 class="char-name">Dracule Mihawk</h3>
+						<span class="char-epithet">Olhos de Gavião</span>
+						<div class="char-bounty-box">
+							<small>STATUS</small>
+							Espada Negra Kokuto Yoru
+						</div>
+						<p class="char-summary">
+							O homem que reina solitário no topo de todos os espadachins do mundo. Seu duelo contra Zoro no Baratie marcou a história.
+						</p>
+						<button class="btn-card-action">Ver Dossiê Completo ↗</button>
+					</div>
+				</article>
 			</div>
 		</section>
 
-		<section class="adventure-section" id="aventura">
-			<div class="adventure-inner section-wrap">
-				<div class="adventure-copy"><p class="eyebrow">A GRANDE ROTA</p><h2>Mais que um destino.<br><span>Uma forma de viver.</span></h2><p>De ilhas impossíveis a amizades para a vida toda, cada parada guarda uma história. O East Blue é o ponto de partida — para quem sabe por que está navegando.</p><a class="button button-light" href="#mapa">Explore o universo <span aria-hidden="true">→</span></a></div>
-				<div class="adventure-stats"><div class="stat"><strong>∞</strong><span>horizontes<br>para explorar</span></div><div class="stat"><strong>1</strong><span>sonho que<br>nos une</span></div><div class="compass" aria-hidden="true"><span>N</span><span class="compass-star">✳</span><span>S</span></div></div>
+		<!-- BANNER DE CONCLUSÃO DA SAGA -->
+		<section class="saga-conclusion">
+			<h2>Rumo à Reverse Mountain e à Grand Line!</h2>
+			<p>
+				Com cinco companheiros reunidos, a caravela Going Merry abastecida e a primeira recompensa de 30 milhões de berries, 
+				o bando do Chapéu de Palha cruzou a tempestade de Loguetown e subiu a misteriosa corrente marítima ascendente, 
+				entrando para sempre nas águas lendárias da Grand Line.
+			</p>
+			<div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
+				<a href="roleta.html" class="btn-primary" style="text-decoration:none;">
+					🎲 Sortear Personagem na Roleta ↗
+				</a>
+				<button class="btn-secondary" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+					Voltar ao Topo ↑
+				</button>
 			</div>
-		</section>
-
-		<section class="map-section section-wrap" id="mapa">
-			<div class="map-copy"><p class="eyebrow dark-eyebrow">SEU PRÓXIMO CAPÍTULO</p><h2>O mapa está<br><span>em suas mãos.</span></h2><p>Escolha seu rumo. A aventura nunca é igual para quem navega com o coração aberto.</p></div>
-			<div class="map-card"><div class="map-lines" aria-hidden="true"></div><span class="map-label">NOVA ROTA DESCOBERTA</span><div class="map-compass">✳</div><div class="map-destination"><span>DESTINO</span><strong>Ilha dos Sonhos</strong><span class="map-coordinates">N 20° · W 140°</span></div><div class="map-route" aria-hidden="true"><span></span><span></span><span></span><span></span><span class="route-end">✦</span></div></div>
 		</section>
 	</main>
 
-	<footer class="site-footer"><a class="brand footer-brand" href="#inicio"><span class="brand-mark" aria-hidden="true">☠</span><span>EAST<span class="brand-light">BLUE</span></span></a><p>Feito para quem nunca deixou de sonhar.</p><a href="#inicio" class="back-top">VOLTAR AO TOPO ↑</a></footer>
-	<script>
-		const themeToggle = document.querySelector("#theme-toggle");
-		const themeIcon = themeToggle.querySelector(".theme-icon");
-		const themeLabel = themeToggle.querySelector(".theme-label");
+	<!-- MODAL INTERATIVO DE DETALHES DO PERSONAGEM -->
+	<div class="modal-overlay" id="character-modal" role="dialog" aria-modal="true" aria-hidden="true">
+		<div class="modal-card">
+			<button class="modal-close-btn" id="modal-close-btn" aria-label="Fechar janela">✕</button>
+			<div class="modal-inner-grid">
+				<div class="modal-photo-col">
+					<img src="images/luffy.jpg" alt="" id="modal-photo">
+					<div class="modal-bounty-box">
+						<span>VALOR OU TITULO</span>
+						<strong id="modal-bounty">฿ 30.000.000</strong>
+					</div>
+				</div>
+				<div class="modal-info-col">
+					<h3 id="modal-name">Monkey D. Luffy</h3>
+					<span class="modal-epithet" id="modal-epithet">O Chapéu de Palha</span>
+					<p class="modal-bio" id="modal-bio">
+						Biografia completa do personagem.
+					</p>
+					<div class="modal-attributes">
+						<div>
+							<strong>Arco / Entrada:</strong>
+							<span id="modal-arc">Vila Foosha</span>
+						</div>
+						<div>
+							<strong>Cargo / Posto:</strong>
+							<span id="modal-role">Capitão</span>
+						</div>
+						<div>
+							<strong>Habilidade Especial:</strong>
+							<span id="modal-ability">Gomu Gomu no Mi</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-		function setTheme(isDark) {
-			document.documentElement.dataset.theme = isDark ? "dark" : "light";
-			themeToggle.setAttribute("aria-pressed", String(isDark));
-			themeToggle.setAttribute("aria-label", isDark ? "Ativar modo claro" : "Ativar modo escuro");
-			themeIcon.textContent = isDark ? "☀" : "☾";
-			themeLabel.textContent = isDark ? "Modo claro" : "Modo escuro";
-		}
-
-		try {
-			setTheme(localStorage.getItem("grand-line-theme") === "dark");
-		} catch {
-			setTheme(false);
-		}
-
-		themeToggle.addEventListener("click", () => {
-			const isDark = document.documentElement.dataset.theme !== "dark";
-			setTheme(isDark);
-			try {
-				localStorage.setItem("grand-line-theme", isDark ? "dark" : "light");
-			} catch {
-				// O tema ainda alterna nesta visita se o armazenamento estiver indisponível.
-			}
-		});
-	</script>
+	<!-- FOOTER -->
+	<footer class="site-footer">
+		<a class="brand footer-brand" href="index.html">
+			<span class="brand-mark" aria-hidden="true">☠</span>
+			<span>EAST<span class="brand-light">BLUE</span></span>
+		</a>
+		<p>Saga do East Blue — Feito para quem nunca deixou de sonhar com o One Piece.</p>
+		<a href="#" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;" class="back-top">VOLTAR AO TOPO ↑</a>
+	</footer>
 </body>
 </html>

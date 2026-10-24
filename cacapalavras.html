@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#f7f4ec">
+	<meta name="description" content="Caça-Palavras do East Blue: Encontre os nomes dos piratas e ilhas de One Piece numa grade aleatória com cronômetro e recordes!">
+	<title>Caça-Palavras do East Blue — One Piece</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Rye&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="shared.css">
+	<link rel="stylesheet" href="cacapalavras.css">
+	<script src="cacapalavras.js" defer></script>
+	<script>
+		// Sincronização do tema escuro/claro
+		document.addEventListener("DOMContentLoaded", () => {
+			const themeToggle = document.querySelector("#theme-toggle");
+			const themeIcon = themeToggle?.querySelector(".theme-icon");
+			const themeLabel = themeToggle?.querySelector(".theme-label");
+
+			function setTheme(isDark) {
+				document.documentElement.dataset.theme = isDark ? "dark" : "light";
+				if (themeToggle) {
+					themeToggle.setAttribute("aria-pressed", String(isDark));
+					themeToggle.setAttribute("aria-label", isDark ? "Ativar modo claro" : "Ativar modo escuro");
+				}
+				if (themeIcon) themeIcon.textContent = isDark ? "☀" : "☾";
+				if (themeLabel) themeLabel.textContent = isDark ? "Modo claro" : "Modo escuro";
+			}
+
+			try {
+				setTheme(localStorage.getItem("grand-line-theme") === "dark");
+			} catch {
+				setTheme(false);
+			}
+
+			if (themeToggle) {
+				themeToggle.addEventListener("click", () => {
+					const isDark = document.documentElement.dataset.theme !== "dark";
+					setTheme(isDark);
+					try {
+						localStorage.setItem("grand-line-theme", isDark ? "dark" : "light");
+					} catch {}
+				});
+			}
+		});
+	</script>
+</head>
+<body>
+	<!-- CANVAS PARA AS EXPLOSÕES DE COMEMORAÇÃO DE RECORDE -->
+	<canvas id="fireworks-canvas"></canvas>
+
+	<!-- HEADER COMPARTILHADO -->
+	<header class="site-header">
+		<a class="brand" href="index.html" aria-label="East Blue, início">
+			<span class="brand-mark" aria-hidden="true">☠</span>
+			<span>EAST<span class="brand-light">BLUE</span></span>
+		</a>
+		<nav class="main-nav" aria-label="Navegação principal">
+			<a href="index.html">East Blue</a>
+			<a href="jogos.html" class="nav-active">Jogos</a>
+		</nav>
+		<div class="header-actions">
+			<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo escuro" aria-pressed="false">
+				<span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Modo escuro</span>
+			</button>
+		</div>
+	</header>
+
+	<!-- BARRA DE VOLTA -->
+	<div class="game-top-bar">
+		<a href="jogos.html" class="back-link">
+			← Voltar para a Central de Jogos
+		</a>
+	</div>
+
+	<!-- HERO DO JOGO -->
+	<section class="ws-hero">
+		<h1>Caça-Palavras do <span>East Blue</span></h1>
+		<p>
+			As correntes do mar espalharam palavras secretas do East Blue pela grade! 
+			Arraste com o mouse ou clique na primeira e na última letra de cada palavra para resgatá-la.
+		</p>
+	</section>
+
+	<!-- PLACAR DE TEMPO & RECORDES -->
+	<div class="scoreboard-wrap">
+		<div class="scoreboard">
+			<div class="score-item">
+				<span class="score-label">⏱️ Tempo Atual</span>
+				<div class="score-value timer" id="timer-display">00:00</div>
+			</div>
+			<div class="score-item">
+				<span class="score-label">⏳ Último Tempo</span>
+				<div class="score-value" id="last-time-display">--:--</div>
+			</div>
+			<div class="score-item">
+				<span class="score-label">🏆 Melhor Recorde</span>
+				<div class="score-value record" id="record-display">--:--</div>
+			</div>
+			<div class="score-item">
+				<span class="score-label">📜 Palavras</span>
+				<div class="score-value" id="words-count">0 / 10</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ÁREA DO JOGO (GRADE + LISTA DE PALAVRAS) -->
+	<main class="game-workspace">
+		<!-- TABULEIRO / GRADE -->
+		<div class="board-container">
+			<div class="board-header">
+				<h3>Pergaminho de Letras (14×14)</h3>
+				<div class="board-controls">
+					<button class="btn-ctrl" id="btn-hint" title="Mostra a primeira letra de uma palavra que falta">
+						💡 Dica
+					</button>
+					<button class="btn-ctrl" id="btn-new-game" title="Gera um novo caça-palavras aleatório">
+						🔄 Novo Jogo
+					</button>
+				</div>
+			</div>
+			<div class="word-grid" id="word-grid"></div>
+		</div>
+
+		<!-- LISTA DE PALAVRAS A ENCONTRAR -->
+		<aside class="words-sidebar">
+			<div class="sidebar-header">
+				<h3>Palavras Sorteadas</h3>
+				<span class="words-counter-badge">10 Alvos</span>
+			</div>
+			<ul class="words-list" id="words-list"></ul>
+			<div class="game-instructions-box">
+				<strong>Como Jogar:</strong>
+				Arraste com o botão do mouse sobre a palavra ou clique na <strong>primeira letra</strong> e depois na <strong>última letra</strong>. As palavras podem estar na horizontal, vertical ou diagonal!
+			</div>
+		</aside>
+	</main>
+
+	<!-- MODAL DE VITÓRIA / NOVO RECORDE -->
+	<div class="victory-modal-overlay" id="victory-modal" role="dialog" aria-modal="true">
+		<div class="victory-card">
+			<div class="victory-badge-top" id="victory-badge">🏆 VITÓRIA NOS MARES!</div>
+			<h2 id="victory-title">PARABÉNS! VOCÊ BATEU O RECORDE!</h2>
+			<p id="victory-desc">
+				Você encontrou todas as palavras da grade em tempo recorde!
+			</p>
+			<div class="victory-stats-grid">
+				<div class="v-stat highlight">
+					<strong>Seu Tempo</strong>
+					<span id="victory-time">00:00</span>
+				</div>
+				<div class="v-stat">
+					<strong>Recorde Histórico</strong>
+					<span id="victory-record">00:00</span>
+				</div>
+			</div>
+			<div class="victory-actions">
+				<button class="btn-ctrl" id="btn-play-again" style="padding:12px 24px; font-size:13px; background:var(--orange); color:#fff; border:none;">
+					🔄 Jogar Novamente
+				</button>
+				<a href="jogos.html" class="btn-ctrl" style="padding:12px 20px; font-size:13px; text-decoration:none;">
+					← Central de Jogos
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- FOOTER -->
+	<footer class="site-footer" style="margin-top:auto;">
+		<a class="brand footer-brand" href="index.html">
+			<span class="brand-mark" aria-hidden="true">☠</span>
+			<span>EAST<span class="brand-light">BLUE</span></span>
+		</a>
+		<p>Caça-Palavras do East Blue — Supere seus recordes nos mares de One Piece.</p>
+		<a href="#" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;" class="back-top">VOLTAR AO TOPO ↑</a>
+	</footer>
+</body>
+</html>
+

@@ -294,3 +294,211 @@ html[data-theme="dark"] body[data-arc="east-blue"] .footer { color: #6b8a90; }
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+
+/* ===== MODAL POPUP DO PERSONAGEM SORTEADO ===== */
+.roleta-modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(11, 28, 36, 0.82);
+	backdrop-filter: blur(8px);
+	z-index: 9999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.35s ease;
+}
+
+.roleta-modal-overlay.is-open {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.roleta-modal-card {
+	background: #fbf7ee;
+	border: 3px solid #eed193;
+	border-radius: 20px;
+	max-width: 580px;
+	width: 100%;
+	padding: 32px 28px;
+	box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5), inset 0 0 0 1px #dcc28a;
+	position: relative;
+	text-align: center;
+	animation: popRoleta 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+}
+
+@keyframes popRoleta {
+	0% { transform: scale(0.65) translateY(30px); opacity: 0; }
+	100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.roleta-modal-close {
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: #eee3cb;
+	border: 1px solid #d4c29e;
+	color: #2b1f15;
+	font-size: 16px;
+	display: grid;
+	place-items: center;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.roleta-modal-close:hover {
+	background: #c94336;
+	color: #fff;
+	border-color: #c94336;
+}
+
+.roleta-kicker {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 14px;
+	border-radius: 999px;
+	background: rgba(226, 119, 83, 0.15);
+	color: #e27753;
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	margin-bottom: 15px;
+}
+
+.roleta-modal-grid {
+	display: grid;
+	grid-template-columns: 190px 1fr;
+	gap: 22px;
+	align-items: center;
+	text-align: left;
+	margin-bottom: 22px;
+}
+
+.roleta-modal-photo-wrap {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1;
+	border-radius: 12px;
+	overflow: hidden;
+	background: #173b47;
+	border: 3px solid #eed193;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.roleta-modal-photo-wrap img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.roleta-modal-info h2 {
+	font-family: "Rye", Georgia, serif;
+	font-size: 24px;
+	margin: 0 0 4px;
+	color: #163b4b;
+	line-height: 1.2;
+}
+
+.roleta-modal-epithet {
+	font-size: 12px;
+	color: #e27753;
+	font-weight: 700;
+	margin-bottom: 10px;
+	display: block;
+}
+
+.roleta-modal-bounty {
+	display: inline-block;
+	background: #ede1c6;
+	border: 1px solid #d4c29d;
+	border-radius: 6px;
+	padding: 4px 10px;
+	font-family: "Rye", Georgia, serif;
+	font-size: 13px;
+	color: #8f3825;
+	margin-bottom: 12px;
+}
+
+.roleta-modal-desc {
+	font-size: 13px;
+	line-height: 1.7;
+	color: #4b6670;
+	margin: 0;
+}
+
+.roleta-modal-actions {
+	display: flex;
+	justify-content: center;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.roleta-btn-spin-again {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 26px;
+	background: #e27753;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+	font-weight: 800;
+	font-size: 13px;
+	letter-spacing: 0.05em;
+	cursor: pointer;
+	box-shadow: 0 8px 22px rgba(226, 119, 83, 0.4);
+	transition: all 0.25s ease;
+}
+
+.roleta-btn-spin-again:hover {
+	background: #cc5d3a;
+	transform: translateY(-2px);
+	box-shadow: 0 12px 28px rgba(226, 119, 83, 0.5);
+}
+
+/* Dark theme roleta modal */
+html[data-theme="dark"] .roleta-modal-card {
+	background: #1b262b;
+	border-color: #415d68;
+}
+
+html[data-theme="dark"] .roleta-modal-close {
+	background: #25363d;
+	border-color: #384f59;
+	color: #e5f1f5;
+}
+
+html[data-theme="dark"] .roleta-modal-info h2 {
+	color: #f8edd8;
+}
+
+html[data-theme="dark"] .roleta-modal-bounty {
+	background: #23343b;
+	border-color: #38505a;
+	color: #f7a474;
+}
+
+html[data-theme="dark"] .roleta-modal-desc {
+	color: #a4bcc2;
+}
+
+@media (max-width: 600px) {
+	.roleta-modal-grid {
+		grid-template-columns: 1fr;
+		text-align: center;
+		gap: 15px;
+	}
+	.roleta-modal-photo-wrap {
+		max-width: 170px;
+		margin: 0 auto;
+	}
+}

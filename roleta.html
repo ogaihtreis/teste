@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#d9f0f2">
 	<meta name="description" content="Gire a roleta de East Blue e descubra qual personagem vai cruzar seu caminho.">
-	<title>Roleta de personagens — One Piece</title>
+	<title>Roleta de Personagens — East Blue | One Piece</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Rye&display=swap" rel="stylesheet">
@@ -14,14 +14,15 @@
 	<script src="script.js" defer></script>
 </head>
 <body data-arc="east-blue">
+	<!-- HEADER COMPARTILHADO -->
 	<header class="site-header">
-		<a class="brand" href="#inicio" aria-label="Roleta de personagens, início">
+		<a class="brand" href="index.html" aria-label="East Blue, início">
 			<span class="brand-mark" aria-hidden="true">☠</span>
 			<span id="brand-name">EAST<span class="brand-light">BLUE</span></span>
 		</a>
 		<nav class="main-nav" aria-label="Navegação principal">
 			<a href="index.html">East Blue</a>
-			<a href="roleta.html" class="nav-active">Roleta</a>
+			<a href="jogos.html" class="nav-active">Jogos</a>
 		</nav>
 		<div class="header-actions">
 			<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo escuro" aria-pressed="false">
@@ -31,17 +32,18 @@
 	</header>
 
 	<div class="page-shell">
+		<div style="padding-top: 15px;">
+			<a href="jogos.html" style="font-size: 11px; font-weight: 700; color: #537985; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+				← Voltar para a Central de Jogos
+			</a>
+		</div>
+
 		<main id="inicio">
 			<section class="intro" aria-labelledby="page-title">
 				<p class="eyebrow"><span class="eyebrow-line"></span><span id="arc-eyebrow">EAST BLUE · O COMEÇO DA JORNADA</span></p>
 				<h1 id="page-title">Quem vai cruzar<br><span id="arc-heading">seu caminho no East Blue?</span></h1>
 				<p class="intro-copy" id="intro-copy">Gire a roleta e descubra qual pirata, marinheiro ou aventureiro vai embarcar na sua próxima jornada.</p>
 			</section>
-
-			<div class="arc-switch" role="group" aria-label="Escolha o arco da roleta">
-				<button class="arc-option is-active" type="button" data-arc-option="east-blue" aria-pressed="true">🌊 <span>East Blue</span></button>
-				<button class="arc-option" type="button" data-arc-option="wano" aria-pressed="false">🌸 <span>Wano</span></button>
-			</div>
 
 			<section class="game-layout" id="game-layout" aria-label="Roleta de personagens de East Blue">
 				<div class="wheel-column">
@@ -79,18 +81,46 @@
 		<footer class="footer"><span id="footer-message">QUE OS VENTOS DO EAST BLUE SOPREM A SEU FAVOR</span><span class="footer-flower" aria-hidden="true">☠</span><span>FEITO PARA AVENTUREIROS</span></footer>
 	</div>
 
+	<!-- MODAL POPUP DO PERSONAGEM SORTEADO -->
+	<div class="roleta-modal-overlay" id="roleta-modal" role="dialog" aria-modal="true">
+		<div class="roleta-modal-card">
+			<button class="roleta-modal-close" id="roleta-modal-close" aria-label="Fechar janela">✕</button>
+			<div class="roleta-kicker">✦ O DESTINO ESCOLHEU SEU PERSONAGEM ✦</div>
+			<div class="roleta-modal-grid">
+				<div class="roleta-modal-photo-wrap">
+					<img src="images/luffy.jpg" alt="" id="roleta-modal-img">
+				</div>
+				<div class="roleta-modal-info">
+					<h2 id="roleta-modal-name">Monkey D. Luffy</h2>
+					<span class="roleta-modal-epithet" id="roleta-modal-epithet">O Chapéu de Palha</span>
+					<div class="roleta-modal-bounty" id="roleta-modal-bounty">฿ 30.000.000</div>
+					<p class="roleta-modal-desc" id="roleta-modal-desc">
+						Descrição completa do personagem no arco East Blue.
+					</p>
+				</div>
+			</div>
+			<div class="roleta-modal-actions">
+				<button class="roleta-btn-spin-again" id="roleta-btn-spin-again">
+					⟳ Girar a Roleta Novamente
+				</button>
+			</div>
+		</div>
+	</div>
+
 	<script>
-		/* Theme toggle for roleta page */
+		/* Sincronização do tema escuro/claro */
 		const themeToggle = document.querySelector("#theme-toggle");
-		const themeIcon = themeToggle.querySelector(".theme-icon");
-		const themeLabel = themeToggle.querySelector(".theme-label");
+		const themeIcon = themeToggle?.querySelector(".theme-icon");
+		const themeLabel = themeToggle?.querySelector(".theme-label");
 
 		function setTheme(isDark) {
 			document.documentElement.dataset.theme = isDark ? "dark" : "light";
-			themeToggle.setAttribute("aria-pressed", String(isDark));
-			themeToggle.setAttribute("aria-label", isDark ? "Ativar modo claro" : "Ativar modo escuro");
-			themeIcon.textContent = isDark ? "☀" : "☾";
-			themeLabel.textContent = isDark ? "Modo claro" : "Modo escuro";
+			if (themeToggle) {
+				themeToggle.setAttribute("aria-pressed", String(isDark));
+				themeToggle.setAttribute("aria-label", isDark ? "Ativar modo claro" : "Ativar modo escuro");
+			}
+			if (themeIcon) themeIcon.textContent = isDark ? "☀" : "☾";
+			if (themeLabel) themeLabel.textContent = isDark ? "Modo claro" : "Modo escuro";
 		}
 
 		try {
@@ -99,14 +129,15 @@
 			setTheme(false);
 		}
 
-		themeToggle.addEventListener("click", () => {
-			const isDark = document.documentElement.dataset.theme !== "dark";
-			setTheme(isDark);
-			try {
-				localStorage.setItem("grand-line-theme", isDark ? "dark" : "light");
-			} catch {}
-		});
+		if (themeToggle) {
+			themeToggle.addEventListener("click", () => {
+				const isDark = document.documentElement.dataset.theme !== "dark";
+				setTheme(isDark);
+				try {
+					localStorage.setItem("grand-line-theme", isDark ? "dark" : "light");
+				} catch {}
+			});
+		}
 	</script>
 </body>
 </html>
-

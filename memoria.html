@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#f7f4ec">
+	<meta name="description" content="Jogo da Memória dos Piratas do East Blue: Encontre os pares dos cartazes de procurado com fotos em alta definição, cronômetro e recordes!">
+	<title>Jogo da Memória do East Blue — One Piece</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Rye&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="shared.css">
+	<link rel="stylesheet" href="memoria.css">
+	<script src="memoria.js" defer></script>
+	<script>
+		// Sincronização do tema escuro/claro
+		document.addEventListener("DOMContentLoaded", () => {
+			const themeToggle = document.querySelector("#theme-toggle");
+			const themeIcon = themeToggle?.querySelector(".theme-icon");
+			const themeLabel = themeToggle?.querySelector(".theme-label");
+
+			function setTheme(isDark) {
+				document.documentElement.dataset.theme = isDark ? "dark" : "light";
+				if (themeToggle) {
+					themeToggle.setAttribute("aria-pressed", String(isDark));
+					themeToggle.setAttribute("aria-label", isDark ? "Ativar modo claro" : "Ativar modo escuro");
+				}
+				if (themeIcon) themeIcon.textContent = isDark ? "☀" : "☾";
+				if (themeLabel) themeLabel.textContent = isDark ? "Modo claro" : "Modo escuro";
+			}
+
+			try {
+				setTheme(localStorage.getItem("grand-line-theme") === "dark");
+			} catch {
+				setTheme(false);
+			}
+
+			if (themeToggle) {
+				themeToggle.addEventListener("click", () => {
+					const isDark = document.documentElement.dataset.theme !== "dark";
+					setTheme(isDark);
+					try {
+						localStorage.setItem("grand-line-theme", isDark ? "dark" : "light");
+					} catch {}
+				});
+			}
+		});
+	</script>
+</head>
+<body>
+	<!-- CANVAS PARA AS EXPLOSÕES DE COMEMORAÇÃO DE RECORDE -->
+	<canvas id="fireworks-canvas"></canvas>
+
+	<!-- HEADER COMPARTILHADO -->
+	<header class="site-header">
+		<a class="brand" href="index.html" aria-label="East Blue, início">
+			<span class="brand-mark" aria-hidden="true">☠</span>
+			<span>EAST<span class="brand-light">BLUE</span></span>
+		</a>
+		<nav class="main-nav" aria-label="Navegação principal">
+			<a href="index.html">East Blue</a>
+			<a href="jogos.html" class="nav-active">Jogos</a>
+		</nav>
+		<div class="header-actions">
+			<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo escuro" aria-pressed="false">
+				<span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Modo escuro</span>
+			</button>
+		</div>
+	</header>
+
+	<!-- BARRA DE VOLTA -->
+	<div class="game-top-bar">
+		<a href="jogos.html" class="back-link">
+			← Voltar para a Central de Jogos
+		</a>
+	</div>
+
+	<!-- HERO DO JOGO -->
+	<section class="memory-hero">
+		<h1>Jogo da Memória dos <span>Piratas</span></h1>
+		<p>
+			Vire as cartas náuticas e encontre os pares de cartazes de procurado dos lendários marinheiros e piratas do East Blue. 
+			Quanto mais rápido e com menos jogadas você terminar, maior será a sua honra nos mares!
+		</p>
+	</section>
+
+	<!-- CONTROLES DE DIFICULDADE -->
+	<div class="diff-controls" role="group" aria-label="Escolher dificuldade do jogo">
+		<button class="diff-btn" data-diff="easy">Fácil (6 Pares)</button>
+		<button class="diff-btn active" data-diff="medium">Médio (8 Pares)</button>
+		<button class="diff-btn" data-diff="hard">Difícil (12 Pares)</button>
+	</div>
+
+	<!-- PLACAR DE PONTUAÇÃO & RECORDES -->
+	<div class="memory-scoreboard-wrap">
+		<div class="memory-scoreboard">
+			<div class="score-item">
+				<span class="score-label">⏱️ Tempo</span>
+				<div class="score-value timer" id="timer-display">00:00</div>
+			</div>
+			<div class="score-item">
+				<span class="score-label">🔄 Movimentos</span>
+				<div class="score-value" id="moves-display">0</div>
+			</div>
+			<div class="score-item">
+				<span class="score-label">🎯 Pares</span>
+				<div class="score-value" id="pairs-display">0 / 8</div>
+			</div>
+			<div class="score-item">
+				<span class="score-label">🏆 Recorde</span>
+				<div class="score-value record" id="record-display">--:--</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- TABULEIRO DE CARTAS -->
+	<main class="board-section">
+		<div class="board-action-bar">
+			<span class="board-hint-text">✦ Clique em duas cartas para encontrar o par</span>
+			<button class="btn-restart" id="btn-restart">
+				🔄 Embaralhar Cartas
+			</button>
+		</div>
+		<div class="memory-grid grid-medium" id="memory-grid"></div>
+	</main>
+
+	<!-- MODAL DE VITÓRIA / NOVO RECORDE -->
+	<div class="victory-modal-overlay" id="victory-modal" role="dialog" aria-modal="true">
+		<div class="victory-card">
+			<div class="victory-badge-top" id="victory-badge">🏆 VITÓRIA NOS MARES!</div>
+			<h2 id="victory-title">PARABÉNS! VOCÊ BATEU O RECORDE!</h2>
+			<p id="victory-desc">
+				Você encontrou todos os pares de piratas!
+			</p>
+			<div class="victory-stats-grid">
+				<div class="v-stat highlight">
+					<strong>Tempo Total</strong>
+					<span id="victory-time">00:00</span>
+				</div>
+				<div class="v-stat">
+					<strong>Movimentos</strong>
+					<span id="victory-moves">0</span>
+				</div>
+				<div class="v-stat">
+					<strong>Melhor Tempo</strong>
+					<span id="victory-record">00:00</span>
+				</div>
+			</div>
+			<div class="victory-actions">
+				<button class="btn-restart" id="btn-play-again" style="padding:12px 24px; font-size:13px;">
+					🔄 Jogar Novamente
+				</button>
+				<a href="jogos.html" class="btn-restart" style="padding:12px 20px; font-size:13px; text-decoration:none; background:var(--navy);">
+					← Central de Jogos
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- FOOTER -->
+	<footer class="site-footer" style="margin-top:auto;">
+		<a class="brand footer-brand" href="index.html">
+			<span class="brand-mark" aria-hidden="true">☠</span>
+			<span>EAST<span class="brand-light">BLUE</span></span>
+		</a>
+		<p>Jogo da Memória do East Blue — Teste sua mente nos mares de One Piece.</p>
+		<a href="#" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;" class="back-top">VOLTAR AO TOPO ↑</a>
+	</footer>
+</body>
+</html>
+

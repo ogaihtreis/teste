@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#f7f4ec">
+	<meta name="description" content="Central de Jogos do East Blue: Gire a Roleta dos Piratas, enfrente o desafio do Caça-Palavras ou teste sua mente no Jogo da Memória!">
+	<title>Jogos do East Blue — One Piece</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Rye&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="shared.css">
+	<link rel="stylesheet" href="jogos.css">
+	<script>
+		// Sincronização do tema escuro/claro
+		document.addEventListener("DOMContentLoaded", () => {
+			const themeToggle = document.querySelector("#theme-toggle");
+			const themeIcon = themeToggle?.querySelector(".theme-icon");
+			const themeLabel = themeToggle?.querySelector(".theme-label");
+
+			function setTheme(isDark) {
+				document.documentElement.dataset.theme = isDark ? "dark" : "light";
+				if (themeToggle) {
+					themeToggle.setAttribute("aria-pressed", String(isDark));
+					themeToggle.setAttribute("aria-label", isDark ? "Ativar modo claro" : "Ativar modo escuro");
+				}
+				if (themeIcon) themeIcon.textContent = isDark ? "☀" : "☾";
+				if (themeLabel) themeLabel.textContent = isDark ? "Modo claro" : "Modo escuro";
+			}
+
+			try {
+				setTheme(localStorage.getItem("grand-line-theme") === "dark");
+			} catch {
+				setTheme(false);
+			}
+
+			if (themeToggle) {
+				themeToggle.addEventListener("click", () => {
+					const isDark = document.documentElement.dataset.theme !== "dark";
+					setTheme(isDark);
+					try {
+						localStorage.setItem("grand-line-theme", isDark ? "dark" : "light");
+					} catch {}
+				});
+			}
+		});
+	</script>
+</head>
+<body>
+	<!-- HEADER COMPARTILHADO -->
+	<header class="site-header">
+		<a class="brand" href="index.html" aria-label="East Blue, início">
+			<span class="brand-mark" aria-hidden="true">☠</span>
+			<span>EAST<span class="brand-light">BLUE</span></span>
+		</a>
+		<nav class="main-nav" aria-label="Navegação principal">
+			<a href="index.html">East Blue</a>
+			<a href="jogos.html" class="nav-active">Jogos</a>
+		</nav>
+		<div class="header-actions">
+			<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo escuro" aria-pressed="false">
+				<span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Modo escuro</span>
+			</button>
+		</div>
+	</header>
+
+	<!-- HERO DE JOGOS -->
+	<section class="jogos-hero">
+		<div class="hero-tag">
+			<span class="dot"></span>
+			Taverna dos Jogos Piratas
+		</div>
+		<h1>Minigames do <span>East Blue</span></h1>
+		<p>
+			Desafie a sorte dos mares ou teste sua percepção e agilidade mental! 
+			Escolha um dos jogos abaixo e mostre que você tem a coragem e a astúcia de um verdadeiro marujo.
+		</p>
+	</section>
+
+	<!-- GRID DE JOGOS -->
+	<main class="jogos-container">
+		<div class="jogos-grid">
+			<!-- CARD 1: ROLETA -->
+			<a href="roleta.html" class="game-hub-card">
+				<div class="game-card-banner roleta">
+					<span class="badge-floating">SORTE & DESTINO</span>
+					<div class="banner-icon-large">🎡</div>
+				</div>
+				<div class="game-card-content">
+					<div>
+						<h2>Roleta de Personagens</h2>
+						<span class="game-subtitle">East Blue · Gire a Sorte</span>
+						<p>
+							Gire a grande roleta dos mares e veja a foto com a história completa do personagem saltar na tela quando o destino parar!
+						</p>
+						<div class="game-tags">
+							<span class="tag-pill">🎯 12 Personagens</span>
+							<span class="tag-pill">📸 Foto & Pop-up</span>
+							<span class="tag-pill">🌊 100% East Blue</span>
+						</div>
+					</div>
+					<div class="btn-play-game">
+						Girar a Roleta <span>→</span>
+					</div>
+				</div>
+			</a>
+
+			<!-- CARD 2: CAÇA-PALAVRAS -->
+			<a href="cacapalavras.html" class="game-hub-card">
+				<div class="game-card-banner cacapalavras">
+					<span class="badge-floating">AGILIDADE & RECORDE</span>
+					<div class="banner-icon-large">🧩</div>
+				</div>
+				<div class="game-card-content">
+					<div>
+						<h2>Caça-Palavras Pirata</h2>
+						<span class="game-subtitle">Banco de 30 Palavras · Aleatório</span>
+						<p>
+							Encontre os nomes de personagens, ilhas e tesouros espalhados na grade. Corra contra o relógio e bata o recorde para explodir fogos na tela!
+						</p>
+						<div class="game-tags">
+							<span class="tag-pill">📜 Grade Aleatória</span>
+							<span class="tag-pill">⏱️ Cronômetro & Recorde</span>
+							<span class="tag-pill">🎆 Explosões de Vitória</span>
+						</div>
+					</div>
+					<div class="btn-play-game">
+						Jogar Caça-Palavras <span>→</span>
+					</div>
+				</div>
+			</a>
+
+			<!-- CARD 3: JOGO DA MEMÓRIA -->
+			<a href="memoria.html" class="game-hub-card">
+				<div class="game-card-banner memoria">
+					<span class="badge-floating">MEMÓRIA & CONCENTRAÇÃO</span>
+					<div class="banner-icon-large">🃏</div>
+				</div>
+				<div class="game-card-content">
+					<div>
+						<h2>Jogo da Memória Pirata</h2>
+						<span class="game-subtitle">Cartazes WANTED · 3 Níveis</span>
+						<p>
+							Vire as cartas náuticas e encontre os pares dos piratas e marinheiros do East Blue com fotos em alta definição e contagem de movimentos!
+						</p>
+						<div class="game-tags">
+							<span class="tag-pill">🃏 6, 8 ou 12 Pares</span>
+							<span class="tag-pill">📸 Fotos em HD</span>
+							<span class="tag-pill">🏆 Recorde por Dificuldade</span>
+						</div>
+					</div>
+					<div class="btn-play-game">
+						Jogar Memória <span>→</span>
+					</div>
+				</div>
+			</a>
+		</div>
+	</main>
+
+	<!-- FOOTER -->
+	<footer class="site-footer" style="margin-top:auto;">
+		<a class="brand footer-brand" href="index.html">
+			<span class="brand-mark" aria-hidden="true">☠</span>
+			<span>EAST<span class="brand-light">BLUE</span></span>
+		</a>
+		<p>Jogos do East Blue — Divirta-se nos mares de One Piece.</p>
+		<a href="#" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;" class="back-top">VOLTAR AO TOPO ↑</a>
+	</footer>
+</body>
+</html>

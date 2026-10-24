@@ -1,63 +1,130 @@
-const arcs = {
-	"east-blue": {
-		name: "East Blue",
-		brand: 'EAST<span class="brand-highlight">BLUE</span>',
-		heading: "seu caminho no East Blue?",
-		eyebrow: "EAST BLUE · O COMEÇO DA JORNADA",
-		intro: "Gire a roleta e descubra qual pirata, marinheiro ou aventureiro vai embarcar na sua próxima jornada.",
-		panel: "SEU DESTINO NO EAST BLUE",
-		list: "A TRIPULAÇÃO POSSÍVEL",
-		footerLeft: "☼ VENTOS FAVORÁVEIS",
-		footerRight: "MAR DO LESTE",
-		footerMessage: "QUE OS VENTOS DO EAST BLUE SOPREM A SEU FAVOR",
-		spinMessage: "As correntes do East Blue estão escolhendo seu personagem.",
-		textColor: "#163b4b",
-		borderColor: "#e5f5ef",
-		characters: [
-			{ name: "Monkey D. Luffy", role: "O capitão que sonha em ser o Rei dos Piratas", color: "#f0bd69", icon: "☠" },
-			{ name: "Roronoa Zoro", role: "O espadachim que busca ser o melhor do mundo", color: "#69a68d", icon: "⚔" },
-			{ name: "Nami", role: "A navegadora que sonha mapear o mundo", color: "#f29a57", icon: "✦" },
-			{ name: "Sanji", role: "O cozinheiro em busca do All Blue", color: "#e5cf91", icon: "♨" },
-			{ name: "Usopp", role: "O atirador rumo ao sonho de ser um bravo guerreiro", color: "#81b8a3", icon: "◎" },
-			{ name: "Shanks", role: "O lendário capitão dos Piratas do Ruivo", color: "#d96d56", icon: "✶" },
-			{ name: "Koby", role: "O jovem marinheiro que acredita nos próprios sonhos", color: "#8cc5d0", icon: "⚓" },
-			{ name: "Helmeppo", role: "O oficial da Marinha em transformação", color: "#7b9fbe", icon: "✦" },
-			{ name: "Buggy", role: "O pirata palhaço com grandes ambições", color: "#cf6a72", icon: "☠" },
-			{ name: "Arlong", role: "O temido capitão dos Piratas Arlong", color: "#548a9c", icon: "波" },
-			{ name: "Mihawk", role: "O maior espadachim do mundo", color: "#8c83a8", icon: "⚔" },
-			{ name: "Smoker", role: "O implacável capitão da Marinha", color: "#7896a6", icon: "⚓" },
-		],
+/**
+ * Roleta de Personagens do East Blue - One Piece
+ * Sorteio com roda animada e pop-up de revelação com foto e história.
+ */
+
+const characters = [
+	{
+		name: "Monkey D. Luffy",
+		epithet: "Luffy do Chapéu de Palha",
+		bounty: "฿ 30.000.000",
+		role: "Capitão dos Chapéus de Palha",
+		color: "#f0bd69",
+		icon: "☠",
+		image: "images/luffy.jpg",
+		description: "O jovem destemido que comeu a Gomu Gomu no Mi e recebeu o Chapéu de Palha de Shanks. No East Blue, reuniu seus companheiros e libertou ilhas inteiras de grandes tiranos, conquistando a maior recompensa inicial da história do mar do leste!"
 	},
-	wano: {
-		name: "Wano",
-		brand: 'WANO<span class="brand-highlight">LUCK</span>',
-		heading: "seu caminho em Wano?",
-		eyebrow: "PAÍS DE WANO · TERRA DOS SAMURAIS",
-		intro: "Gire a roleta e deixe os ventos de Wano escolherem quem vai cruzar seu caminho nesta aventura.",
-		panel: "SEU DESTINO EM WANO",
-		list: "PERSONAGENS DE WANO",
-		footerLeft: "風 · VENTO DA SORTE",
-		footerRight: "WANO KUNI",
-		footerMessage: "QUE OS VENTOS DE WANO SOPREM A SEU FAVOR",
-		spinMessage: "Os ventos de Wano estão escolhendo seu personagem.",
-		textColor: "#fff1d7",
-		borderColor: "#f2d8a3",
-		characters: [
-			{ name: "Monkey D. Luffy", role: "O capitão que desafia Kaido e sonha ser Rei dos Piratas", color: "#b8423d", icon: "☠" },
-			{ name: "Roronoa Zoro", role: "O samurai de três espadas dos Chapéus de Palha", color: "#487267", icon: "⚔" },
-			{ name: "Nami", role: "A navegadora que enfrenta os perigos de Onigashima", color: "#dd8a53", icon: "✦" },
-			{ name: "Sanji", role: "O cozinheiro que luta para proteger sua tripulação", color: "#d0a455", icon: "♨" },
-			{ name: "Nico Robin", role: "A arqueóloga em busca dos segredos dos Poneglyphs", color: "#795675", icon: "✿" },
-			{ name: "Usopp", role: "O atirador e bravo guerreiro do mar", color: "#a87943", icon: "◎" },
-			{ name: "Tony Tony Chopper", role: "O médico de nariz azul da tripulação", color: "#668b9a", icon: "✚" },
-			{ name: "Franky", role: "O carpinteiro super dos Chapéus de Palha", color: "#4c7392", icon: "★" },
-			{ name: "Brook", role: "O músico que voltou do além", color: "#756b87", icon: "♫" },
-			{ name: "Jinbe", role: "O timoneiro dos Chapéus de Palha", color: "#4d7180", icon: "波" },
-			{ name: "Yamato", role: "A grande aliada que luta pela liberdade de Wano", color: "#b55451", icon: "❋" },
-			{ name: "Kaido", role: "O temido Governador-Geral dos Piratas das Feras", color: "#684052", icon: "龍" },
-		],
+	{
+		name: "Roronoa Zoro",
+		epithet: "O Caçador de Piratas",
+		bounty: "Mestre do Santoryu",
+		role: "Espadachim / Combatente",
+		color: "#69a68d",
+		icon: "⚔",
+		image: "images/zoro.jpg",
+		description: "Mestre do estilo das três espadas, Zoro jurou à falecida Kuina que se tornaria o maior espadachim do mundo. Foi o primeiro a entrar no bando de Luffy e jurou em lágrimas nunca mais perder até alcançar seu objetivo."
 	},
-};
+	{
+		name: "Nami",
+		epithet: "A Gata Ladra",
+		bounty: "Mapeadora Genial",
+		role: "Navegadora",
+		color: "#f29a57",
+		icon: "✦",
+		image: "images/nami.jpg",
+		description: "Especialista excepcional em clima e mapas marítimos. Suportou anos de sofrimento sob o domínio de Arlong para salvar a Vila Cocoyasi. Libertada por Luffy e seus amigos, tornou-se a navegadora oficial rumo ao sonho de desenhar o mapa-múndi."
+	},
+	{
+		name: "Sanji",
+		epithet: "Perna Negra",
+		bounty: "Chef de Primeira Classe",
+		role: "Cozinheiro",
+		color: "#e5cf91",
+		icon: "♨",
+		image: "images/sanji.jpg",
+		description: "Sous-chef do restaurante flutuante Baratie, treinado por Zeff da Perna Vermelha. Segue a honra de nunca negar comida a quem tem fome e jamais usar as mãos em combate, sonhando em descobrir o lendário mar All Blue."
+	},
+	{
+		name: "Usopp",
+		epithet: "O Bravo Guerreiro",
+		bounty: "Atirador de Elite",
+		role: "Atirador / Inventor",
+		color: "#81b8a3",
+		icon: "◎",
+		image: "images/usopp.jpg",
+		description: "Filho do pirata Yasopp e contador de histórias da Vila Syrup. Protegeu sua aldeia e sua amiga Kaya da invasão do Capitão Kuro, presenteando o bando com o Going Merry e partindo para virar um herói valoroso dos oceanos."
+	},
+	{
+		name: "Shanks",
+		epithet: "O Ruivo (Akagami)",
+		bounty: "Imperador dos Mares",
+		role: "Capitão dos Piratas do Ruivo",
+		color: "#d96d56",
+		icon: "✶",
+		image: "images/shanks.jpg",
+		description: "O grande pirata que ancorou na Vila Foosha e acendeu no peito de Luffy a chama da verdadeira liberdade dos mares. Sacrificou seu braço esquerdo para salvar o garoto e confiou-lhe seu sagrado Chapéu de Palha."
+	},
+	{
+		name: "Koby",
+		epithet: "O Jovem Sonhador",
+		bounty: "Recruta da Marinha",
+		role: "Marinheiro Aprendiz",
+		color: "#8cc5d0",
+		icon: "⚓",
+		image: "images/koby.jpg",
+		description: "Um grumete tímido e aprisionado no navio de Alvida. Ao presenciar a determinação de Luffy, tomou coragem para perseguir seu sonho secreto: alistar-se na Marinha com a meta de um dia tornar-se um Almirante da Justiça."
+	},
+	{
+		name: "Helmeppo",
+		epithet: "O Filho do Tirano",
+		bounty: "Aprendiz da Marinha",
+		role: "Soldado em Treinamento",
+		color: "#7b9fbe",
+		icon: "✦",
+		image: "images/helmeppo.jpg",
+		description: "Filho mimado do corrupto Capitão Morgan em Shells Town. Após a queda de seu pai, foi confrontado com o mundo real e iniciou uma trajetória de disciplina e crescimento na Marinha ao lado de Koby."
+	},
+	{
+		name: "Buggy",
+		epithet: "O Palhaço Estrela",
+		bounty: "฿ 15.000.000",
+		role: "Capitão dos Piratas do Buggy",
+		color: "#cf6a72",
+		icon: "☠",
+		image: "images/buggy.jpg",
+		description: "Ex-aprendiz do Rei dos Piratas Gol D. Roger e mestre da Bara Bara no Mi, com poder de dividir e levitar seu corpo. Enfrentou Luffy em Orange Town e quase o decapitou no cadafalso de Loguetown antes de ser atingido por um raio."
+	},
+	{
+		name: "Arlong",
+		epithet: "Dente de Serra",
+		bounty: "฿ 20.000.000",
+		role: "Capitão dos Piratas do Arlong",
+		color: "#548a9c",
+		icon: "波",
+		image: "images/arlong.jpg",
+		description: "O implacável homem-peixe tubarão-serra que dominou as Ilhas Conomi por quase uma década impondo tributos cruéis. Foi derrotado no clímax do arco quando Luffy demoliu todo o Arlong Park com seu machado elástico."
+	},
+	{
+		name: "Mihawk",
+		epithet: "Olhos de Gavião",
+		bounty: "Maior Espadachim do Mundo",
+		role: "Shichibukai Lendário",
+		color: "#8c83a8",
+		icon: "⚔",
+		image: "images/mihawk.jpg",
+		description: "O soberano espadachim solitário portador da espada negra Yoru. No Baratie, destruiu galeões inteiros por passatempo e reconheceu o espírito indomável de Zoro, desafiando-o a superá-lo no futuro."
+	},
+	{
+		name: "Smoker",
+		epithet: "O Caçador Branco",
+		bounty: "Capitão do QG da Marinha",
+		role: "Comandante de Loguetown",
+		color: "#7896a6",
+		icon: "⚓",
+		image: "images/smoker.jpg",
+		description: "O implacável oficial naval encarregado de Loguetown, a cidade de onde nenhum pirata jamais havia conseguido fugir. Com os poderes de fumaça da Moku Moku no Mi, persegue obstinadamente Luffy até a Grand Line."
+	}
+];
 
 const canvas = document.querySelector("#wheel-canvas");
 const context = canvas.getContext("2d");
@@ -67,9 +134,17 @@ const buttonLabel = document.querySelector("#button-label");
 const resultName = document.querySelector("#result-name");
 const resultDescription = document.querySelector("#result-description");
 const characterList = document.querySelector("#character-list");
-const arcOptions = [...document.querySelectorAll("[data-arc-option]")];
-let activeArc = "east-blue";
-let characters = arcs[activeArc].characters;
+
+// Modal Elements
+const roletaModal = document.querySelector("#roleta-modal");
+const modalImg = document.querySelector("#roleta-modal-img");
+const modalName = document.querySelector("#roleta-modal-name");
+const modalEpithet = document.querySelector("#roleta-modal-epithet");
+const modalBounty = document.querySelector("#roleta-modal-bounty");
+const modalDesc = document.querySelector("#roleta-modal-desc");
+const modalCloseBtn = document.querySelector("#roleta-modal-close");
+const modalSpinAgainBtn = document.querySelector("#roleta-btn-spin-again");
+
 let currentRotation = 0;
 let isSpinning = false;
 
@@ -78,7 +153,6 @@ function drawWheel() {
 	const center = size / 2;
 	const radius = center - 7;
 	const segmentAngle = (Math.PI * 2) / characters.length;
-	const arc = arcs[activeArc];
 	context.clearRect(0, 0, size, size);
 
 	characters.forEach((character, index) => {
@@ -92,7 +166,7 @@ function drawWheel() {
 		context.closePath();
 		context.fillStyle = character.color;
 		context.fill();
-		context.strokeStyle = arc.borderColor;
+		context.strokeStyle = "#e5f5ef";
 		context.lineWidth = 3;
 		context.stroke();
 
@@ -101,8 +175,8 @@ function drawWheel() {
 		context.rotate(middleAngle);
 		context.textAlign = "center";
 		context.textBaseline = "middle";
-		context.fillStyle = arc.textColor;
-		context.shadowColor = activeArc === "wano" ? "#1a1014aa" : "#ffffff66";
+		context.fillStyle = "#163b4b";
+		context.shadowColor = "#ffffff66";
 		context.shadowBlur = 5;
 		context.font = "bold 37px 'DM Sans', sans-serif";
 		context.fillText(character.icon, radius * 0.69, -13);
@@ -114,7 +188,7 @@ function drawWheel() {
 
 	context.beginPath();
 	context.arc(center, center, radius - 4, 0, Math.PI * 2);
-	context.strokeStyle = arc.borderColor;
+	context.strokeStyle = "#e5f5ef";
 	context.lineWidth = 5;
 	context.stroke();
 }
@@ -131,63 +205,31 @@ function renderCharacterList() {
 	}));
 }
 
-function setArc(arcName) {
-	if (isSpinning || !arcs[arcName]) return;
+function openCharacterModal(character) {
+	modalImg.src = character.image;
+	modalImg.alt = character.name;
+	modalName.textContent = character.name;
+	modalEpithet.textContent = character.epithet;
+	modalBounty.textContent = character.bounty;
+	modalDesc.textContent = character.description;
 
-	activeArc = arcName;
-	characters = arcs[activeArc].characters;
-	const arc = arcs[activeArc];
-	document.body.dataset.arc = activeArc;
-	document.title = `${arc.name} — Roleta de personagens`;
-	document.querySelector('meta[name="theme-color"]').content = activeArc === "wano" ? "#261b22" : "#d9f0f2";
-	document.querySelector('meta[name="description"]').content = `Gire a roleta de ${arc.name} e descubra qual personagem vai cruzar seu caminho.`;
-	const brandNameEl = document.querySelector("#brand-name");
-	if (brandNameEl) brandNameEl.innerHTML = arc.brand;
-	document.querySelector(".brand").setAttribute("aria-label", `Roleta de ${arc.name}, início`);
-	document.querySelector("#arc-eyebrow").textContent = arc.eyebrow;
-	document.querySelector("#arc-heading").textContent = arc.heading;
-	document.querySelector("#intro-copy").textContent = arc.intro;
-	document.querySelector("#game-layout").setAttribute("aria-label", `Roleta de personagens de ${arc.name}`);
-	canvas.setAttribute("aria-label", `Roleta com doze personagens de ${arc.name}`);
-	document.querySelector("#panel-title").textContent = arc.panel;
-	document.querySelector("#panel-footer-left").textContent = arc.footerLeft;
-	document.querySelector("#panel-footer-right").textContent = arc.footerRight;
-	document.querySelector("#list-title").textContent = arc.list;
-	document.querySelector("#footer-message").textContent = arc.footerMessage;
-	document.querySelector(".footer-flower").textContent = activeArc === "wano" ? "✿" : "☠";
-	document.querySelector("#spin-caption").textContent = `12 personagens estão a bordo. Boa sorte${activeArc === "wano" ? " na jornada" : ", marujo"}!`;
-	resultName.innerHTML = "O destino<br>está esperando.";
-	resultDescription.textContent = "Aperte o botão no centro da roleta e descubra quem a sorte escolheu.";
-	buttonLabel.textContent = "GIRAR";
-	spinButton.setAttribute("aria-label", "Girar a roleta");
-	arcOptions.forEach((option) => {
-		const isActive = option.dataset.arcOption === activeArc;
-		option.classList.toggle("is-active", isActive);
-		option.setAttribute("aria-pressed", String(isActive));
-	});
-	currentRotation = 0;
-	wheel.style.transitionDuration = "0ms";
-	wheel.style.transform = "rotate(0deg)";
-	requestAnimationFrame(() => { wheel.style.transitionDuration = "5200ms"; });
-	drawWheel();
-	renderCharacterList();
-	try {
-		localStorage.setItem("one-piece-wheel-arc", activeArc);
-	} catch {
-		// A alternância continua disponível sem armazenamento local.
-	}
+	roletaModal.classList.add("is-open");
+}
+
+function closeCharacterModal() {
+	roletaModal.classList.remove("is-open");
 }
 
 function spin() {
 	if (isSpinning) return;
 
+	closeCharacterModal();
 	isSpinning = true;
 	spinButton.disabled = true;
-	arcOptions.forEach((option) => { option.disabled = true; });
 	spinButton.setAttribute("aria-label", "Sorteando personagem");
 	buttonLabel.textContent = "GIRANDO";
 	resultName.innerHTML = "O destino<br>está girando…";
-	resultDescription.textContent = arcs[activeArc].spinMessage;
+	resultDescription.textContent = "As correntes do East Blue estão escolhendo seu personagem.";
 
 	const selectedIndex = Math.floor(Math.random() * characters.length);
 	const selectedCharacter = characters[selectedIndex];
@@ -203,27 +245,43 @@ function spin() {
 
 	window.setTimeout(() => {
 		resultName.textContent = selectedCharacter.name;
-		resultDescription.textContent = selectedCharacter.role;
+		resultDescription.textContent = selectedCharacter.description;
 		buttonLabel.textContent = "GIRAR";
 		spinButton.setAttribute("aria-label", "Girar novamente");
 		spinButton.disabled = false;
-		arcOptions.forEach((option) => { option.disabled = false; });
 		isSpinning = false;
-	}, transitionTime + 100);
+
+		// A foto e descrição pulam na tela via modal animado!
+		openCharacterModal(selectedCharacter);
+	}, transitionTime + 150);
 }
 
-arcOptions.forEach((option) => {
-	option.addEventListener("click", () => setArc(option.dataset.arcOption));
-});
+// Event Listeners
 spinButton.addEventListener("click", spin);
 
-try {
-	const savedArc = localStorage.getItem("one-piece-wheel-arc");
-	if (savedArc && arcs[savedArc]) activeArc = savedArc;
-} catch {
-	// East Blue é o arco padrão se o armazenamento local estiver indisponível.
+if (modalCloseBtn) {
+	modalCloseBtn.addEventListener("click", closeCharacterModal);
 }
 
+if (modalSpinAgainBtn) {
+	modalSpinAgainBtn.addEventListener("click", () => {
+		closeCharacterModal();
+		setTimeout(spin, 250);
+	});
+}
+
+if (roletaModal) {
+	roletaModal.addEventListener("click", (e) => {
+		if (e.target === roletaModal) closeCharacterModal();
+	});
+}
+
+document.addEventListener("keydown", (e) => {
+	if (e.key === "Escape" && roletaModal?.classList.contains("is-open")) {
+		closeCharacterModal();
+	}
+});
+
+// Inicialização
 drawWheel();
 renderCharacterList();
-if (activeArc !== "east-blue") setArc(activeArc);

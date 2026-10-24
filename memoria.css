@@ -1,0 +1,609 @@
+/* ===== JOGO DA MEMÓRIA EAST BLUE STYLES ===== */
+:root {
+	--ink: #162a33;
+	--ink-light: #2c424c;
+	--muted: #647577;
+	--cream: #f7f4ec;
+	--cream-dark: #eee8d8;
+	--paper: #fffdf8;
+	--orange: #eb743b;
+	--orange-light: #f59664;
+	--orange-dark: #cc541d;
+	--gold: #d89f4b;
+	--gold-light: #eed193;
+	--navy: #123c4a;
+	--navy-dark: #0b252e;
+	--red: #c94336;
+	--green: #2e8b57;
+	--card-border: #e3dcce;
+	--shadow-card: 0 15px 35px rgba(18, 60, 74, 0.12);
+}
+
+body {
+	margin: 0;
+	background: var(--cream);
+	color: var(--ink);
+	font-family: "DM Sans", sans-serif;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	overflow-x: hidden;
+}
+
+body::before {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	content: "";
+	pointer-events: none;
+	opacity: 0.15;
+	background-image: radial-gradient(#d3955c 0.7px, transparent 0.7px);
+	background-size: 8px 8px;
+}
+
+.game-top-bar {
+	max-width: 1220px;
+	margin: 0 auto;
+	padding: 15px 7.2% 0;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.back-link {
+	font-size: 11px;
+	font-weight: 700;
+	color: #537985;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	transition: color 0.2s ease;
+}
+
+.back-link:hover {
+	color: var(--orange);
+}
+
+/* Hero */
+.memory-hero {
+	padding: 25px 7.2% 20px;
+	text-align: center;
+}
+
+.memory-hero h1 {
+	font-family: "Rye", Georgia, serif;
+	font-size: clamp(28px, 3.8vw, 44px);
+	margin: 0 0 10px;
+	color: var(--ink);
+}
+
+.memory-hero h1 span {
+	color: var(--orange);
+}
+
+.memory-hero p {
+	font-size: 14px;
+	color: var(--muted);
+	max-width: 620px;
+	margin: 0 auto;
+	line-height: 1.6;
+}
+
+/* Controles de Dificuldade */
+.diff-controls {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 22px;
+	flex-wrap: wrap;
+}
+
+.diff-btn {
+	padding: 8px 18px;
+	border-radius: 999px;
+	border: 1px solid #d4c8ad;
+	background: #fff;
+	color: var(--ink-light);
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.diff-btn:hover {
+	border-color: var(--orange);
+	color: var(--orange-dark);
+}
+
+.diff-btn.active {
+	background: var(--navy);
+	border-color: var(--navy);
+	color: #fff;
+	box-shadow: 0 4px 12px rgba(18, 60, 74, 0.25);
+}
+
+/* Placar de Jogo */
+.memory-scoreboard-wrap {
+	max-width: 1150px;
+	margin: 0 auto 25px;
+	padding: 0 7.2%;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.memory-scoreboard {
+	background: var(--paper);
+	border: 2px solid var(--card-border);
+	border-radius: 14px;
+	padding: 16px 24px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 15px;
+	box-shadow: 0 8px 24px rgba(18, 60, 74, 0.08);
+	align-items: center;
+}
+
+.score-item {
+	text-align: center;
+	border-right: 1px dashed #ded4be;
+	padding-right: 15px;
+}
+
+.score-item:last-child {
+	border-right: none;
+	padding-right: 0;
+}
+
+.score-label {
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	color: var(--muted);
+	text-transform: uppercase;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	margin-bottom: 4px;
+}
+
+.score-value {
+	font-family: "Rye", Georgia, serif;
+	font-size: 24px;
+	color: var(--navy);
+	line-height: 1.2;
+}
+
+.score-value.timer {
+	color: var(--orange-dark);
+}
+
+.score-value.record {
+	color: var(--red);
+}
+
+/* Tabuleiro das Cartas */
+.board-section {
+	max-width: 1150px;
+	margin: 0 auto;
+	padding: 0 7.2% 60px;
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex: 1;
+}
+
+.board-action-bar {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 18px;
+}
+
+.btn-restart {
+	padding: 9px 18px;
+	border-radius: 8px;
+	background: var(--orange);
+	color: #fff;
+	border: none;
+	font-size: 12px;
+	font-weight: 800;
+	cursor: pointer;
+	box-shadow: 0 6px 16px rgba(235, 116, 59, 0.3);
+	transition: all 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.btn-restart:hover {
+	background: var(--orange-dark);
+	transform: translateY(-2px);
+}
+
+.board-hint-text {
+	font-size: 12px;
+	color: var(--muted);
+	font-weight: 600;
+}
+
+/* Grid das Cartas */
+.memory-grid {
+	display: grid;
+	gap: 16px;
+	width: 100%;
+	max-width: 980px;
+	justify-content: center;
+	perspective: 1000px;
+}
+
+/* Modos de Grid por Dificuldade */
+.memory-grid.grid-easy {
+	grid-template-columns: repeat(4, 1fr);
+	max-width: 720px;
+}
+
+.memory-grid.grid-medium {
+	grid-template-columns: repeat(4, 1fr);
+	max-width: 780px;
+}
+
+.memory-grid.grid-hard {
+	grid-template-columns: repeat(6, 1fr);
+	max-width: 980px;
+}
+
+/* Elemento da Carta */
+.memory-card {
+	aspect-ratio: 3 / 4;
+	position: relative;
+	cursor: pointer;
+	user-select: none;
+}
+
+.card-inner {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	transform-style: preserve-3d;
+	border-radius: 12px;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.memory-card.is-flipped .card-inner {
+	transform: rotateY(180deg);
+}
+
+.card-face {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	border-radius: 12px;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+/* Verso da Carta (Costas) */
+.card-back {
+	background: linear-gradient(145deg, #24414e, #132b35);
+	border: 3px solid #dfc79b;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: #eed193;
+	padding: 10px;
+}
+
+.card-back::before {
+	content: "";
+	position: absolute;
+	inset: 4px;
+	border: 1px dashed rgba(238, 209, 147, 0.4);
+	border-radius: 8px;
+	pointer-events: none;
+}
+
+.card-back .skull-icon {
+	font-size: clamp(26px, 3.5vw, 42px);
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+	margin-bottom: 4px;
+}
+
+.card-back .back-title {
+	font-family: "Rye", Georgia, serif;
+	font-size: clamp(8px, 1.1vw, 11px);
+	letter-spacing: 0.15em;
+	color: #ffeed3;
+	text-transform: uppercase;
+}
+
+/* Frente da Carta (Personagem) */
+.card-front {
+	background: #fbf7ec;
+	border: 3px solid #d8b87e;
+	transform: rotateY(180deg);
+	display: flex;
+	flex-direction: column;
+	padding: 6px;
+}
+
+.card-front-wanted {
+	font-family: "Rye", Georgia, serif;
+	font-size: 10px;
+	letter-spacing: 0.18em;
+	color: #7b5938;
+	margin-bottom: 4px;
+}
+
+.card-photo-box {
+	flex: 1;
+	border-radius: 6px;
+	overflow: hidden;
+	border: 2px solid #573a21;
+	background: #173b47;
+	position: relative;
+}
+
+.card-photo-box img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.card-name-banner {
+	font-family: "Rye", Georgia, serif;
+	font-size: clamp(10px, 1.2vw, 13px);
+	color: #2b1f15;
+	margin-top: 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Carta Combinada (Matched) */
+.memory-card.is-matched .card-inner {
+	animation: matchPulse 0.5s ease;
+}
+
+.memory-card.is-matched .card-front {
+	border-color: var(--green);
+	box-shadow: 0 0 15px rgba(46, 139, 87, 0.5);
+}
+
+@keyframes matchPulse {
+	0% { transform: rotateY(180deg) scale(1); }
+	50% { transform: rotateY(180deg) scale(1.08); }
+	100% { transform: rotateY(180deg) scale(1); }
+}
+
+/* Canvas das explosões */
+#fireworks-canvas {
+	position: fixed;
+	inset: 0;
+	width: 100vw;
+	height: 100vh;
+	pointer-events: none;
+	z-index: 9998;
+}
+
+/* Modal de Vitória */
+.victory-modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(11, 28, 36, 0.85);
+	backdrop-filter: blur(8px);
+	z-index: 9999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.35s ease;
+}
+
+.victory-modal-overlay.is-open {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.victory-card {
+	background: var(--paper);
+	border: 3px solid var(--gold);
+	border-radius: 20px;
+	max-width: 540px;
+	width: 100%;
+	padding: 35px 30px;
+	text-align: center;
+	box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+	position: relative;
+	animation: popVictory 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popVictory {
+	0% { transform: scale(0.6) rotate(-4deg); opacity: 0; }
+	100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.victory-badge-top {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 18px;
+	border-radius: 999px;
+	background: rgba(235, 116, 59, 0.15);
+	color: var(--orange-dark);
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	margin-bottom: 15px;
+}
+
+.victory-card h2 {
+	font-family: "Rye", Georgia, serif;
+	font-size: clamp(26px, 3.5vw, 36px);
+	margin: 0 0 10px;
+	color: var(--ink);
+}
+
+.victory-card.is-record h2 {
+	color: var(--orange);
+	text-shadow: 0 2px 10px rgba(235, 116, 59, 0.25);
+}
+
+.victory-card p {
+	font-size: 14px;
+	color: var(--muted);
+	line-height: 1.7;
+	margin: 0 0 24px;
+}
+
+.victory-stats-grid {
+	background: #fbf7ee;
+	border: 1px solid #ebdcb9;
+	border-radius: 12px;
+	padding: 16px;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 12px;
+	margin-bottom: 25px;
+}
+
+.v-stat strong {
+	display: block;
+	font-size: 10px;
+	color: var(--muted);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	margin-bottom: 2px;
+}
+
+.v-stat span {
+	font-family: "Rye", Georgia, serif;
+	font-size: 20px;
+	color: var(--navy);
+}
+
+.v-stat.highlight span {
+	color: var(--orange-dark);
+}
+
+.victory-actions {
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+/* Dark theme */
+html[data-theme="dark"] {
+	--ink: #f0e7d8;
+	--ink-light: #cdd9db;
+	--muted: #9bb2b7;
+	--cream: #141c20;
+	--cream-dark: #1e282d;
+	--paper: #1a252a;
+	--orange: #f2854e;
+	--orange-light: #ffaa7a;
+	--orange-dark: #f06a28;
+	--gold: #e2b267;
+	--card-border: #293d45;
+}
+
+html[data-theme="dark"] body {
+	background: var(--cream);
+	color: var(--ink);
+}
+
+html[data-theme="dark"] .memory-scoreboard,
+html[data-theme="dark"] .victory-card {
+	background: var(--paper);
+	border-color: var(--card-border);
+}
+
+html[data-theme="dark"] .score-item {
+	border-right-color: #2a3d46;
+}
+
+html[data-theme="dark"] .score-value {
+	color: #fff;
+}
+
+html[data-theme="dark"] .diff-btn {
+	background: #1d2a30;
+	border-color: #2b3e47;
+	color: #c7d8dc;
+}
+
+html[data-theme="dark"] .diff-btn.active {
+	background: #f2854e;
+	border-color: #f2854e;
+	color: #fff;
+}
+
+html[data-theme="dark"] .card-back {
+	background: linear-gradient(145deg, #1b282e, #111a1f);
+	border-color: #51717f;
+	color: #eed193;
+}
+
+html[data-theme="dark"] .card-front {
+	background: #1c272c;
+	border-color: #3f5560;
+}
+
+html[data-theme="dark"] .card-front-wanted {
+	color: #d8c29e;
+}
+
+html[data-theme="dark"] .card-name-banner {
+	color: #f8edd8;
+}
+
+html[data-theme="dark"] .victory-stats-grid {
+	background: #1f2d34;
+	border-color: #314752;
+}
+
+html[data-theme="dark"] .v-stat span {
+	color: #fff;
+}
+
+/* Responsivo */
+@media (max-width: 760px) {
+	.memory-scoreboard {
+		grid-template-columns: 1fr 1fr;
+		row-gap: 12px;
+	}
+	.score-item:nth-child(2) {
+		border-right: none;
+	}
+	.memory-grid.grid-hard {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+@media (max-width: 480px) {
+	.memory-grid {
+		gap: 8px;
+	}
+	.card-name-banner {
+		font-size: 9px;
+	}
+	.card-front-wanted {
+		font-size: 8px;
+	}
+}
+
