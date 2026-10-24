@@ -408,7 +408,9 @@ body::before {
 }
 
 .tab-pane {
-	display: none;
+	display: block;
+	margin-bottom: 70px;
+	scroll-margin-top: 80px;
 	animation: fadeIn 0.35s ease;
 }
 

@@ -3,68 +3,6 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-	// --- THEME TOGGLE (Synced with shared storage) ---
-	const themeToggle = document.querySelector("#theme-toggle");
-	const themeIcon = themeToggle?.querySelector(".theme-icon");
-	const themeLabel = themeToggle?.querySelector(".theme-label");
-
-	function setTheme(isDark) {
-		document.documentElement.dataset.theme = isDark ? "dark" : "light";
-		if (themeToggle) {
-			themeToggle.setAttribute("aria-pressed", String(isDark));
-			themeToggle.setAttribute("aria-label", isDark ? "Ativar modo claro" : "Ativar modo escuro");
-		}
-		if (themeIcon) themeIcon.textContent = isDark ? "☀" : "☾";
-		if (themeLabel) themeLabel.textContent = isDark ? "Modo claro" : "Modo escuro";
-	}
-
-	try {
-		setTheme(localStorage.getItem("grand-line-theme") === "dark");
-	} catch {
-		setTheme(false);
-	}
-
-	if (themeToggle) {
-		themeToggle.addEventListener("click", () => {
-			const isDark = document.documentElement.dataset.theme !== "dark";
-			setTheme(isDark);
-			try {
-				localStorage.setItem("grand-line-theme", isDark ? "dark" : "light");
-			} catch {}
-		});
-	}
-
-	// --- TABS SYSTEM (Ilhas vs Personagens) ---
-	const tabButtons = document.querySelectorAll(".tab-btn");
-	const tabPanes = document.querySelectorAll(".tab-pane");
-
-	function switchTab(targetTabId) {
-		tabButtons.forEach(btn => {
-			const isActive = btn.dataset.tab === targetTabId;
-			btn.classList.toggle("is-active", isActive);
-			btn.setAttribute("aria-selected", String(isActive));
-		});
-
-		tabPanes.forEach(pane => {
-			const isActive = pane.id === targetTabId;
-			pane.classList.toggle("is-active", isActive);
-		});
-	}
-
-	tabButtons.forEach(btn => {
-		btn.addEventListener("click", () => {
-			const target = btn.dataset.tab;
-			switchTab(target);
-		});
-	});
-
-	// Support direct hash navigation (#personagens or #ilhas)
-	if (window.location.hash === "#personagens") {
-		switchTab("tab-characters");
-	} else if (window.location.hash === "#ilhas") {
-		switchTab("tab-islands");
-	}
-
 	// --- ISLAND TRACKER NAVIGATION ---
 	const trackerNodes = document.querySelectorAll(".tracker-node");
 	trackerNodes.forEach(node => {

@@ -293,3 +293,8 @@ html[data-theme="dark"] .tag-pill {
 .game-card-banner.memoria {
 	background: linear-gradient(135deg, #1b6852, #0d382c);
 }
+
+
+.game-card-banner.aventura {
+	background: linear-gradient(135deg, #a81c28, #590d14);
+}
