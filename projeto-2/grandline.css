@@ -1,0 +1,197 @@
+/* ===== GRAND LINE PAGE STYLES ===== */
+:root {
+	--ink: #152932;
+	--muted: #6d7b7c;
+	--cream: #f7f5ee;
+	--orange: #f07943;
+	--navy: #103c4b;
+}
+
+body { margin: 0; background: var(--cream); color: var(--ink); font-family: "DM Sans", sans-serif; }
+.site-header { background: var(--cream); }
+.text-link, .header-cta, .back-top { transition: color .2s ease; }
+.text-link:hover, .back-top:hover { color: var(--orange); }
+.hero { min-height: 645px; position: relative; overflow: hidden; display: grid; grid-template-columns: 47% 53%; background: #f4f1e8; }
+.hero-copy { z-index: 1; align-self: center; padding: 38px 0 70px 15.3%; }
+.eyebrow { margin: 0 0 22px; color: #f2a47d; font-size: 9px; font-weight: 700; letter-spacing: .22em; }
+.eyebrow-line { display: inline-block; width: 27px; height: 1px; margin: 0 10px 3px 0; background: currentColor; }
+h1, h2, h3, p { margin-top: 0; }
+h1, h2 { font-family: "Rye", Georgia, serif; font-weight: 400; }
+h1 { margin-bottom: 23px; font-size: clamp(43px, 5.2vw, 70px); line-height: 1.12; letter-spacing: -.045em; }
+h1 span, h2 span { color: var(--orange); }
+.hero-description { max-width: 400px; color: #657276; font-size: 13px; line-height: 1.9; }
+.hero-actions { display: flex; align-items: center; gap: 24px; margin-top: 29px; }
+.button { display: inline-flex; align-items: center; gap: 18px; padding: 14px 18px; font-size: 10px; font-weight: 700; transition: transform .2s ease, background .2s ease; }
+.button:hover { transform: translateY(-2px); }
+.button-primary { color: white; background: var(--orange); box-shadow: 0 9px 20px #eb805044; }
+.button-primary:hover { background: #dd6330; }
+.button-primary span, .button-light span { font-size: 16px; }
+.text-link { display: inline-flex; align-items: center; gap: 9px; color: #56666a; font-size: 10px; font-weight: 700; }
+.play-icon { width: 22px; height: 22px; display: grid; place-items: center; padding-left: 2px; border: 1px solid #d7d6cc; border-radius: 50%; color: var(--orange); font-size: 7px; }
+.hero-note { display: flex; align-items: center; gap: 10px; margin-top: 54px; color: #8a9693; font-size: 9px; line-height: 1.7; }
+.hero-note strong { color: #4c5a5c; font-size: 10px; }
+.note-star { color: var(--orange); font-size: 24px; }
+.hero-art { min-height: 645px; overflow: hidden; position: relative; background: linear-gradient(153deg, #f2a566 0%, #f4bb84 35%, #e68d63 59%, #1e6671 59.2%, #123b4a 100%); }
+.hero-art::before { content: ""; position: absolute; inset: 0; opacity: .15; background-image: radial-gradient(#fff 0.6px, transparent .6px); background-size: 5px 5px; mix-blend-mode: soft-light; }
+.hero-glow { position: absolute; z-index: 1; left: 43%; top: 12%; width: 200px; height: 200px; border-radius: 50%; background: #fff4db; filter: blur(80px); opacity: .75; }
+.sun { position: absolute; top: 16%; left: 40%; width: 176px; height: 176px; border-radius: 50%; background: #ffdf9e; box-shadow: 0 0 80px #ffe5b1a6; }
+.sun-halo { position: absolute; top: 12%; left: 35%; width: 265px; height: 265px; border: 1px solid #fff0c247; border-radius: 50%; }
+.birds { position: absolute; top: 20%; right: 15%; color: #4d5653; font-size: 25px; transform: rotate(-8deg); }
+.sea { position: absolute; left: -10%; width: 125%; border-radius: 50% 50% 0 0 / 20% 25% 0 0; }
+.sea-back { height: 40%; bottom: 2%; background: #34747a; transform: rotate(-5deg); }
+.sea-front { height: 30%; bottom: -7%; background: #174b5a; transform: rotate(4deg); box-shadow: inset 0 14px 0 #5a9290; }
+.ship-illustration { position: absolute; z-index: 1; bottom: 26%; left: 49%; width: 240px; height: 280px; transform: translateX(-50%); filter: drop-shadow(11px 15px 7px #092e384a); }
+.mast { position: absolute; bottom: 54px; width: 5px; background: #453b32; border-radius: 3px; }
+.mast-one { left: 107px; height: 210px; }
+.mast-two { left: 58px; height: 148px; }
+.sail { position: absolute; display: grid; place-items: center; background: #fbf1db; border: 2px solid #c4ac86; box-shadow: 4px 6px 0 #213f4533; }
+.sail-main { top: 14px; left: 5px; width: 112px; height: 137px; clip-path: polygon(0 0, 100% 12%, 100% 88%, 0 100%); color: #9f4634; font-size: 40px; }
+.sail-side { top: 17px; right: 5px; width: 48px; height: 91px; clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 87%); }
+.ship-flag { position: absolute; top: 4px; left: 106px; color: #f4e5c9; font-size: 18px; }
+.ship-hull { position: absolute; bottom: 38px; left: 18px; width: 204px; height: 53px; background: #613c2c; border: 3px solid #422e28; border-radius: 9px 9px 47% 47%; transform: perspective(80px) rotateX(-7deg); }
+.ship-hull::after { content: ""; position: absolute; left: 10px; right: 10px; top: 9px; height: 5px; background: #a06a42; border-radius: 5px; }
+.hull-window { position: absolute; z-index: 1; top: 21px; left: 52px; color: #f0c977; font-size: 9px; letter-spacing: 8px; }
+.ship-bow { position: absolute; right: 6px; bottom: 50px; width: 32px; height: 18px; border-top: 5px solid #e0a35d; border-radius: 50%; transform: rotate(25deg); }
+.art-caption { position: absolute; z-index: 1; right: 7%; bottom: 8%; display: flex; align-items: center; gap: 12px; color: #f5e7d5; font-size: 8px; letter-spacing: .15em; }
+.caption-rule { width: 35px; height: 1px; background: #efab7d; }
+.art-stamp { position: absolute; top: 41%; right: 9%; color: #ffefcc; font-family: "Rye", Georgia, serif; font-size: 17px; line-height: 1.1; letter-spacing: .15em; transform: rotate(8deg); opacity: .82; }
+.hero-bottom { position: absolute; bottom: 0; left: 0; right: 0; z-index: 1; display: flex; justify-content: space-between; padding: 15px 7.2%; color: #8a9693; font-size: 8px; letter-spacing: .12em; }
+.section-wrap { width: min(1100px, 85%); margin: 0 auto; }
+.crew-section { padding-top: 105px; padding-bottom: 112px; }
+.section-heading { display: flex; justify-content: space-between; align-items: end; margin-bottom: 38px; }
+.dark-eyebrow { margin-bottom: 15px; color: var(--orange); }
+h2 { margin-bottom: 0; font-size: clamp(34px, 4vw, 48px); line-height: 1.2; letter-spacing: -.035em; }
+.section-intro { max-width: 310px; margin-bottom: 7px; color: var(--muted); font-size: 12px; line-height: 1.8; }
+.crew-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; }
+.crew-card { min-height: 245px; padding: 19px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; background: #ede9dc; transition: transform .25s ease; }
+.crew-card:hover { transform: translateY(-5px); }
+.card-luffy { background: #f1e2d4; }.card-zoro { background: #dce6dd; }.card-nami { background: #e7e4d7; }.card-sanji { background: #e8ddd4; }
+.card-number { color: #7c8781; font-size: 9px; letter-spacing: .1em; }
+.character-icon { position: absolute; top: 43px; right: 20px; font-size: 61px; filter: saturate(.8); }
+.card-info { z-index: 1; }
+.card-info > span { color: #c76843; font-size: 8px; font-weight: 700; letter-spacing: .15em; }
+.card-info h3 { margin: 8px 0 5px; font-family: "Rye", Georgia, serif; font-size: 17px; font-weight: 400; }
+.card-info p { margin: 0; color: #75817d; font-size: 9px; }
+.card-arrow { position: absolute; top: 17px; right: 17px; color: #65736d; font-size: 13px; }
+.adventure-section { overflow: hidden; position: relative; color: white; background: #163e49; }
+.adventure-section::before { content: ""; position: absolute; top: -200px; right: -60px; width: 650px; height: 650px; border: 1px solid #ffffff12; border-radius: 50%; box-shadow: 0 0 0 70px #ffffff08, 0 0 0 140px #ffffff05; }
+.adventure-inner { min-height: 390px; padding-top: 76px; padding-bottom: 75px; position: relative; display: flex; justify-content: space-between; align-items: center; }
+.adventure-copy { max-width: 530px; }
+.adventure-copy h2 { margin-bottom: 18px; font-size: 40px; }
+.adventure-copy h2 span { color: #f1a079; }
+.adventure-copy > p:not(.eyebrow) { max-width: 470px; margin-bottom: 24px; color: #b8c6c2; font-size: 11px; line-height: 1.9; }
+.button-light { color: var(--ink); background: #f4eee0; }
+.button-light:hover { background: #fff; }
+.adventure-stats { min-width: 280px; display: flex; align-items: center; gap: 32px; }
+.stat { display: flex; flex-direction: column; gap: 8px; }
+.stat strong { color: #f0a17b; font-family: "Rye", Georgia, serif; font-size: 46px; font-weight: 400; }
+.stat span { color: #bdcac5; font-size: 9px; line-height: 1.6; }
+.compass { width: 64px; height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #f2a17b5c; border-radius: 50%; color: #f0a17b; font-size: 9px; }
+.compass-star { font-size: 24px; line-height: 1.2; }
+.map-section { min-height: 430px; padding-top: 94px; padding-bottom: 94px; display: flex; align-items: center; justify-content: space-between; gap: 50px; }
+.map-copy { max-width: 345px; }
+.map-copy h2 { margin-bottom: 16px; }
+.map-copy > p:last-child { color: var(--muted); font-size: 11px; line-height: 1.8; }
+.map-card { width: min(490px, 55%); min-height: 245px; padding: 22px; position: relative; overflow: hidden; background: #e9dfc9; }
+.map-lines { position: absolute; inset: 0; opacity: .35; background: repeating-linear-gradient(31deg, transparent, transparent 35px, #b7a989 36px, transparent 37px), repeating-linear-gradient(145deg, transparent, transparent 54px, #b7a989 55px, transparent 56px); }
+.map-label, .map-destination { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 7px; color: #85785f; font-size: 8px; letter-spacing: .16em; }
+.map-compass { position: absolute; top: 45px; right: 35px; color: #d27a51; font-size: 43px; }
+.map-destination { position: absolute; left: 35px; bottom: 30px; gap: 4px; }
+.map-destination strong { color: #344e50; font-family: "Rye", Georgia, serif; font-size: 19px; font-weight: 400; letter-spacing: 0; }
+.map-destination .map-coordinates { margin-top: 5px; font-size: 7px; }
+.map-route { position: absolute; top: 70px; left: 35%; width: 43%; height: 80px; display: flex; align-items: center; justify-content: space-between; border-top: 1px dashed #c7734b; transform: rotate(-19deg); }
+.map-route span:not(.route-end) { width: 7px; height: 7px; border-radius: 50%; background: #c7734b; }
+.map-route .route-end { color: #d27a51; font-size: 21px; }
+.site-footer { min-height: 88px; padding: 20px 7.2%; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #e8e4da; }
+.footer-brand { font-size: 12px; }.footer-brand .brand-mark { width: 26px; height: 26px; font-size: 15px; }
+.site-footer p { margin: 0; color: #88928e; font-size: 9px; }
+.back-top { color: #65736d; font-size: 8px; font-weight: 700; letter-spacing: .12em; }
+
+/* ===== DARK THEME ===== */
+html[data-theme="dark"] {
+	color-scheme: dark;
+	--ink: #f2e9dc;
+	--muted: #b7b7b0;
+	--cream: #171d21;
+	--orange: #f08a58;
+	--navy: #103c4b;
+}
+html[data-theme="dark"] body { background: var(--cream); color: var(--ink); }
+html[data-theme="dark"] .site-header,
+html[data-theme="dark"] .hero { background: #20282b; }
+html[data-theme="dark"] .site-header { border-bottom-color: #354044; }
+html[data-theme="dark"] .main-nav,
+html[data-theme="dark"] .text-link,
+html[data-theme="dark"] .theme-toggle { color: #c3cac5; }
+html[data-theme="dark"] .main-nav a.nav-active { color: #f08a58; border-bottom-color: #f08a58; }
+html[data-theme="dark"] .theme-toggle { border-color: #495456; }
+html[data-theme="dark"] .hero-description,
+html[data-theme="dark"] .section-intro,
+html[data-theme="dark"] .map-copy > p:last-child { color: #b4bfbb; }
+html[data-theme="dark"] .hero-note { color: #a9b4af; }
+html[data-theme="dark"] .hero-note strong { color: #e1e4db; }
+html[data-theme="dark"] .play-icon { border-color: #697370; }
+html[data-theme="dark"] .hero-bottom { color: #e0d2c4; }
+html[data-theme="dark"] .crew-section,
+html[data-theme="dark"] .map-section { background: #171d21; }
+html[data-theme="dark"] .card-luffy { background: #49302d; }
+html[data-theme="dark"] .card-zoro { background: #293e39; }
+html[data-theme="dark"] .card-nami { background: #413d31; }
+html[data-theme="dark"] .card-sanji { background: #44342f; }
+html[data-theme="dark"] .card-number,
+html[data-theme="dark"] .card-arrow { color: #c5cec6; }
+html[data-theme="dark"] .card-info h3 { color: #f5ecdc; }
+html[data-theme="dark"] .card-info p { color: #d0d2c8; }
+html[data-theme="dark"] .map-card { background: #35332e; }
+html[data-theme="dark"] .map-lines { opacity: .24; }
+html[data-theme="dark"] .map-label,
+html[data-theme="dark"] .map-destination { color: #d1c09f; }
+html[data-theme="dark"] .map-destination strong { color: #f3e6ce; }
+html[data-theme="dark"] .site-footer { border-color: #354044; }
+html[data-theme="dark"] .site-footer p,
+html[data-theme="dark"] .back-top { color: #b1bdb7; }
+html[data-theme="dark"] .brand-mark { border-color: #5b5147; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+	.hero { grid-template-columns: 1fr 1fr; }
+	.hero-copy { padding-left: 10%; }
+	.hero-actions { align-items: flex-start; flex-direction: column; gap: 15px; }
+	.hero-note { margin-top: 34px; }
+	.section-wrap { width: 90%; }
+	.crew-card { min-height: 220px; padding: 14px; }
+	.character-icon { top: 48px; right: 11px; font-size: 48px; }
+	.adventure-stats { min-width: auto; gap: 20px; }
+}
+@media (max-width: 640px) {
+	.hero { display: flex; flex-direction: column; }
+	.hero-copy { padding: 66px 8% 36px; }
+	h1 { font-size: clamp(47px, 13vw, 66px); }
+	.hero-description { max-width: 360px; }
+	.hero-actions { flex-direction: row; align-items: center; flex-wrap: wrap; }
+	.hero-note { margin-top: 30px; }
+	.hero-art { min-height: 390px; }
+	.sun { top: 9%; left: 35%; width: 140px; height: 140px; }
+	.sun-halo { top: 5%; left: 27%; width: 220px; height: 220px; }
+	.ship-illustration { bottom: 20%; transform: translateX(-50%) scale(.8); }
+	.art-stamp { top: 39%; right: 9%; font-size: 13px; }
+	.hero-bottom { padding: 12px 5%; font-size: 6px; }
+	.section-wrap { width: 86%; }
+	.crew-section { padding-top: 73px; padding-bottom: 75px; }
+	.section-heading { display: block; }
+	.section-intro { margin-top: 20px; }
+	.crew-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+	.crew-card { min-height: 218px; }
+	.adventure-inner { padding-top: 66px; padding-bottom: 65px; display: block; }
+	.adventure-copy h2 { font-size: 33px; }
+	.adventure-stats { margin-top: 36px; }
+	.map-section { min-height: auto; padding-top: 72px; padding-bottom: 72px; align-items: stretch; flex-direction: column; gap: 22px; }
+	.map-card { width: 100%; min-height: 220px; }
+	.site-footer { padding: 19px 7%; gap: 15px; flex-wrap: wrap; }
+	.site-footer p { order: 3; width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+

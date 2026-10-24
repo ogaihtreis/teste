@@ -141,9 +141,9 @@ function setArc(arcName) {
 	document.title = `${arc.name} — Roleta de personagens`;
 	document.querySelector('meta[name="theme-color"]').content = activeArc === "wano" ? "#261b22" : "#d9f0f2";
 	document.querySelector('meta[name="description"]').content = `Gire a roleta de ${arc.name} e descubra qual personagem vai cruzar seu caminho.`;
-	document.querySelector("#brand-name").innerHTML = arc.brand;
+	const brandNameEl = document.querySelector("#brand-name");
+	if (brandNameEl) brandNameEl.innerHTML = arc.brand;
 	document.querySelector(".brand").setAttribute("aria-label", `Roleta de ${arc.name}, início`);
-	document.querySelector("#topbar-note").textContent = activeArc === "wano" ? "NAVEGANDO PELO PAÍS DOS SAMURAIS" : "NAVEGANDO PELO EAST BLUE";
 	document.querySelector("#arc-eyebrow").textContent = arc.eyebrow;
 	document.querySelector("#arc-heading").textContent = arc.heading;
 	document.querySelector("#intro-copy").textContent = arc.intro;
