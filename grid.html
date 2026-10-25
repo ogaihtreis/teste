@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f7f4ec" />
+  <meta name="description" content="East Blue Grid: Jogo de Lógica e Trivia 3x3 de One Piece. Preencha a grade cruzando critérios canônicos com os 63 personagens da Saga East Blue!" />
+  <title>East Blue Grid 3x3 — Trivia One Piece | East Blue</title>
+
+  <!-- Google Fonts: Rye & DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..800;1,9..40,400..800&family=Rye&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos Globais do Site -->
+  <link rel="stylesheet" href="shared.css">
+
+  <!-- Script para carregar tema imediatamente e evitar flash -->
+  <script>
+    try {
+      if (localStorage.getItem("grand-line-theme") === "dark") {
+        document.documentElement.dataset.theme = "dark";
+        document.documentElement.classList.add("dark");
+      }
+    } catch (e) {}
+  </script>
+
+  <!-- Tailwind CSS com suporte total ao modo dark por classe -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"DM Sans"', 'sans-serif'],
+            display: ['"Rye"', 'Georgia', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            pirate: {
+              orange: '#eb743b',
+              'orange-light': '#f59664',
+              'orange-dark': '#cc541d',
+              gold: '#d89f4b',
+              'gold-light': '#eed193',
+              navy: '#123c4a',
+              'navy-dark': '#0b252e',
+              paper: '#fffdf8',
+              cream: '#f7f4ec',
+              border: '#e3dcce',
+              ink: '#162a33',
+              muted: '#647577'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Estilos e variáveis adaptadas ao tema East Blue */
+    :root {
+      --cream: #f7f4ec;
+      --cream-dark: #eee8d8;
+      --paper: #fffdf8;
+      --ink: #162a33;
+      --ink-light: #2c424c;
+      --muted: #647577;
+      --card-border: #e3dcce;
+      --orange: #eb743b;
+      --gold: #d89f4b;
+      --bg-dots: radial-gradient(#d3955c 0.7px, transparent 0.7px);
+    }
+    html.dark,
+    html[data-theme="dark"] {
+      --cream: #141c20;
+      --cream-dark: #1e282d;
+      --paper: #1a252a;
+      --ink: #f0e7d8;
+      --ink-light: #cdd9db;
+      --muted: #9bb2b7;
+      --card-border: #293d45;
+      --orange: #f2854e;
+      --gold: #e2b267;
+      --bg-dots: radial-gradient(#f2854e 0.7px, transparent 0.7px);
+    }
+
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    html.dark body,
+    html[data-theme="dark"] body {
+      background-color: #141c20 !important;
+      color: #f0e7d8 !important;
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      pointer-events: none;
+      opacity: 0.12;
+      background-image: var(--bg-dots);
+      background-size: 8px 8px;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    html[data-theme="dark"] ::-webkit-scrollbar-track {
+      background: #141c20;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #d89f4b;
+      border-radius: 4px;
+    }
+
+    /* Animações fluidas */
+    @keyframes popIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      70% { transform: scale(1.02); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .animate-pop {
+      animation: popIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .animate-shake {
+      animation: shakeError 0.35s ease-in-out;
+    }
+
+    .wanted-border {
+      background: linear-gradient(135deg, rgba(216, 159, 75, 0.12), rgba(255, 253, 248, 0.95));
+      border: 1.5px solid rgba(216, 159, 75, 0.4);
+    }
+    html[data-theme="dark"] .wanted-border {
+      background: linear-gradient(135deg, rgba(235, 116, 59, 0.15), rgba(20, 28, 32, 0.96));
+      border: 1.5px solid rgba(242, 133, 78, 0.35);
+    }
+  </style>
+
+  <!-- Script global para tema e topo -->
+  <script src="shared.js" defer></script>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- HEADER COMPARTILHADO DO SITE -->
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="East Blue, início">
+      <span class="brand-mark" aria-hidden="true">☠</span>
+      <span>EAST<span class="brand-light">BLUE</span></span>
+    </a>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="index.html">East Blue</a>
+      <a href="jogos.html" class="nav-active">Jogos</a>
+    </nav>
+    <div class="header-actions">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo escuro" aria-pressed="false">
+        <span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Modo escuro</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- SUB-BAR DE NAVEGAÇÃO / VOLTAR AOS JOGOS -->
+  <section class="border-b border-[#e6decb] dark:border-[#273940] bg-[#fbf9f4]/90 dark:bg-[#152026]/90 backdrop-blur-md sticky top-[72px] z-20 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <!-- Back button and Title -->
+      <div class="flex items-center gap-3">
+        <a href="jogos.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-[#eb743b] hover:text-[#cc541d] dark:text-[#f59664] bg-[#eb743b]/10 hover:bg-[#eb743b]/15 transition-all" title="Retornar à Central de Jogos">
+          <span>←</span> Central de Jogos
+        </a>
+        <div class="h-4 w-px bg-[#d8caa7] dark:bg-[#344b54] hidden sm:block"></div>
+        <div class="flex items-center gap-2">
+          <span class="text-base sm:text-lg">🧭</span>
+          <h1 class="font-display font-bold text-sm sm:text-base text-[#162a33] dark:text-[#f0e7d8] tracking-wide">
+            EAST BLUE <span class="text-[#eb743b] dark:text-[#f59664]">GRID</span>
+          </h1>
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#d89f4b]/15 text-[#b07826] dark:text-[#f3d79e] border border-[#d89f4b]/30">
+            Cap. 1–100 Wiki
+          </span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs (Jogar Grid & Base Wiki) -->
+      <nav class="flex items-center gap-1.5 bg-[#eee8d8] dark:bg-[#1a262c] p-1 rounded-xl border border-[#d8caa7] dark:border-[#2f434c]">
+        <button onclick="switchTab('game')" id="tab-btn-game" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-[#eb743b] text-white shadow">
+          ⚓ Jogar Grid
+        </button>
+        <button onclick="switchTab('database')" id="tab-btn-database" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-[#647577] dark:text-[#a1b8be] hover:text-[#162a33] dark:hover:text-white">
+          📚 Base Wiki (<span id="db-count-badge">63</span>)
+        </button>
+      </nav>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-6">
+
+    <!-- ==========================================
+         TAB 1: GAME VIEW (THE 3X3 GRID)
+         ========================================== -->
+    <section id="view-game" class="space-y-6">
+      
+      <!-- Control Bar: Status Counters & Action Buttons -->
+      <div class="bg-[#fffdf8] dark:bg-[#1a252a] border border-[#e3dcce] dark:border-[#2d414a] rounded-2xl p-4 shadow-md dark:shadow-xl flex flex-wrap items-center justify-between gap-4 transition-colors">
+        <!-- Left: Counters (Acertos & Tentativas Restantes) -->
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center gap-5 bg-[#f7f4ec] dark:bg-[#121c21] px-4 py-2 rounded-xl border border-[#e3dcce] dark:border-[#293d45]">
+            <div class="text-center">
+              <div class="text-[10px] uppercase tracking-wider text-[#647577] dark:text-[#8ba2a8] font-bold">Acertos</div>
+              <div id="stat-score" class="text-base sm:text-lg font-extrabold text-[#1f8b4d] dark:text-[#4ade80] font-mono">0/9</div>
+            </div>
+            <div class="h-6 w-px bg-[#d8caa7] dark:bg-[#2e434c]"></div>
+            <div class="text-center">
+              <div class="text-[10px] uppercase tracking-wider text-[#647577] dark:text-[#8ba2a8] font-bold">Tentativas Restantes</div>
+              <div id="stat-guesses" class="text-base sm:text-lg font-extrabold text-[#eb743b] dark:text-[#f59664] font-mono">9</div>
+            </div>
+          </div>
+
+          <span id="seed-label" class="text-xs font-mono font-bold text-[#647577] dark:text-[#9bb2b7] px-3 py-1.5 rounded-xl bg-[#f7f4ec] dark:bg-[#121c21] border border-[#e3dcce] dark:border-[#293d45]">
+            Tabuleiro #1
+          </span>
+        </div>
+
+        <!-- Right: Action Buttons -->
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="startNewGrid()" class="px-3.5 py-2 rounded-xl bg-[#eb743b]/10 hover:bg-[#eb743b]/20 text-[#cc541d] dark:text-[#f59664] border border-[#eb743b]/30 text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 shadow-sm">
+            <span>🎲</span> Novo Grid
+          </button>
+
+          <button onclick="togglePossibleCountHint()" id="hint-toggle-btn" class="px-3 py-2 rounded-xl bg-[#f0eae1] dark:bg-[#202f36] hover:bg-[#e4dcce] dark:hover:bg-[#26373f] text-[#42555b] dark:text-[#c4d7dc] text-xs sm:text-sm font-bold border border-[#d9ccb6] dark:border-[#354952] transition-all" title="Mostrar ou ocultar quantos personagens da Wiki cabem em cada célula">
+            👁️ Dicas: <span id="hint-status-text" class="text-[#eb743b] dark:text-[#f59664]">ON</span>
+          </button>
+
+          <button onclick="giveUpGame()" id="give-up-btn" class="px-3.5 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-bold border border-rose-500/30 transition-all shadow-sm">
+            🏳️ Ver Respostas / Desistir
+          </button>
+        </div>
+      </div>
+
+      <!-- End of Game Summary Banner -->
+      <div id="gameover-banner" class="hidden wanted-border rounded-2xl p-5 shadow-xl animate-pop">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div class="space-y-1 text-center md:text-left">
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#eb743b]/15 text-[#cc541d] dark:text-[#f59664] text-xs font-bold uppercase tracking-wider">
+              🏴‍☠️ Fim de Partida
+            </div>
+            <h2 id="gameover-title" class="text-xl sm:text-2xl font-display font-bold text-[#162a33] dark:text-white">
+              Resultado Final: 9/9 Acertos!
+            </h2>
+            <p id="gameover-subtitle" class="text-xs sm:text-sm text-[#4b5f66] dark:text-[#9bb2b7]">
+              Clique em qualquer quadrado abaixo para conferir todos os personagens da Saga East Blue que atendem àquela interseção.
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2.5">
+            <button onclick="copyShareResult()" class="px-4 py-2.5 rounded-xl bg-[#eb743b] hover:bg-[#d8642d] text-white font-bold text-xs sm:text-sm shadow-lg shadow-[#eb743b]/20 transition-all flex items-center gap-2">
+              <span>📋</span> Copiar Resultado
+            </button>
+            <button onclick="startNewGrid()" class="px-4 py-2.5 rounded-xl bg-[#123c4a] hover:bg-[#0c2933] text-white font-bold text-xs sm:text-sm border border-[#1b5366] transition-all">
+              🎲 Novo Grid
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- THE 3X3 GRID BOARD -->
+      <div class="max-w-3xl mx-auto">
+        <div class="grid grid-cols-4 gap-2 sm:gap-3.5 items-stretch">
+          
+          <!-- Top-Left Corner Logo / Legend -->
+          <div class="bg-[#fffdf8] dark:bg-[#1a252a] border border-[#e3dcce] dark:border-[#2d414a] rounded-2xl p-2 sm:p-4 flex flex-col items-center justify-center text-center shadow-sm">
+            <span class="text-xl sm:text-3xl mb-1">🧭</span>
+            <span class="font-display font-bold text-[11px] sm:text-xs text-[#eb743b] dark:text-[#f59664] tracking-wider uppercase">East Blue</span>
+            <span class="text-[10px] text-[#71858a] dark:text-[#8ba2a8] hidden sm:inline mt-0.5">Cap. 1 a 100</span>
+          </div>
+
+          <!-- Column Headers (0, 1, 2) -->
+          <div id="col-header-0" class="bg-[#fffdf8] dark:bg-[#1a252a] border border-[#e3dcce] dark:border-[#2d414a] rounded-2xl p-2.5 sm:p-3.5 flex flex-col items-center justify-center text-center relative group hover:border-[#eb743b] transition-all cursor-help shadow-sm"></div>
+          <div id="col-header-1" class="bg-[#fffdf8] dark:bg-[#1a252a] border border-[#e3dcce] dark:border-[#2d414a] rounded-2xl p-2.5 sm:p-3.5 flex flex-col items-center justify-center text-center relative group hover:border-[#eb743b] transition-all cursor-help shadow-sm"></div>
+          <div id="col-header-2" class="bg-[#fffdf8] dark:bg-[#1a252a] border border-[#e3dcce] dark:border-[#2d414a] rounded-2xl p-2.5 sm:p-3.5 flex flex-col items-center justify-center text-center relative group hover:border-[#eb743b] transition-all cursor-help shadow-sm"></div>
+
+          <!-- Row 0 (Header + 3 Cells) -->
+          <div id="row-header-0" class="bg-[#fffdf8] dark:bg-[#1a252a] border border-[#e3dcce] dark:border-[#2d414a] rounded-2xl p-2.5 sm:p-3.5 flex flex-col items-center justify-center text-center relative group hover:border-[#eb743b] transition-all cursor-help shadow-sm"></div>
+          <div id="cell-0-0" class="aspect-square"></div>
+          <div id="cell-0-1" class="aspect-square"></div>
+          <div id="cell-0-2" class="aspect-square"></div>
+
+          <!-- Row 1 (Header + 3 Cells) -->
+          <div id="row-header-1" class="bg-[#fffdf8] dark:bg-[#1a252a] border border-[#e3dcce] dark:border-[#2d414a] rounded-2xl p-2.5 sm:p-3.5 flex flex-col items-center justify-center text-center relative group hover:border-[#eb743b] transition-all cursor-help shadow-sm"></div>
+          <div id="cell-1-0" class="aspect-square"></div>
+          <div id="cell-1-1" class="aspect-square"></div>
+          <div id="cell-1-2" class="aspect-square"></div>
+
+          <!-- Row 2 (Header + 3 Cells) -->
+          <div id="row-header-2" class="bg-[#fffdf8] dark:bg-[#1a252a] border border-[#e3dcce] dark:border-[#2d414a] rounded-2xl p-2.5 sm:p-3.5 flex flex-col items-center justify-center text-center relative group hover:border-[#eb743b] transition-all cursor-help shadow-sm"></div>
+          <div id="cell-2-0" class="aspect-square"></div>
+          <div id="cell-2-1" class="aspect-square"></div>
+          <div id="cell-2-2" class="aspect-square"></div>
+
+        </div>
+      </div>
+
+      <!-- Quick Rules Card -->
+      <div class="max-w-3xl mx-auto bg-[#fffdf8]/80 dark:bg-[#1a252a]/70 border border-[#e3dcce] dark:border-[#2d414a] rounded-2xl p-4 text-xs text-[#5a6e75] dark:text-[#8ea5ac] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+        <div class="space-y-1">
+          <p class="font-bold text-[#162a33] dark:text-[#f0e7d8]">📌 Regras Canônicas (Saga East Blue • Cap. 1–100):</p>
+          <p>Apenas personagens que apareceram nos 6 arcos canônicos (Romance Dawn, Orange Town, Vila Syrup, Baratie, Arlong Park e Loguetown) fazem parte da base. Cada personagem só pode ser usado <strong>uma única vez</strong> por tabuleiro.</p>
+        </div>
+        <button onclick="switchTab('database')" class="shrink-0 px-3.5 py-2 rounded-xl bg-[#eb743b]/10 hover:bg-[#eb743b]/20 text-[#cc541d] dark:text-[#f59664] font-bold transition-all border border-[#eb743b]/30">
+          Ver Base Wiki (63) →
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         TAB 2: WIKI DATABASE EXPLORER
+         ========================================== -->
+    <section id="view-database" class="hidden space-y-6">
+      <div class="bg-[#fffdf8] dark:bg-[#1a252a] border border-[#e3dcce] dark:border-[#2d414a] rounded-2xl p-5 space-y-4 shadow-md">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-xl font-display font-bold text-[#162a33] dark:text-white">📚 Base Wiki — Saga East Blue (Capítulos 1 a 100)</h2>
+            <p class="text-xs sm:text-sm text-[#647577] dark:text-[#9bb2b7]">
+              Lista estrita dos 63 personagens que apareceram nos 6 arcos canônicos da Saga East Blue conforme a One Piece Wiki.
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="copyDatabaseJSON()" class="px-3.5 py-2 rounded-xl bg-[#eb743b] hover:bg-[#d8642d] text-white font-bold text-xs transition-all flex items-center gap-1.5 shadow-sm">
+              📋 Copiar JSON
+            </button>
+            <button onclick="downloadDatabaseJSON()" class="px-3.5 py-2 rounded-xl bg-[#123c4a]/10 hover:bg-[#123c4a]/20 dark:bg-[#123c4a]/40 text-[#123c4a] dark:text-[#a8d3e2] border border-[#123c4a]/30 font-bold text-xs transition-all flex items-center gap-1.5">
+              ⬇️ Baixar characters.json
+            </button>
+          </div>
+        </div>
+
+        <!-- Filters Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-2">
+          <input id="db-search-input" oninput="renderDatabaseGrid()" type="text" placeholder="Buscar por nome ou apelido..." class="bg-[#f7f4ec] dark:bg-[#121c21] border border-[#d8caa7] dark:border-[#2b3e47] rounded-xl px-3.5 py-2 text-xs sm:text-sm text-[#162a33] dark:text-white placeholder-[#85989d] focus:outline-none focus:border-[#eb743b]" />
+          
+          <select id="db-filter-arc" onchange="renderDatabaseGrid()" class="bg-[#f7f4ec] dark:bg-[#121c21] border border-[#d8caa7] dark:border-[#2b3e47] rounded-xl px-3 py-2 text-xs sm:text-sm text-[#162a33] dark:text-[#d3e2e6] focus:outline-none focus:border-[#eb743b]">
+            <option value="ALL">Todos os 6 Arcos (East Blue)</option>
+            <option value="Romance Dawn">1. Arco Romance Dawn (Cap. 1–7)</option>
+            <option value="Orange Town">2. Arco Orange Town (Cap. 8–21)</option>
+            <option value="Vila Syrup">3. Arco Vila Syrup (Cap. 22–41)</option>
+            <option value="Baratie">4. Arco Baratie (Cap. 42–68)</option>
+            <option value="Arlong Park">5. Arco Arlong Park (Cap. 69–95)</option>
+            <option value="Loguetown">6. Arco Loguetown (Cap. 96–100)</option>
+          </select>
+
+          <select id="db-filter-faction" onchange="renderDatabaseGrid()" class="bg-[#f7f4ec] dark:bg-[#121c21] border border-[#d8caa7] dark:border-[#2b3e47] rounded-xl px-3 py-2 text-xs sm:text-sm text-[#162a33] dark:text-[#d3e2e6] focus:outline-none focus:border-[#eb743b]">
+            <option value="ALL">Todas as Afiliações</option>
+            <option value="Chapéu de Palha">Piratas do Chapéu de Palha</option>
+            <option value="Marinha">Marinha</option>
+            <option value="Piratas do Ruivo">Piratas do Ruivo</option>
+            <option value="Piratas do Buggy">Piratas do Buggy</option>
+            <option value="Piratas do Gato Preto">Piratas do Gato Preto</option>
+            <option value="Piratas do Krieg">Piratas do Krieg</option>
+            <option value="Piratas do Arlong">Piratas do Arlong</option>
+            <option value="Baratie">Restaurante Baratie</option>
+            <option value="Shichibukai">Shichibukai</option>
+            <option value="Civil / Outros">Civil / Outros</option>
+          </select>
+
+          <select id="db-filter-trait" onchange="renderDatabaseGrid()" class="bg-[#f7f4ec] dark:bg-[#121c21] border border-[#d8caa7] dark:border-[#2b3e47] rounded-xl px-3 py-2 text-xs sm:text-sm text-[#162a33] dark:text-[#d3e2e6] focus:outline-none focus:border-[#eb743b]">
+            <option value="ALL">Todas as Características</option>
+            <option value="DEVIL_FRUIT">Usuário de Akuma no Mi na Saga</option>
+            <option value="SWORDSMAN">Espadachim / Usa Lâminas</option>
+            <option value="CAPTAIN">Capitão Pirata</option>
+            <option value="FISHMAN">Homem-Peixe</option>
+            <option value="ANIMAL">Animal / Monstro Marinho</option>
+            <option value="EB_BOUNTY">Recompensa no East Blue (≤ 30M)</option>
+            <option value="HAS_BOUNTY">Possui Recompensa</option>
+          </select>
+
+          <div class="flex items-center justify-between bg-[#f7f4ec] dark:bg-[#121c21] border border-[#d8caa7] dark:border-[#2b3e47] rounded-xl px-3.5 py-2 text-xs text-[#647577] dark:text-[#8fa6ac]">
+            <span>Exibindo:</span>
+            <strong id="db-filtered-count" class="text-[#eb743b] dark:text-[#f59664] font-mono text-sm">63</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character Cards Grid -->
+      <div id="db-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       MODAL 1: SELEÇÃO DE PERSONAGEM
+       ========================================== -->
+  <div id="search-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 dark:bg-black/75 backdrop-blur-sm p-4">
+    <div class="bg-[#fffdf8] dark:bg-[#1a252a] border border-[#d8caa7] dark:border-[#354952] rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-pop">
+      <!-- Modal Header -->
+      <div class="p-4 bg-[#f7f4ec] dark:bg-[#121c21] border-b border-[#e3dcce] dark:border-[#293d45] flex items-start justify-between gap-3">
+        <div class="space-y-1">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-[#eb743b] dark:text-[#f59664]">Selecionar Personagem da Saga East Blue</div>
+          <div id="modal-criteria-summary" class="text-xs sm:text-sm font-bold text-[#162a33] dark:text-white flex flex-wrap items-center gap-1.5"></div>
+        </div>
+        <button onclick="closeSearchModal()" class="p-1.5 rounded-lg text-[#647577] hover:text-[#162a33] dark:text-[#8ea5ac] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+          ✕
+        </button>
+      </div>
+
+      <!-- Search Input -->
+      <div class="p-4 space-y-3">
+        <div class="relative">
+          <input
+            id="character-search-input"
+            type="text"
+            autocomplete="off"
+            placeholder="Digite o nome do personagem (ex: Luffy, Zeff, Kuro, Tashigi)..."
+            oninput="handleSearchInput()"
+            onkeydown="handleSearchKeydown(event)"
+            class="w-full bg-[#f7f4ec] dark:bg-[#121c21] border-2 border-[#d8caa7] dark:border-[#2b3e47] focus:border-[#eb743b] rounded-xl pl-10 pr-4 py-3 text-sm text-[#162a33] dark:text-white placeholder-[#85989d] focus:outline-none transition-colors"
+          />
+          <span class="absolute left-3.5 top-3.5 text-[#85989d]">🔍</span>
+        </div>
+
+        <!-- Helper Bar -->
+        <div class="flex items-center justify-between text-[11px] text-[#647577] dark:text-[#8fa6ac] px-1">
+          <span>Use <kbd class="px-1.5 py-0.5 bg-[#eee8d8] dark:bg-[#202f36] rounded font-mono text-[#162a33] dark:text-white">↑</kbd> <kbd class="px-1.5 py-0.5 bg-[#eee8d8] dark:bg-[#202f36] rounded font-mono text-[#162a33] dark:text-white">↓</kbd> e <kbd class="px-1.5 py-0.5 bg-[#eee8d8] dark:bg-[#202f36] rounded font-mono text-[#162a33] dark:text-white">Enter</kbd></span>
+          <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
+            <input type="checkbox" id="toggle-arc-subtitle" checked onchange="handleSearchInput()" class="rounded accent-[#eb743b]" />
+            <span>Mostrar arco</span>
+          </label>
+        </div>
+
+        <!-- Matching List -->
+        <div id="search-results-list" class="max-h-72 overflow-y-auto divide-y divide-[#e6decb] dark:divide-[#273a42] rounded-xl border border-[#d8caa7] dark:border-[#2b3e47] bg-[#fdfbf6] dark:bg-[#131d22]"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 2: INSPEÇÃO DE SOLUÇÕES DA CÉLULA
+       ========================================== -->
+  <div id="solutions-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 dark:bg-black/75 backdrop-blur-sm p-4">
+    <div class="bg-[#fffdf8] dark:bg-[#1a252a] border border-[#d8caa7] dark:border-[#354952] rounded-2xl max-w-xl w-full shadow-2xl overflow-hidden animate-pop">
+      <div class="p-4 bg-[#f7f4ec] dark:bg-[#121c21] border-b border-[#e3dcce] dark:border-[#293d45] flex items-start justify-between gap-3">
+        <div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-[#eb743b] dark:text-[#f59664]">Personagens Válidos da Célula</div>
+          <h3 id="solutions-modal-title" class="text-sm sm:text-base font-bold text-[#162a33] dark:text-white mt-0.5"></h3>
+        </div>
+        <button onclick="closeSolutionsModal()" class="p-1.5 rounded-lg text-[#647577] hover:text-[#162a33] dark:text-[#8ea5ac] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+          ✕
+        </button>
+      </div>
+      <div class="p-4 space-y-3">
+        <p id="solutions-modal-subtitle" class="text-xs text-[#647577] dark:text-[#9bb2b7]"></p>
+        <div id="solutions-modal-list" class="max-h-80 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-2.5 pr-1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER PADRONIZADO DO SITE -->
+  <footer class="site-footer" style="margin-top:auto;">
+    <a class="brand footer-brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">☠</span>
+      <span>EAST<span class="brand-light">BLUE</span></span>
+    </a>
+    <p>East Blue Grid — O Desafio Definitivo de Trivia e Lógica de One Piece.</p>
+    <a href="#" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;" class="back-top">VOLTAR AO TOPO ↑</a>
+  </footer>
+
+  <!-- ==========================================
+       LÓGICA DO JOGO E BANCO CANÔNICO DA WIKI
+       ========================================== -->
+  <script>
+    /**
+     * Mapeamento de fotos reais para personagens que possuem arte no site
+     */
+    const CHARACTER_IMAGES = {
+      luffy: "images/luffy.jpg",
+      zoro: "images/zoro.jpg",
+      nami: "images/nami.jpg",
+      sanji: "images/sanji.jpg",
+      usopp: "images/usopp.jpg",
+      shanks: "images/shanks.jpg",
+      koby: "images/koby.jpg",
+      helmeppo: "images/helmeppo.jpg",
+      buggy: "images/buggy.jpg",
+      arlong: "images/arlong.jpg",
+      mihawk: "images/mihawk.jpg",
+      smoker: "images/smoker.jpg",
+      chopper: "images/chopper.jpg"
+    };
+
+    function renderCharacterAvatar(char, sizeClass = "w-10 h-10 sm:w-14 sm:h-14") {
+      const imgPath = CHARACTER_IMAGES[char.id];
+      if (imgPath) {
+        return `
+          <div class="${sizeClass} rounded-2xl overflow-hidden border-2 border-[#d8caa7] dark:border-[#384e57] shadow-sm mb-1 shrink-0 bg-[#f7f4ec] dark:bg-[#121c21]">
+            <img src="${imgPath}" alt="${char.name}" class="w-full h-full object-cover" />
+          </div>
+        `;
+      }
+      return `
+        <div class="${sizeClass} rounded-2xl bg-[#f7f4ec] dark:bg-[#121c21] border border-[#d8caa7] dark:border-[#384e57] flex items-center justify-center text-xl sm:text-2xl shadow-inner mb-1 shrink-0">
+          ${char.emoji}
+        </div>
+      `;
+    }
+
+    /**
+     * Efeitos Sonoros com Web Audio API
+     */
+    function playSfx(type) {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        const now = ctx.currentTime;
+
+        if (type === "correct") {
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.15);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
+          osc.start(now);
+          osc.stop(now + 0.22);
+        } else if (type === "wrong") {
+          osc.type = "sawtooth";
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.exponentialRampToValueAtTime(140, now + 0.2);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+          osc.start(now);
+          osc.stop(now + 0.25);
+        } else if (type === "victory") {
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.setValueAtTime(554.37, now + 0.12);
+          osc.frequency.setValueAtTime(659.25, now + 0.24);
+          osc.frequency.setValueAtTime(880, now + 0.36);
+          gain.gain.setValueAtTime(0.22, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.55);
+          osc.start(now);
+          osc.stop(now + 0.55);
+        }
+      } catch (e) {}
+    }
+
+    /**
+     * 1. CANONICAL ONE PIECE WIKI DATABASE — STRICTLY EAST BLUE SAGA (CHAPTERS 1 TO 100)
+     */
+    const EAST_BLUE_CHARACTERS = [
+      // 1. ARCO ROMANCE DAWN
+      { id: "luffy", name: "Monkey D. Luffy", aliases: ["Luffy", "Chapeu de Palha", "Mugiwara"], title: "Capitão dos Piratas do Chapéu de Palha", arc: "Romance Dawn", debutChapter: 1, affiliations: ["Chapéu de Palha"], devilFruit: "Paramecia / Zoan", devilFruitName: "Gomu Gomu no Mi", hasHaki: true, hasBounty: true, bountyDisplay: "30.000.000 (East Blue)", eastBlueBounty: true, race: "Humano", gender: "Masculino", isCaptain: true, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "👒" },
+      { id: "zoro", name: "Roronoa Zoro", aliases: ["Zoro", "Cacador de Piratas", "Zolo"], title: "Espadachim dos Chapéus de Palha", arc: "Romance Dawn", debutChapter: 3, affiliations: ["Chapéu de Palha"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: true, bountyDisplay: "1.111.000.000", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: true, status: "Vivo", bornInEastBlue: true, emoji: "⚔️" },
+      { id: "shanks", name: "Shanks", aliases: ["Ruivo", "Akagami", "Shanks o Ruivo"], title: "Capitão dos Piratas do Ruivo", arc: "Romance Dawn", debutChapter: 1, affiliations: ["Piratas do Ruivo", "Piratas do Roger"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: true, bountyDisplay: "4.048.900.000", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: true, isSwordsman: true, status: "Vivo", bornInEastBlue: false, emoji: "🦁" },
+      { id: "beckman", name: "Benn Beckman", aliases: ["Beckman", "Ben Beckman"], title: "Imediato dos Piratas do Ruivo", arc: "Romance Dawn", debutChapter: 1, affiliations: ["Piratas do Ruivo"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: true, bountyDisplay: "Recompensa Ativa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: false, emoji: "🚬" },
+      { id: "lucky_roux", name: "Lucky Roux", aliases: ["Lucky Roo", "Roux"], title: "Combatente e Cozinheiro dos Piratas do Ruivo", arc: "Romance Dawn", debutChapter: 1, affiliations: ["Piratas do Ruivo"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: true, bountyDisplay: "Recompensa Ativa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: false, emoji: "🍖" },
+      { id: "yasopp", name: "Yasopp", aliases: ["Chaser", "Pai do Usopp"], title: "Atirador dos Piratas do Ruivo", arc: "Romance Dawn", debutChapter: 1, affiliations: ["Piratas do Ruivo"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: true, bountyDisplay: "Recompensa Ativa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🎯" },
+      { id: "roger", name: "Gol D. Roger", aliases: ["Gold Roger", "Rei dos Piratas"], title: "O Rei dos Piratas (Executado em Loguetown)", arc: "Romance Dawn", debutChapter: 1, affiliations: ["Piratas do Roger"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: true, bountyDisplay: "5.564.800.000", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: true, isSwordsman: true, status: "Falecido", bornInEastBlue: true, emoji: "👑" },
+      { id: "koby", name: "Koby", aliases: ["Coby"], title: "Recruta da Marinha (Ex-Grumete da Alvida)", arc: "Romance Dawn", debutChapter: 2, affiliations: ["Marinha"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "⚓" },
+      { id: "alvida", name: "Alvida", aliases: ["Clava de Ferro", "Lady Alvida"], title: "Capitã dos Piratas da Alvida / Aliança Buggy", arc: "Romance Dawn", debutChapter: 2, affiliations: ["Piratas do Buggy"], devilFruit: "Paramecia", devilFruitName: "Sube Sube no Mi", hasHaki: false, hasBounty: true, bountyDisplay: "5.000.000", eastBlueBounty: true, race: "Humano", gender: "Feminino", isCaptain: true, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "💄" },
+      { id: "morgan", name: "Morgan", aliases: ["Morgan Mao de Machado", "Axe-Hand Morgan"], title: "Capitão da Base 153 da Marinha em Shells Town", arc: "Romance Dawn", debutChapter: 3, affiliations: ["Marinha"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🪓" },
+      { id: "helmeppo", name: "Helmeppo", aliases: ["Filho do Morgan"], title: "Recruta da Marinha em Shells Town", arc: "Romance Dawn", debutChapter: 3, affiliations: ["Marinha"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: true, status: "Vivo", bornInEastBlue: true, emoji: "🗡️" },
+      { id: "makino", name: "Makino", aliases: ["Bar da Makino", "Partys Bar"], title: "Dona do Partys Bar na Vila Foosha", arc: "Romance Dawn", debutChapter: 1, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Feminino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🍺" },
+      { id: "woop_slap", name: "Woop Slap", aliases: ["Prefeito da Vila Foosha"], title: "Prefeito da Vila Foosha", arc: "Romance Dawn", debutChapter: 1, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🎩" },
+      { id: "higuma", name: "Higuma", aliases: ["Higuma o Urso", "Bandido da Montanha"], title: "Líder dos Bandidos da Montanha", arc: "Romance Dawn", debutChapter: 1, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: true, bountyDisplay: "8.000.000", eastBlueBounty: true, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: true, status: "Falecido", bornInEastBlue: true, emoji: "🗡️" },
+      { id: "rika", name: "Rika", aliases: ["Menina dos Bolinhos de Arroz", "Shells Town"], title: "Moradora de Shells Town", arc: "Romance Dawn", debutChapter: 3, affiliations: ["Civil / Outros", "Marinha"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Feminino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🍙" },
+      { id: "kuina", name: "Kuina", aliases: ["Shimotsuki Kuina"], title: "Espadachim e Rival de Infância de Zoro", arc: "Romance Dawn", debutChapter: 5, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Feminino", isCaptain: false, isSwordsman: true, status: "Falecido", bornInEastBlue: true, emoji: "🎋" },
+      { id: "koushirou", name: "Koushirou", aliases: ["Shimotsuki Koushirou", "Mestre do Zoro"], title: "Mestre do Isshin Dojo na Vila Shimotsuki", arc: "Romance Dawn", debutChapter: 5, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: true, status: "Vivo", bornInEastBlue: true, emoji: "🥋" },
+      { id: "rei_da_costa", name: "Rei da Costa", aliases: ["Senhor da Costa", "Lord of the Coast", "Monstro Marinho"], title: "Monstro Marinho da Vila Foosha", arc: "Romance Dawn", debutChapter: 1, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Animal", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🐉" },
+
+      // 2. ARCO ORANGE TOWN
+      { id: "nami", name: "Nami", aliases: ["Gata Ladra", "Navegadora"], title: "Navegadora dos Chapéus de Palha", arc: "Orange Town", debutChapter: 8, affiliations: ["Chapéu de Palha", "Piratas do Arlong"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: true, bountyDisplay: "366.000.000", eastBlueBounty: false, race: "Humano", gender: "Feminino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🍊" },
+      { id: "buggy", name: "Buggy", aliases: ["Buggy o Palhaco", "Palhaco Estrela"], title: "Capitão dos Piratas do Buggy", arc: "Orange Town", debutChapter: 9, affiliations: ["Piratas do Buggy", "Piratas do Roger", "Shichibukai"], devilFruit: "Paramecia", devilFruitName: "Bara Bara no Mi", hasHaki: false, hasBounty: true, bountyDisplay: "15.000.000 (East Blue)", eastBlueBounty: true, race: "Humano", gender: "Masculino", isCaptain: true, isSwordsman: false, status: "Vivo", bornInEastBlue: false, emoji: "🤡" },
+      { id: "cabaji", name: "Cabaji", aliases: ["Cabaji o Acrobata"], title: "Chefe de Estado-Maior e Espadachim do Buggy", arc: "Orange Town", debutChapter: 9, affiliations: ["Piratas do Buggy"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: true, status: "Vivo", bornInEastBlue: true, emoji: "🎪" },
+      { id: "mohji", name: "Mohji", aliases: ["Domador de Feras", "Imediato do Buggy"], title: "Imediato dos Piratas do Buggy", arc: "Orange Town", debutChapter: 9, affiliations: ["Piratas do Buggy"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🦁" },
+      { id: "richie", name: "Richie", aliases: ["Leao do Mohji"], title: "Leão Mascote dos Piratas do Buggy", arc: "Orange Town", debutChapter: 12, affiliations: ["Piratas do Buggy"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Animal", gender: "Masculino", isCaptain: true, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🐾" },
+      { id: "boodle", name: "Boodle", aliases: ["Prefeito de Orange Town"], title: "Prefeito de Orange Town", arc: "Orange Town", debutChapter: 12, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🛡️" },
+      { id: "chouchou", name: "Chouchou", aliases: ["Chuchu", "Cachorro de Orange Town"], title: "Cão Guardião da Pet Shop de Orange Town", arc: "Orange Town", debutChapter: 12, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Animal", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🐶" },
+
+      // 3. ARCO VILA SYRUP
+      { id: "usopp", name: "Usopp", aliases: ["Capitao Usopp", "Sogeking", "God Usopp"], title: "Atirador dos Chapéus de Palha / Ex-Capitão do Bando Usopp", arc: "Vila Syrup", debutChapter: 23, affiliations: ["Chapéu de Palha"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: true, bountyDisplay: "500.000.000", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: true, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🎯" },
+      { id: "gaimon", name: "Gaimon", aliases: ["Homem no Bau", "Ilha dos Animais Raros"], title: "Guardião da Ilha dos Animais Raros", arc: "Vila Syrup", debutChapter: 22, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "📦" },
+      { id: "kuro", name: "Kuro", aliases: ["Klahadore", "Clahador", "Kuro dos Cem Planos"], title: "Capitão dos Piratas do Gato Preto", arc: "Vila Syrup", debutChapter: 23, affiliations: ["Piratas do Gato Preto"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: true, bountyDisplay: "16.000.000", eastBlueBounty: true, race: "Humano", gender: "Masculino", isCaptain: true, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🐈‍⬛" },
+      { id: "jango", name: "Jango", aliases: ["Django", "Hipnotizador", "Um Dois Jango"], title: "Imediato dos Piratas do Gato Preto / Futura Marinha", arc: "Vila Syrup", debutChapter: 25, affiliations: ["Piratas do Gato Preto", "Marinha"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: true, bountyDisplay: "9.000.000", eastBlueBounty: true, race: "Humano", gender: "Masculino", isCaptain: true, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🕶️" },
+      { id: "sham", name: "Sham", aliases: ["Irmaos Nyaban", "Gato Siames"], title: "Guardião do Navio dos Piratas do Gato Preto", arc: "Vila Syrup", debutChapter: 28, affiliations: ["Piratas do Gato Preto"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "😼" },
+      { id: "buchi", name: "Buchi", aliases: ["Butchie", "Irmaos Nyaban"], title: "Guardião do Navio dos Piratas do Gato Preto", arc: "Vila Syrup", debutChapter: 28, affiliations: ["Piratas do Gato Preto"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🐾" },
+      { id: "kaya", name: "Kaya", aliases: ["Senhorita Kaya"], title: "Jovem Herdeira da Mansão da Vila Syrup", arc: "Vila Syrup", debutChapter: 23, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Feminino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🩺" },
+      { id: "merry", name: "Merry", aliases: ["Mordomo da Kaya", "Criador do Going Merry"], title: "Mordomo da Mansão da Vila Syrup", arc: "Vila Syrup", debutChapter: 24, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🐏" },
+      { id: "ninjin", name: "Ninjin", aliases: ["Cenoura", "Piratas do Usopp"], title: "Membro dos Piratas do Usopp", arc: "Vila Syrup", debutChapter: 23, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🥕" },
+      { id: "piiman", name: "Piiman", aliases: ["Pimentao", "Piratas do Usopp"], title: "Membro dos Piratas do Usopp", arc: "Vila Syrup", debutChapter: 23, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🫑" },
+      { id: "tamanegi", name: "Tamanegi", aliases: ["Cebola", "Piratas do Usopp"], title: "Membro dos Piratas do Usopp", arc: "Vila Syrup", debutChapter: 23, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🧅" },
+      { id: "banchina", name: "Banchina", aliases: ["Mae do Usopp", "Esposa do Yasopp"], title: "Mãe de Usopp na Vila Syrup", arc: "Vila Syrup", debutChapter: 41, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Feminino", isCaptain: false, isSwordsman: false, status: "Falecido", bornInEastBlue: true, emoji: "🌺" },
+
+      // 4. ARCO BARATIE
+      { id: "sanji", name: "Sanji", aliases: ["Perna Negra", "Subchefe do Baratie"], title: "Cozinheiro dos Chapéus de Palha", arc: "Baratie", debutChapter: 43, affiliations: ["Chapéu de Palha", "Baratie"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: true, bountyDisplay: "1.032.000.000", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: false, emoji: "🍳" },
+      { id: "zeff", name: "Zeff", aliases: ["Zeff Perna Vermelha", "Chefe Zeff"], title: "Chefe do Baratie e Ex-Capitão Cozinheiro", arc: "Baratie", debutChapter: 43, affiliations: ["Baratie"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: true, bountyDisplay: "Ex-Capitão Pirata", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: true, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "👨‍🍳" },
+      { id: "patty", name: "Patty", aliases: ["Cozinheiro do Baratie"], title: "Cozinheiro de Combate do Baratie", arc: "Baratie", debutChapter: 44, affiliations: ["Baratie"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🦞" },
+      { id: "carne", name: "Carne", aliases: ["Cozinheiro do Baratie"], title: "Cozinheiro de Combate do Baratie", arc: "Baratie", debutChapter: 44, affiliations: ["Baratie"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🥩" },
+      { id: "krieg", name: "Don Krieg", aliases: ["Krieg", "Almirante Pirata"], title: "Almirante da Frota Pirata Krieg", arc: "Baratie", debutChapter: 45, affiliations: ["Piratas do Krieg"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: true, bountyDisplay: "17.000.000", eastBlueBounty: true, race: "Humano", gender: "Masculino", isCaptain: true, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🛡️" },
+      { id: "gin", name: "Gin", aliases: ["Homem Demonio", "Comandante de Combate"], title: "Comandante de Combate dos Piratas do Krieg", arc: "Baratie", debutChapter: 44, affiliations: ["Piratas do Krieg"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: true, bountyDisplay: "12.000.000", eastBlueBounty: true, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🥢" },
+      { id: "pearl", name: "Pearl", aliases: ["Muro de Ferro", "Escudo de Perola"], title: "Comandante da 2ª Unidade de Krieg", arc: "Baratie", debutChapter: 54, affiliations: ["Piratas do Krieg"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🦪" },
+      { id: "mihawk", name: "Dracule Mihawk", aliases: ["Mihawk", "Olhos de Falcao", "Taka no Me"], title: "O Maior Espadachim do Mundo (Shichibukai)", arc: "Baratie", debutChapter: 49, affiliations: ["Shichibukai"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: true, bountyDisplay: "3.590.000.000", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: true, status: "Vivo", bornInEastBlue: false, emoji: "🗡️" },
+      { id: "fullbody", name: "Fullbody", aliases: ["Punho Duplo de Ferro"], title: "Tenente da Marinha no Baratie", arc: "Baratie", debutChapter: 43, affiliations: ["Marinha"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: false, emoji: "🥊" },
+      { id: "johnny", name: "Johnny", aliases: ["Cacador de Recompensas", "Parceiro do Yosaku"], title: "Caçador de Recompensas do East Blue", arc: "Baratie", debutChapter: 42, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: true, status: "Vivo", bornInEastBlue: true, emoji: "🕶️" },
+      { id: "yosaku", name: "Yosaku", aliases: ["Cacador de Recompensas", "Parceiro do Johnny"], title: "Caçador de Recompensas do East Blue", arc: "Baratie", debutChapter: 42, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: true, status: "Vivo", bornInEastBlue: true, emoji: "⚔️" },
+
+      // 5. ARCO ARLONG PARK
+      { id: "arlong", name: "Arlong", aliases: ["Arlong a Serra", "Saw-Tooth Arlong"], title: "Capitão dos Piratas do Arlong", arc: "Arlong Park", debutChapter: 69, affiliations: ["Piratas do Arlong"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: true, bountyDisplay: "20.000.000", eastBlueBounty: true, race: "Homem-Peixe", gender: "Masculino", isCaptain: true, isSwordsman: false, status: "Vivo", bornInEastBlue: false, emoji: "🦈" },
+      { id: "hatchan", name: "Hatchan", aliases: ["Hachi", "Octo", "Hacchan"], title: "Espadachim dos Piratas do Arlong", arc: "Arlong Park", debutChapter: 69, affiliations: ["Piratas do Arlong"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: true, bountyDisplay: "8.000.000", eastBlueBounty: true, race: "Homem-Peixe", gender: "Masculino", isCaptain: false, isSwordsman: true, status: "Vivo", bornInEastBlue: false, emoji: "🐙" },
+      { id: "kuroobi", name: "Kuroobi", aliases: ["Kuroobi Karate Homem-Peixe"], title: "Oficial dos Piratas do Arlong", arc: "Arlong Park", debutChapter: 69, affiliations: ["Piratas do Arlong"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: true, bountyDisplay: "9.000.000", eastBlueBounty: true, race: "Homem-Peixe", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: false, emoji: "🥋" },
+      { id: "chew", name: "Chew", aliases: ["Chuu", "Beijo de Agua"], title: "Oficial dos Piratas do Arlong", arc: "Arlong Park", debutChapter: 69, affiliations: ["Piratas do Arlong"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: true, bountyDisplay: "5.500.000", eastBlueBounty: true, race: "Homem-Peixe", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: false, emoji: "💧" },
+      { id: "momoo", name: "Momoo", aliases: ["Mohmoo", "Vaca Marinha"], title: "Monstro Marinho dos Piratas do Arlong", arc: "Arlong Park", debutChapter: 73, affiliations: ["Piratas do Arlong"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Animal", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: false, emoji: "🐮" },
+      { id: "bellmere", name: "Bell-mère", aliases: ["Bellemere", "Mae da Nami"], title: "Ex-Oficial da Marinha e Mãe Adotiva de Nami", arc: "Arlong Park", debutChapter: 77, affiliations: ["Marinha", "Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Feminino", isCaptain: false, isSwordsman: false, status: "Falecido", bornInEastBlue: true, emoji: "🍊" },
+      { id: "nojiko", name: "Nojiko", aliases: ["Irma da Nami"], title: "Irmã de Nami na Vila Cocoyasi", arc: "Arlong Park", debutChapter: 70, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Feminino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "💠" },
+      { id: "genzo", name: "Genzo", aliases: ["Catavento", "Xerife de Cocoyasi"], title: "Xerife da Vila Cocoyasi", arc: "Arlong Park", debutChapter: 71, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: true, status: "Vivo", bornInEastBlue: true, emoji: "🎐" },
+      { id: "nezumi", name: "Nezumi", aliases: ["Capitao Nezumi", "Rato da Marinha"], title: "Capitão Corrupto da 16ª Filial da Marinha", arc: "Arlong Park", debutChapter: 69, affiliations: ["Marinha"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🐀" },
+      { id: "purinpurin", name: "Purinpurin", aliases: ["Pudding Pudding"], title: "Contra-Almirante da 77ª Filial da Marinha", arc: "Arlong Park", debutChapter: 75, affiliations: ["Marinha"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: true, status: "Falecido", bornInEastBlue: true, emoji: "⚓" },
+      { id: "chabo", name: "Chabo", aliases: ["Garoto da Vila Gosa"], title: "Sobrevivente da Vila Gosa", arc: "Arlong Park", debutChapter: 71, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "👦" },
+
+      // 6. ARCO LOGUETOWN
+      { id: "smoker", name: "Smoker", aliases: ["Cacador Branco", "Capitao Smoker"], title: "Capitão da Marinha em Loguetown", arc: "Loguetown", debutChapter: 97, affiliations: ["Marinha"], devilFruit: "Logia", devilFruitName: "Moku Moku no Mi", hasHaki: true, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: false, emoji: "💨" },
+      { id: "tashigi", name: "Tashigi", aliases: ["Sargento Tashigi", "Espadachim da Marinha"], title: "Sargento-Mor da Marinha em Loguetown", arc: "Loguetown", debutChapter: 96, affiliations: ["Marinha"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Feminino", isCaptain: false, isSwordsman: true, status: "Vivo", bornInEastBlue: true, emoji: "👓" },
+      { id: "dragon", name: "Monkey D. Dragon", aliases: ["Dragon", "O Revolucionario"], title: "Homem Misterioso de Loguetown (Líder Revolucionário)", arc: "Loguetown", debutChapter: 100, affiliations: ["Marinha", "Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: true, hasBounty: true, bountyDisplay: "Mais Procurado do Mundo", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🐉" },
+      { id: "ipponmatsu", name: "Ipponmatsu", aliases: ["Vendedor de Espadas", "Dono da Sandai Kitetsu"], title: "Dono da Loja de Armas de Loguetown", arc: "Loguetown", debutChapter: 97, affiliations: ["Civil / Outros"], devilFruit: "Nenhuma", devilFruitName: null, hasHaki: false, hasBounty: false, bountyDisplay: "Sem recompensa", eastBlueBounty: false, race: "Humano", gender: "Masculino", isCaptain: false, isSwordsman: false, status: "Vivo", bornInEastBlue: true, emoji: "🗡️" }
+    ];
+
+    /**
+     * 2. CRITÉRIOS DO GRID (MAPEADOS PARA A SAGA EAST BLUE)
+     */
+    const GRID_CRITERIA = [
+      { id: "straw_hat", label: "Chapéu de Palha", category: "Afiliação", icon: "👒", conflictGroup: "faction", description: "Membro dos Chapéus de Palha recrutado no East Blue (Luffy, Zoro, Nami, Usopp, Sanji).", match: (c) => c.affiliations.includes("Chapéu de Palha") },
+      { id: "marine", label: "Marinha (Atual ou Ex)", category: "Afiliação", icon: "⚓", conflictGroup: "faction", description: "Personagem da Marinha (Koby, Morgan, Helmeppo, Smoker, Tashigi, Bell-mère, Nezumi, Purinpurin, Fullbody, Jango).", match: (c) => c.affiliations.includes("Marinha") },
+      { id: "east_blue_pirate_crews", label: "Tripulações Vilãs do East Blue", category: "Afiliação", icon: "🏴‍☠️", conflictGroup: "faction", description: "Membro dos Piratas do Buggy/Alvida, Gato Preto (Kuro), Krieg ou Arlong.", match: (c) => c.affiliations.includes("Piratas do Buggy") || c.affiliations.includes("Piratas do Gato Preto") || c.affiliations.includes("Piratas do Krieg") || c.affiliations.includes("Piratas do Arlong") },
+      { id: "red_hair_or_roger", label: "Bando do Ruivo ou Roger", category: "Afiliação", icon: "🦁", conflictGroup: "faction", description: "Membro dos Piratas do Ruivo ou Roger (Shanks, Beckman, Roux, Yasopp, Roger, Buggy).", match: (c) => c.affiliations.includes("Piratas do Ruivo") || c.affiliations.includes("Piratas do Roger") },
+      { id: "civilian_or_baratie", label: "Civil, Baratie ou Caçador", category: "Afiliação", icon: "🏠", conflictGroup: "faction", description: "Morador civil, cozinheiro do Baratie, caçador de recompensas ou bandido.", match: (c) => c.affiliations.includes("Civil / Outros") || c.affiliations.includes("Baratie") },
+      { id: "devil_fruit_user", label: "Usuário de Akuma no Mi", category: "Poder", icon: "🍇", conflictGroup: "df", description: "Personagem com Akuma no Mi no East Blue (Luffy, Buggy, Alvida e Smoker).", match: (c) => c.devilFruit !== "Nenhuma" },
+      { id: "no_devil_fruit", label: "Sem Akuma no Mi", category: "Poder", icon: "🏊", conflictGroup: "df", description: "Personagem que NÃO possui poderes de Akuma no Mi.", match: (c) => c.devilFruit === "Nenhuma" },
+      { id: "haki_user", label: "Usuário de Haki (Wiki)", category: "Poder", icon: "⚡", conflictGroup: "haki", description: "Personagem com uso de Haki confirmado na One Piece Wiki.", match: (c) => c.hasHaki === true },
+      { id: "no_haki", label: "Não Possui Haki", category: "Poder", icon: "🛡️", conflictGroup: "haki", description: "Personagem sem uso de Haki confirmado.", match: (c) => c.hasHaki === false },
+      { id: "swordsman", label: "Espadachim / Usa Lâminas", category: "Combate", icon: "⚔️", conflictGroup: "style", description: "Luta utilizando espadas, katanas ou facas.", match: (c) => c.isSwordsman === true },
+      { id: "captain", label: "Capitão Pirata", category: "Cargo", icon: "☠️", conflictGroup: "role", description: "Capitão ou líder de uma tripulação pirata.", match: (c) => c.isCaptain === true },
+      { id: "has_bounty", label: "Possui Recompensa", category: "Recompensa", icon: "💰", conflictGroup: "bounty", description: "Personagem com cartaz WANTED emitido pela Marinha.", match: (c) => c.hasBounty === true },
+      { id: "east_blue_bounty", label: "Recompensa no East Blue (≤ 30M)", category: "Recompensa", icon: "📜", conflictGroup: "bounty", description: "Recompensa ativa durante o arco de até 30M (Luffy, Buggy, Kuro, Krieg, Arlong, etc.).", match: (c) => c.eastBlueBounty === true },
+      { id: "no_bounty", label: "Sem Recompensa", category: "Recompensa", icon: "🕊️", conflictGroup: "bounty", description: "Personagem sem recompensa pela cabeça.", match: (c) => c.hasBounty === false },
+      { id: "arc_romance_dawn", label: "Arco Romance Dawn (Cap. 1–7)", category: "Arco", icon: "🌅", conflictGroup: "arc", description: "Estreou no Arco Romance Dawn (Vila Foosha, Alvida, Shells Town).", match: (c) => c.arc === "Romance Dawn" },
+      { id: "arc_orange_town", label: "Arco Orange Town (Cap. 8–21)", category: "Arco", icon: "🤡", conflictGroup: "arc", description: "Estreou no Arco Orange Town (Nami, Buggy, Cabaji, Mohji, Richie, Boodle, Chouchou).", match: (c) => c.arc === "Orange Town" },
+      { id: "arc_vila_syrup", label: "Arco Vila Syrup (Cap. 22–41)", category: "Arco", icon: "🐈‍⬛", conflictGroup: "arc", description: "Estreou no Arco Vila Syrup / Ilha dos Animais Raros.", match: (c) => c.arc === "Vila Syrup" },
+      { id: "arc_baratie", label: "Arco Baratie (Cap. 42–68)", category: "Arco", icon: "🍽️", conflictGroup: "arc", description: "Estreou durante o Arco do Baratie.", match: (c) => c.arc === "Baratie" },
+      { id: "arc_arlong_park", label: "Arco Arlong Park (Cap. 69–95)", category: "Arco", icon: "🦈", conflictGroup: "arc", description: "Estreou no Arco Arlong Park / Ilhas Conomi.", match: (c) => c.arc === "Arlong Park" },
+      { id: "arc_loguetown", label: "Arco Loguetown (Cap. 96–100)", category: "Arco", icon: "🌩️", conflictGroup: "arc", description: "Estreou no Arco Loguetown (Smoker, Tashigi, Dragon, Ipponmatsu).", match: (c) => c.arc === "Loguetown" },
+      { id: "female_char", label: "Personagem Feminina", category: "Perfil", icon: "👩", conflictGroup: "gender", description: "Personagem feminina na Saga East Blue.", match: (c) => c.gender === "Feminino" },
+      { id: "non_human_or_deceased", label: "Homem-Peixe, Animal ou Falecido", category: "Perfil", icon: "🌊", conflictGroup: "status_race", description: "Personagem Homem-Peixe, Animal ou falecido na trama.", match: (c) => c.race !== "Humano" || c.status === "Falecido" },
+      { id: "not_born_east_blue", label: "Nascido Fora do East Blue", category: "Origem", icon: "🗺️", conflictGroup: "birthplace", description: "Natural de outro mar (ex: Sanji, Shanks, Buggy, Mihawk, Arlong, Smoker).", match: (c) => c.bornInEastBlue === false },
+      { id: "born_east_blue", label: "Nascido no East Blue", category: "Origem", icon: "🧭", conflictGroup: "birthplace", description: "Natural do East Blue segundo a One Piece Wiki.", match: (c) => c.bornInEastBlue === true }
+    ];
+
+    /**
+     * 3. GERADOR PROCEDURAL DETERMINÍSTICO COM BACKTRACKING
+     */
+    function createSeededRandom(seedString) {
+      let h = 1779033703 ^ seedString.length;
+      for (let i = 0; i < seedString.length; i++) {
+        h = Math.imul(h ^ seedString.charCodeAt(i), 3432918353);
+        h = (h << 13) | (h >>> 19);
+      }
+      return function () {
+        h = Math.imul(h ^ (h >>> 16), 2246822507);
+        h = Math.imul(h ^ (h >>> 13), 3266489909);
+        h ^= h >>> 16;
+        return (h >>> 0) / 4294967296;
+      };
+    }
+
+    function getMatchingCharacters(rowCriterion, colCriterion) {
+      return EAST_BLUE_CHARACTERS.filter(
+        (char) => rowCriterion.match(char) && colCriterion.match(char)
+      );
+    }
+
+    function hasNineUniqueCharacters(candidateLists) {
+      const cellOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8].sort(
+        (a, b) => candidateLists[a].length - candidateLists[b].length
+      );
+      const usedIds = new Set();
+
+      function backtrack(step) {
+        if (step === 9) return true;
+        const cellIdx = cellOrder[step];
+        const candidates = candidateLists[cellIdx];
+        for (let i = 0; i < candidates.length; i++) {
+          const charId = candidates[i].id;
+          if (!usedIds.has(charId)) {
+            usedIds.add(charId);
+            if (backtrack(step + 1)) return true;
+            usedIds.delete(charId);
+          }
+        }
+        return false;
+      }
+
+      return backtrack(0);
+    }
+
+    function generateValidGrid(seedString) {
+      const rng = createSeededRandom(seedString);
+
+      for (let attempt = 0; attempt < 1500; attempt++) {
+        const pool = [...GRID_CRITERIA];
+        for (let i = pool.length - 1; i > 0; i--) {
+          const j = Math.floor(rng() * (i + 1));
+          [pool[i], pool[j]] = [pool[j], pool[i]];
+        }
+
+        const rows = pool.slice(0, 3);
+        const cols = pool.slice(3, 6);
+
+        let candidateLists = [];
+        let allCellsViable = true;
+
+        for (let r = 0; r < 3; r++) {
+          for (let c = 0; c < 3; c++) {
+            if (rows[r].conflictGroup === cols[c].conflictGroup) {
+              allCellsViable = false;
+              break;
+            }
+            const matches = getMatchingCharacters(rows[r], cols[c]);
+            if (matches.length < 1) {
+              allCellsViable = false;
+              break;
+            }
+            candidateLists.push(matches);
+          }
+          if (!allCellsViable) break;
+        }
+
+        if (allCellsViable && hasNineUniqueCharacters(candidateLists)) {
+          return { rows, cols, candidateLists, seedString };
+        }
+      }
+
+      // Fallback garantido
+      const fallbackRows = [
+        GRID_CRITERIA.find((c) => c.id === "has_bounty"),
+        GRID_CRITERIA.find((c) => c.id === "no_devil_fruit"),
+        GRID_CRITERIA.find((c) => c.id === "born_east_blue")
+      ];
+      const fallbackCols = [
+        GRID_CRITERIA.find((c) => c.id === "haki_user"),
+        GRID_CRITERIA.find((c) => c.id === "swordsman"),
+        GRID_CRITERIA.find((c) => c.id === "east_blue_pirate_crews")
+      ];
+      const fallbackLists = [];
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 3; c++) {
+          fallbackLists.push(getMatchingCharacters(fallbackRows[r], fallbackCols[c]));
+        }
+      }
+      return { rows: fallbackRows, cols: fallbackCols, candidateLists: fallbackLists, seedString };
+    }
+
+    /**
+     * 4. ESTADO DA APLICAÇÃO
+     */
+    let state = {
+      boardCounter: 1,
+      showCountHint: true,
+      currentGrid: null,
+      cells: Array(9).fill(null),
+      guessesRemaining: 9,
+      gameOver: false,
+      activeCellIndex: null,
+      searchHighlightIndex: 0,
+      filteredSearchChars: []
+    };
+
+    /**
+     * 5. INICIALIZAÇÃO E CONTROLES
+     */
+    function initGame() {
+      const dbBadge = document.getElementById("db-count-badge");
+      if (dbBadge) dbBadge.textContent = EAST_BLUE_CHARACTERS.length;
+      
+      const initialSeed = `GRID-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+      state.currentGrid = generateValidGrid(initialSeed);
+      state.cells = Array(9).fill(null);
+      state.guessesRemaining = 9;
+      state.gameOver = false;
+      document.getElementById("seed-label").textContent = `Tabuleiro #${state.boardCounter}`;
+      
+      renderBoard();
+      renderDatabaseGrid();
+
+      // Fechamento de modal ao clicar no fundo
+      document.getElementById("search-modal")?.addEventListener("click", (e) => {
+        if (e.target.id === "search-modal") closeSearchModal();
+      });
+      document.getElementById("solutions-modal")?.addEventListener("click", (e) => {
+        if (e.target.id === "solutions-modal") closeSolutionsModal();
+      });
+    }
+
+    function startNewGrid() {
+      state.boardCounter++;
+      const randomSeed = `GRID-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+      state.currentGrid = generateValidGrid(randomSeed);
+      state.cells = Array(9).fill(null);
+      state.guessesRemaining = 9;
+      state.gameOver = false;
+      document.getElementById("seed-label").textContent = `Tabuleiro #${state.boardCounter}`;
+
+      renderBoard();
+      showToast("Novo tabuleiro 3x3 válido gerado!", "info");
+    }
+
+    function togglePossibleCountHint() {
+      state.showCountHint = !state.showCountHint;
+      const statusText = document.getElementById("hint-status-text");
+      statusText.textContent = state.showCountHint ? "ON" : "OFF";
+      statusText.className = state.showCountHint ? "text-[#eb743b] dark:text-[#f59664]" : "text-[#85989d]";
+      renderBoard();
+    }
+
+    /**
+     * 6. RENDERIZAÇÃO DO TABULEIRO 3X3
+     */
+    function renderCriterionHeader(elementId, criterion) {
+      const el = document.getElementById(elementId);
+      const totalMatches = EAST_BLUE_CHARACTERS.filter((c) => criterion.match(c)).length;
+
+      el.innerHTML = `
+        <span class="text-lg sm:text-2xl mb-1 select-none">${criterion.icon}</span>
+        <span class="text-[9px] sm:text-[10px] uppercase tracking-widest font-bold text-[#eb743b] dark:text-[#f59664]">${criterion.category}</span>
+        <h3 class="text-xs sm:text-sm font-extrabold text-[#162a33] dark:text-white leading-tight mt-0.5">${criterion.label}</h3>
+        <span class="mt-1.5 text-[10px] text-[#647577] dark:text-[#8ea5ac] font-mono bg-[#f7f4ec] dark:bg-[#121c21] px-2 py-0.5 rounded-full border border-[#d8caa7] dark:border-[#2b3e47]">
+          ${totalMatches} na Wiki
+        </span>
+        <!-- Tooltip Informativo -->
+        <div class="opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity absolute z-30 bottom-full mb-2 left-1/2 -translate-x-1/2 w-56 p-2.5 rounded-xl bg-[#fffdf8] dark:bg-[#121c21] border border-[#eb743b]/40 text-[11px] text-[#2c4046] dark:text-[#d3e2e6] shadow-xl text-left">
+          <div class="font-bold text-[#eb743b] mb-0.5">${criterion.label}</div>
+          <div>${criterion.description}</div>
+        </div>
+      `;
+    }
+
+    function renderBoard() {
+      const { rows, cols, candidateLists } = state.currentGrid;
+
+      for (let i = 0; i < 3; i++) {
+        renderCriterionHeader(`col-header-${i}`, cols[i]);
+        renderCriterionHeader(`row-header-${i}`, rows[i]);
+      }
+
+      let correctCount = 0;
+
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 3; c++) {
+          const idx = r * 3 + c;
+          const cellEl = document.getElementById(`cell-${r}-${c}`);
+          const cellData = state.cells[idx];
+          const validChars = candidateLists[idx];
+
+          if (cellData) {
+            const char = EAST_BLUE_CHARACTERS.find((ch) => ch.id === cellData.charId);
+            const isCorrectPlayerPick = cellData.status === "correct";
+            if (isCorrectPlayerPick) {
+              correctCount++;
+            }
+
+            const borderColor = isCorrectPlayerPick
+              ? "border-[#1f8b4d] dark:border-[#4ade80] bg-[#eef8f2] dark:bg-[#13281d]"
+              : "border-[#d89f4b] dark:border-[#f3d79e] bg-[#fdf9ef] dark:bg-[#2b2413]";
+
+            cellEl.innerHTML = `
+              <button
+                onclick="openCellSolutionsModal(${idx})"
+                class="w-full h-full rounded-2xl border-2 ${borderColor} p-2 sm:p-3 flex flex-col items-center justify-between text-center relative group hover:scale-[1.02] transition-all shadow-md animate-pop overflow-hidden"
+                title="Clique para ver todos os ${validChars.length} personagens possíveis para esta célula"
+              >
+                <div class="w-full flex items-center justify-end">
+                  ${
+                    isCorrectPlayerPick
+                      ? `<span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-500/20 border border-emerald-500/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs font-bold shadow">✓</span>`
+                      : `<span class="px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-800 dark:text-amber-300 text-[9px] font-bold uppercase">Resposta</span>`
+                  }
+                </div>
+
+                <div class="my-auto flex flex-col items-center">
+                  ${renderCharacterAvatar(char, "w-11 h-11 sm:w-16 sm:h-16")}
+                  <div class="font-extrabold text-xs sm:text-sm text-[#162a33] dark:text-white leading-tight line-clamp-1">
+                    ${char.name}
+                  </div>
+                  <div class="text-[10px] text-[#eb743b] dark:text-[#f59664] font-medium mt-0.5">
+                    ${char.arc}
+                  </div>
+                </div>
+
+                <div class="text-[9px] sm:text-[10px] text-[#647577] dark:text-[#8ea5ac] group-hover:text-[#162a33] dark:group-hover:text-white transition-colors font-medium">
+                  Ver ${validChars.length} possíveis
+                </div>
+              </button>
+            `;
+          } else {
+            // Célula Vazia
+            if (state.gameOver) {
+              cellEl.innerHTML = `
+                <button
+                  onclick="openCellSolutionsModal(${idx})"
+                  class="w-full h-full rounded-2xl border border-rose-500/30 bg-[#fffdf8]/60 dark:bg-[#1a252a]/60 hover:bg-rose-500/10 p-2 flex flex-col items-center justify-center text-center transition-all group"
+                >
+                  <span class="text-xs font-bold text-rose-600 dark:text-rose-400">Não preenchido</span>
+                  <span class="text-[11px] text-[#647577] dark:text-[#8ea5ac] mt-1 group-hover:underline">
+                    Ver ${validChars.length} respostas
+                  </span>
+                </button>
+              `;
+            } else {
+              cellEl.innerHTML = `
+                <button
+                  onclick="openSearchModal(${idx})"
+                  class="w-full h-full rounded-2xl border-2 border-dashed border-[#d8caa7] hover:border-[#eb743b] dark:border-[#2f434c] dark:hover:border-[#f59664] bg-[#fffdf8]/80 dark:bg-[#1a252a]/70 hover:bg-[#fff9ef] dark:hover:bg-[#1d2a30] p-2 flex flex-col items-center justify-center text-center transition-all group relative shadow-sm"
+                >
+                  <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-[#f7f4ec] dark:bg-[#121c21] border border-[#d8caa7] dark:border-[#2d414a] group-hover:border-[#eb743b] flex items-center justify-center text-[#85989d] group-hover:text-[#eb743b] text-lg sm:text-xl font-bold transition-all shadow-inner">
+                    +
+                  </div>
+                  <span class="mt-2 text-[11px] font-bold text-[#42555b] dark:text-[#c4d7dc] group-hover:text-[#eb743b]">
+                    Escolher
+                  </span>
+                  ${
+                    state.showCountHint
+                      ? `<span class="absolute bottom-2 text-[10px] font-mono text-[#85989d] dark:text-[#71858a] group-hover:text-[#eb743b]">
+                          ${validChars.length} possíveis
+                        </span>`
+                      : ""
+                  }
+                </button>
+              `;
+            }
+          }
+        }
+      }
+
+      // Atualiza Contadores
+      document.getElementById("stat-guesses").textContent = `${state.guessesRemaining}`;
+      document.getElementById("stat-score").textContent = `${correctCount}/9`;
+
+      // Banner de Fim de Jogo
+      const banner = document.getElementById("gameover-banner");
+      const giveUpBtn = document.getElementById("give-up-btn");
+      if (state.gameOver) {
+        banner.classList.remove("hidden");
+        giveUpBtn.classList.add("hidden");
+        document.getElementById("gameover-title").textContent =
+          correctCount === 9
+            ? `🏆 9/9 ACERTOS! VOCÊ CONQUISTOU O EAST BLUE GRID!`
+            : `Fim de Partida • Você acertou ${correctCount} de 9 no East Blue Grid!`;
+      } else {
+        banner.classList.add("hidden");
+        giveUpBtn.classList.remove("hidden");
+      }
+    }
+
+    /**
+     * 7. BUSCA DE PERSONAGENS & PALPITES
+     */
+    function normalizeText(str) {
+      return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function openSearchModal(cellIndex) {
+      if (state.gameOver || state.cells[cellIndex]) return;
+      state.activeCellIndex = cellIndex;
+      state.searchHighlightIndex = 0;
+
+      const r = Math.floor(cellIndex / 3);
+      const c = cellIndex % 3;
+      const rowCrit = state.currentGrid.rows[r];
+      const colCrit = state.currentGrid.cols[c];
+
+      document.getElementById("modal-criteria-summary").innerHTML = `
+        <span class="px-2.5 py-1 rounded-lg bg-[#eb743b]/10 dark:bg-[#121c21] border border-[#eb743b]/30 text-[#cc541d] dark:text-[#f59664]">${rowCrit.icon} ${rowCrit.label}</span>
+        <span class="text-[#85989d] font-bold">+</span>
+        <span class="px-2.5 py-1 rounded-lg bg-[#123c4a]/10 dark:bg-[#121c21] border border-[#123c4a]/30 text-[#123c4a] dark:text-[#8cc2d5]">${colCrit.icon} ${colCrit.label}</span>
+      `;
+
+      const modal = document.getElementById("search-modal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+
+      const input = document.getElementById("character-search-input");
+      input.value = "";
+      handleSearchInput();
+      setTimeout(() => input.focus(), 40);
+    }
+
+    function closeSearchModal() {
+      const modal = document.getElementById("search-modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      state.activeCellIndex = null;
+    }
+
+    function getUsedCharacterIds() {
+      const set = new Set();
+      state.cells.forEach((cell) => {
+        if (cell && cell.charId) set.add(cell.charId);
+      });
+      return set;
+    }
+
+    function handleSearchInput() {
+      const query = normalizeText(document.getElementById("character-search-input").value.trim());
+      const showArc = document.getElementById("toggle-arc-subtitle").checked;
+      const usedIds = getUsedCharacterIds();
+
+      const filtered = EAST_BLUE_CHARACTERS.filter((char) => {
+        if (!query) return true;
+        const nameMatch = normalizeText(char.name).includes(query);
+        const aliasMatch = char.aliases.some((al) => normalizeText(al).includes(query));
+        return nameMatch || aliasMatch;
+      }).sort((a, b) => a.name.localeCompare(b.name));
+
+      state.filteredSearchChars = filtered;
+      state.searchHighlightIndex = 0;
+
+      const listEl = document.getElementById("search-results-list");
+      if (filtered.length === 0) {
+        listEl.innerHTML = `
+          <div class="p-6 text-center text-xs text-[#647577] dark:text-[#8fa6ac]">
+            Nenhum personagem da Saga East Blue encontrado para "${query}".
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = filtered
+        .map((char, idx) => {
+          const isUsed = usedIds.has(char.id);
+          const isHighlighted = idx === state.searchHighlightIndex;
+          const imgPath = CHARACTER_IMAGES[char.id];
+
+          return `
+            <button
+              type="button"
+              ${isUsed ? "disabled" : `onclick="submitCharacterGuess('${char.id}')"`}
+              class="w-full px-3.5 py-2.5 flex items-center justify-between gap-3 text-left transition-colors ${
+                isUsed
+                  ? "opacity-40 cursor-not-allowed bg-black/5 dark:bg-white/5"
+                  : isHighlighted
+                  ? "bg-[#eb743b]/15 text-[#162a33] dark:text-white"
+                  : "hover:bg-black/5 dark:hover:bg-white/5 text-[#2c4046] dark:text-[#d3e2e6]"
+              }"
+            >
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-9 h-9 rounded-xl overflow-hidden bg-[#f7f4ec] dark:bg-[#121c21] border border-[#d8caa7] dark:border-[#2b3e47] flex items-center justify-center text-base shrink-0">
+                  ${imgPath ? `<img src="${imgPath}" alt="${char.name}" class="w-full h-full object-cover">` : char.emoji}
+                </div>
+                <div class="min-w-0">
+                  <div class="font-bold text-xs sm:text-sm text-[#162a33] dark:text-white truncate">${char.name}</div>
+                  ${
+                    showArc
+                      ? `<div class="text-[11px] text-[#647577] dark:text-[#8ea5ac] truncate">Arco ${char.arc} (Cap. ${char.debutChapter}) • ${char.title}</div>`
+                      : ""
+                  }
+                </div>
+              </div>
+              <div class="shrink-0">
+                ${
+                  isUsed
+                    ? `<span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-[#eee8d8] dark:bg-[#202f36] text-[#85989d]">Já Usado</span>`
+                    : `<span class="text-xs font-bold text-[#cc541d] dark:text-[#f59664] px-2.5 py-1 rounded-lg bg-[#eb743b]/10 border border-[#eb743b]/30">Escolher</span>`
+                }
+              </div>
+            </button>
+          `;
+        })
+        .join("");
+    }
+
+    function handleSearchKeydown(event) {
+      if (event.key === "Escape") {
+        closeSearchModal();
+        return;
+      }
+      const len = state.filteredSearchChars.length;
+      if (len === 0) return;
+
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        state.searchHighlightIndex = (state.searchHighlightIndex + 1) % len;
+        refreshSearchHighlight();
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        state.searchHighlightIndex = (state.searchHighlightIndex - 1 + len) % len;
+        refreshSearchHighlight();
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        const chosen = state.filteredSearchChars[state.searchHighlightIndex];
+        const usedIds = getUsedCharacterIds();
+        if (chosen && !usedIds.has(chosen.id)) {
+          submitCharacterGuess(chosen.id);
+        }
+      }
+    }
+
+    function refreshSearchHighlight() {
+      const listEl = document.getElementById("search-results-list");
+      const buttons = listEl.querySelectorAll("button");
+      buttons.forEach((btn, idx) => {
+        if (idx === state.searchHighlightIndex) {
+          btn.classList.add("bg-[#eb743b]/15");
+          btn.scrollIntoView({ block: "nearest" });
+        } else {
+          btn.classList.remove("bg-[#eb743b]/15");
+        }
+      });
+    }
+
+    function submitCharacterGuess(charId) {
+      const cellIdx = state.activeCellIndex;
+      if (cellIdx === null || state.gameOver) return;
+
+      const char = EAST_BLUE_CHARACTERS.find((c) => c.id === charId);
+      const validChars = state.currentGrid.candidateLists[cellIdx];
+      const isCorrect = validChars.some((c) => c.id === charId);
+
+      state.guessesRemaining = Math.max(0, state.guessesRemaining - 1);
+      closeSearchModal();
+
+      const r = Math.floor(cellIdx / 3);
+      const c = cellIdx % 3;
+
+      if (isCorrect) {
+        state.cells[cellIdx] = {
+          charId: char.id,
+          status: "correct"
+        };
+        playSfx("correct");
+        showToast(`✅ Correto! ${char.name} (Arco ${char.arc})`, "success");
+      } else {
+        playSfx("wrong");
+        const cellEl = document.getElementById(`cell-${r}-${c}`);
+        cellEl.classList.add("animate-shake");
+        setTimeout(() => cellEl.classList.remove("animate-shake"), 400);
+
+        const rowCrit = state.currentGrid.rows[r];
+        const colCrit = state.currentGrid.cols[c];
+        const fitsRow = rowCrit.match(char);
+        const fitsCol = colCrit.match(char);
+
+        let reason = "";
+        if (!fitsRow && !fitsCol) {
+          reason = `não atende a "${rowCrit.label}" nem a "${colCrit.label}".`;
+        } else if (!fitsRow) {
+          reason = `atende a "${colCrit.label}", mas NÃO a "${rowCrit.label}".`;
+        } else {
+          reason = `atende a "${rowCrit.label}", mas NÃO a "${colCrit.label}".`;
+        }
+
+        showToast(`❌ Incorreto: ${char.name} ${reason}`, "error");
+      }
+
+      const allFilled = state.cells.every((cell) => cell !== null);
+      if (allFilled || state.guessesRemaining === 0) {
+        state.gameOver = true;
+        const totalWins = state.cells.filter(cell => cell && cell.status === "correct").length;
+        if (totalWins === 9) playSfx("victory");
+      }
+
+      renderBoard();
+    }
+
+    /**
+     * 8. DESISTÊNCIA & INSPEÇÃO DE SOLUÇÕES
+     */
+    function giveUpGame() {
+      if (state.gameOver) return;
+      const usedIds = getUsedCharacterIds();
+
+      for (let idx = 0; idx < 9; idx++) {
+        if (!state.cells[idx]) {
+          const validChars = state.currentGrid.candidateLists[idx];
+          const unusedValid = validChars.filter((c) => !usedIds.has(c.id));
+          const chosen = (unusedValid.length > 0 ? unusedValid : validChars)[0];
+          if (chosen) {
+            usedIds.add(chosen.id);
+            state.cells[idx] = {
+              charId: chosen.id,
+              status: "revealed"
+            };
+          }
+        }
+      }
+
+      state.gameOver = true;
+      renderBoard();
+      showToast("Respostas reveladas! Clique em qualquer célula para ver todas as opções possíveis.", "info");
+    }
+
+    function openCellSolutionsModal(cellIndex) {
+      const r = Math.floor(cellIndex / 3);
+      const c = cellIndex % 3;
+      const rowCrit = state.currentGrid.rows[r];
+      const colCrit = state.currentGrid.cols[c];
+      const validChars = state.currentGrid.candidateLists[cellIndex];
+
+      document.getElementById("solutions-modal-title").innerHTML = `
+        ${rowCrit.icon} ${rowCrit.label} <span class="text-[#85989d]">×</span> ${colCrit.icon} ${colCrit.label}
+      `;
+      document.getElementById("solutions-modal-subtitle").textContent = `Personagens da Saga East Blue que atendem a ambos os critérios (${validChars.length} encontrados):`;
+
+      const sortedAlphabetically = [...validChars].sort((a, b) => a.name.localeCompare(b.name));
+      const currentCell = state.cells[cellIndex];
+
+      document.getElementById("solutions-modal-list").innerHTML = sortedAlphabetically
+        .map((char) => {
+          const isPicked = currentCell && currentCell.charId === char.id;
+          const imgPath = CHARACTER_IMAGES[char.id];
+          return `
+            <div class="p-3 rounded-xl border ${
+              isPicked
+                ? "border-emerald-500 bg-emerald-500/10 dark:bg-emerald-950/30"
+                : "border-[#d8caa7] dark:border-[#2b3e47] bg-[#f7f4ec] dark:bg-[#121c21]"
+            } flex items-center justify-between gap-2.5">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-9 h-9 rounded-lg overflow-hidden bg-[#fffdf8] dark:bg-[#1a252a] border border-[#d8caa7] dark:border-[#384e57] flex items-center justify-center text-lg shrink-0">
+                  ${imgPath ? `<img src="${imgPath}" alt="${char.name}" class="w-full h-full object-cover">` : char.emoji}
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs sm:text-sm font-bold text-[#162a33] dark:text-white truncate">
+                    ${char.name} ${isPicked ? '<span class="text-emerald-500 text-[10px]">✓</span>' : ""}
+                  </div>
+                  <div class="text-[10px] text-[#647577] dark:text-[#8ea5ac] truncate">Arco ${char.arc} (Cap. ${char.debutChapter})</div>
+                </div>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+
+      const modal = document.getElementById("solutions-modal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeSolutionsModal() {
+      const modal = document.getElementById("solutions-modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    /**
+     * 9. COMPARTILHAMENTO
+     */
+    function copyShareResult() {
+      let correctCount = 0;
+      let rowsText = [];
+
+      for (let r = 0; r < 3; r++) {
+        let line = "";
+        for (let c = 0; c < 3; c++) {
+          const cell = state.cells[r * 3 + c];
+          if (cell && cell.status === "correct") {
+            line += "🟩";
+            correctCount++;
+          } else if (cell && cell.status === "revealed") {
+            line += "🟨";
+          } else {
+            line += "🟥";
+          }
+        }
+        rowsText.push(line);
+      }
+
+      const shareString = [
+        `🏴‍☠️ EAST BLUE GRID — One Piece Trivia`,
+        `Acertos: ${correctCount}/9`,
+        "",
+        ...rowsText,
+        "",
+        "Saga East Blue (Capítulos 1 a 100)"
+      ].join("\n");
+
+      copyTextToClipboard(shareString, "Resultado copiado para a área de transferência!");
+    }
+
+    /**
+     * 10. EXPLORADOR DA WIKI (TAB 2)
+     */
+    function renderDatabaseGrid() {
+      const query = normalizeText(document.getElementById("db-search-input").value.trim());
+      const arcFilter = document.getElementById("db-filter-arc").value;
+      const factionFilter = document.getElementById("db-filter-faction").value;
+      const traitFilter = document.getElementById("db-filter-trait").value;
+
+      const filtered = EAST_BLUE_CHARACTERS.filter((c) => {
+        if (query) {
+          const matchName = normalizeText(c.name).includes(query);
+          const matchAlias = c.aliases.some((a) => normalizeText(a).includes(query));
+          if (!matchName && !matchAlias) return false;
+        }
+        if (arcFilter !== "ALL" && c.arc !== arcFilter) return false;
+        if (factionFilter !== "ALL" && !c.affiliations.includes(factionFilter)) return false;
+
+        if (traitFilter === "DEVIL_FRUIT" && c.devilFruit === "Nenhuma") return false;
+        if (traitFilter === "SWORDSMAN" && !c.isSwordsman) return false;
+        if (traitFilter === "CAPTAIN" && !c.isCaptain) return false;
+        if (traitFilter === "FISHMAN" && c.race !== "Homem-Peixe") return false;
+        if (traitFilter === "ANIMAL" && c.race !== "Animal") return false;
+        if (traitFilter === "EB_BOUNTY" && !c.eastBlueBounty) return false;
+        if (traitFilter === "HAS_BOUNTY" && !c.hasBounty) return false;
+
+        return true;
+      });
+
+      document.getElementById("db-filtered-count").textContent = filtered.length;
+
+      const container = document.getElementById("db-cards-container");
+      container.innerHTML = filtered
+        .map(
+          (char) => {
+            const imgPath = CHARACTER_IMAGES[char.id];
+            return `
+            <div class="bg-[#fffdf8] dark:bg-[#1a252a] border border-[#e3dcce] dark:border-[#2d414a] hover:border-[#eb743b] rounded-2xl p-4 flex flex-col justify-between gap-3 transition-all shadow-sm">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-2xl overflow-hidden bg-[#f7f4ec] dark:bg-[#121c21] border border-[#d8caa7] dark:border-[#384e57] flex items-center justify-center text-2xl shrink-0">
+                    ${imgPath ? `<img src="${imgPath}" alt="${char.name}" class="w-full h-full object-cover">` : char.emoji}
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-sm sm:text-base text-[#162a33] dark:text-white">${char.name}</h3>
+                    <p class="text-xs text-[#647577] dark:text-[#8ea5ac]">${char.title}</p>
+                  </div>
+                </div>
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-[#eb743b]/10 text-[#cc541d] dark:text-[#f59664] border border-[#eb743b]/25 shrink-0">
+                  ${char.arc} • Cap. ${char.debutChapter}
+                </span>
+              </div>
+
+              <div class="flex flex-wrap gap-1.5 text-[11px]">
+                ${char.affiliations
+                  .map(
+                    (af) =>
+                      `<span class="px-2 py-0.5 rounded-md bg-[#f7f4ec] dark:bg-[#121c21] border border-[#e3dcce] dark:border-[#2b3e47] text-[#42555b] dark:text-[#c4d7dc] font-medium">${af}</span>`
+                  )
+                  .join("")}
+                ${
+                  char.devilFruit !== "Nenhuma"
+                    ? `<span class="px-2 py-0.5 rounded-md bg-purple-500/15 border border-purple-500/30 text-purple-700 dark:text-purple-300 font-bold">🍇 ${char.devilFruitName}</span>`
+                    : ""
+                }
+                ${
+                  char.isSwordsman
+                    ? `<span class="px-2 py-0.5 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 font-bold">⚔️ Espadachim</span>`
+                    : ""
+                }
+                ${
+                  char.isCaptain
+                    ? `<span class="px-2 py-0.5 rounded-md bg-rose-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-300 font-bold">☠️ Capitão</span>`
+                    : ""
+                }
+              </div>
+
+              <div class="pt-2 border-t border-[#e6decb] dark:border-[#273a42] flex items-center justify-between text-[11px] text-[#647577] dark:text-[#8ea5ac] font-mono">
+                <span>💰 ${char.bountyDisplay}</span>
+                <span>${char.bornInEastBlue ? "🧭 East Blue" : "🗺️ Outro Mar"}</span>
+              </div>
+            </div>
+          `;
+          }
+        )
+        .join("");
+    }
+
+    function copyDatabaseJSON() {
+      const jsonStr = JSON.stringify(EAST_BLUE_CHARACTERS, null, 2);
+      copyTextToClipboard(jsonStr, "JSON com os 63 personagens da Saga East Blue copiado!");
+    }
+
+    function downloadDatabaseJSON() {
+      const jsonStr = JSON.stringify(EAST_BLUE_CHARACTERS, null, 2);
+      const blob = new Blob([jsonStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "characters-east-blue.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Arquivo characters-east-blue.json baixado!", "success");
+    }
+
+    /**
+     * 11. ALTERNAÇÃO DE ABAS
+     */
+    function switchTab(tabName) {
+      const views = ["game", "database"];
+      views.forEach((v) => {
+        const section = document.getElementById(`view-${v}`);
+        const btn = document.getElementById(`tab-btn-${v}`);
+        if (v === tabName) {
+          section.classList.remove("hidden");
+          btn.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-[#eb743b] text-white shadow";
+        } else {
+          section.classList.add("hidden");
+          btn.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-[#647577] dark:text-[#a1b8be] hover:text-[#162a33] dark:hover:text-white";
+        }
+      });
+    }
+
+    function copyTextToClipboard(text, successMessage) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(successMessage, "success");
+        }).catch(() => {
+          fallbackCopyText(text, successMessage);
+        });
+      } else {
+        fallbackCopyText(text, successMessage);
+      }
+    }
+
+    function fallbackCopyText(text, successMessage) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.opacity = "0";
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand("copy");
+        showToast(successMessage, "success");
+      } catch (err) {
+        showToast("Não foi possível copiar automaticamente.", "error");
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function showToast(message, type = "info") {
+      const container = document.getElementById("toast-container");
+      if (!container) return;
+      const toast = document.createElement("div");
+
+      const colorClasses =
+        type === "success"
+          ? "bg-emerald-950/95 border-emerald-500/60 text-emerald-200"
+          : type === "error"
+          ? "bg-rose-950/95 border-rose-500/60 text-rose-200"
+          : "bg-[#123c4a]/95 border-[#eb743b]/60 text-white";
+
+      toast.className = `pointer-events-auto max-w-sm px-4 py-3 rounded-xl border ${colorClasses} text-xs sm:text-sm font-medium shadow-2xl animate-pop`;
+      toast.textContent = message;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transition = "opacity 0.25s ease";
+        setTimeout(() => toast.remove(), 250);
+      }, 3600);
+    }
+
+    // Iniciar jogo ao carregar
+    window.addEventListener("DOMContentLoaded", initGame);
+  </script>
+</body>
+</html>
+

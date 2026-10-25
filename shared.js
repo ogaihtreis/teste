@@ -9,9 +9,11 @@
 			const saved = localStorage.getItem("grand-line-theme");
 			const isDark = saved === "dark";
 			document.documentElement.dataset.theme = isDark ? "dark" : "light";
+			document.documentElement.classList.toggle("dark", isDark);
 			updateToggleButtons(isDark);
 		} catch (e) {
 			document.documentElement.dataset.theme = "light";
+			document.documentElement.classList.remove("dark");
 		}
 	}
 
@@ -31,6 +33,7 @@
 		const current = document.documentElement.dataset.theme;
 		const isDark = current !== "dark";
 		document.documentElement.dataset.theme = isDark ? "dark" : "light";
+		document.documentElement.classList.toggle("dark", isDark);
 		try {
 			localStorage.setItem("grand-line-theme", isDark ? "dark" : "light");
 		} catch (e) {}
@@ -65,4 +68,3 @@
 		});
 	});
 })();
-

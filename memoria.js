@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		{ id: "nami", name: "Nami", image: "images/nami.jpg" },
 		{ id: "sanji", name: "Sanji", image: "images/sanji.jpg" },
 		{ id: "usopp", name: "Usopp", image: "images/usopp.jpg" },
+		{ id: "chopper", name: "Tony Tony Chopper", image: "images/chopper.jpg" },
 		{ id: "shanks", name: "Shanks", image: "images/shanks.jpg" },
 		{ id: "koby", name: "Koby", image: "images/koby.jpg" },
 		{ id: "helmeppo", name: "Helmeppo", image: "images/helmeppo.jpg" },
